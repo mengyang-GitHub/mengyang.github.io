@@ -3,3 +3,8 @@ site_url: https://mydomain.org/mysite
 theme:
   name: material
   language: zh
+
+nav:
+
+  - 第一个文件: 
+    - 子文件1: first/index.md
