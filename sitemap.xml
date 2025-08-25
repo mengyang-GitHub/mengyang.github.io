@@ -2,10 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://mydomain.org/mysite/</loc>
-         <lastmod>2025-03-31</lastmod>
+         <lastmod>2025-08-25</lastmod>
     </url>
     <url>
          <loc>https://mydomain.org/mysite/first/</loc>
-         <lastmod>2025-03-31</lastmod>
+         <lastmod>2025-08-25</lastmod>
+    </url>
+    <url>
+         <loc>https://mydomain.org/mysite/mqtt/</loc>
+         <lastmod>2025-08-25</lastmod>
     </url>
 </urlset>

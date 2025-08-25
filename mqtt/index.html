@@ -1,0 +1,2581 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://mydomain.org/mysite/mqtt/">
+      
+      
+        <link rel="prev" href="../first/">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.18">
+    
+    
+      
+        <title>子文件2 - My Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.7e37652d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#mqtt" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="My Docs" class="md-header__button md-logo" aria-label="My Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            My Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              子文件2
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="My Docs" class="md-nav__button md-logo" aria-label="My Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    My Docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    第一个文件
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            第一个文件
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../first/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    子文件1
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    子文件2
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    子文件2
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#mqtt" class="md-nav__link">
+    <span class="md-ellipsis">
+      一、MQTT 协议详解
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="一、MQTT 协议详解">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-mqtt" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.1 什么是 MQTT？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-mqtt" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.2 MQTT 的核心工作机制
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-mqtt" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.3 MQTT 的主要优势
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.4 典型应用场景
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      二、演示功能概述
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      三、演示硬件环境
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      四、演示软件环境
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="四、演示软件环境">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.1 软件环境
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.2 API 介绍
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      五、程序结构
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="五、程序结构">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.1 文件说明
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      六、核心模块详解
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="六、核心模块详解">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-mainlua" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.1 主程序 (main.lua)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.1 主程序 (main.lua)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#611" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.1.1 初始化流程
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-netdrv" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.2 网络驱动 (netdrv/)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.2 网络驱动 (netdrv/)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#621-4g-netdrv_4glua" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.2.1 4G 网络驱动 (netdrv_4g.lua)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#622-wifi-netdrv_wifilua" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.2.2 WIFI 网络驱动 (netdrv_wifi.lua)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#623-netdrv_eth_spilua" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.2.3 以太网网络驱动(netdrv_eth_spi.lua)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#624-netdrv_multiplelua" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.2.4 多网络驱动管理 (netdrv_multiple.lua)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-mqtt-mqtt-mqtts-mqtts_ca-mqtts_mutual_ca" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.3 MQTT 客户端 (mqtt/, mqtts/, mqtts_ca/, mqtts_mutual_ca/)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.3 MQTT 客户端 (mqtt/, mqtts/, mqtts_ca/, mqtts_mutual_ca/)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#631-_mainlua" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.3.1 客户端初始化 (_main.lua)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#632-_receiverlua" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.3.2 数据接收 (_receiver.lua)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#633-_senderlua" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.3.3 数据发送 (_sender.lua)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-timer_applua-uart_applua" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.4 应用功能 (timer_app.lua, uart_app.lua)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.4 应用功能 (timer_app.lua, uart_app.lua)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#641-timer_applua" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.4.1 定时器应用 (timer_app.lua)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#642-uart_applua" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.4.2 串口应用 (uart_app.lua)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#65-network_watchdoglua" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.5 网络环境检测看门狗 (network_watchdog.lua)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.5 网络环境检测看门狗 (network_watchdog.lua)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#651" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.5.1 设计原则
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#652" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.5.2 实现细节
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#66-ssl" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.6 SSL 连接实现
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.6 SSL 连接实现">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#661-mqtts" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.6.1 无证书校验 (mqtts/)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#662-mqtts_ca" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.6.2 单向证书校验 (mqtts_ca/)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#663-mqtts_mutual_ca" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.6.3 双向证书校验 (mqtts_mutual_ca/)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      七、系统与用户消息类型
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="七、系统与用户消息类型">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71" class="md-nav__link">
+    <span class="md-ellipsis">
+      7.1 系统消息
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72" class="md-nav__link">
+    <span class="md-ellipsis">
+      7.2 用户消息
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      八、演示功能
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="八、演示功能">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81" class="md-nav__link">
+    <span class="md-ellipsis">
+      8.1 准备工作
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8.1 准备工作">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#811-mqtt" class="md-nav__link">
+    <span class="md-ellipsis">
+      8.1.1 MQTT 客户端建立
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#812-mqtt-ssl" class="md-nav__link">
+    <span class="md-ellipsis">
+      8.1.2 MQTT SSL 客户端建立（无证书校验、单向认证）
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#813-mqtt-ssl" class="md-nav__link">
+    <span class="md-ellipsis">
+      8.1.3 MQTT SSL 客户端建立（双向认证）
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82" class="md-nav__link">
+    <span class="md-ellipsis">
+      8.2 不同网卡切换
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8.2 不同网卡切换">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4g" class="md-nav__link">
+    <span class="md-ellipsis">
+      切换网卡为 4G 网卡：
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wifi" class="md-nav__link">
+    <span class="md-ellipsis">
+      切换网卡为 WiFi 网卡：
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      切换网卡为以太网卡：
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      多网卡自动切换：
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83-mqtt" class="md-nav__link">
+    <span class="md-ellipsis">
+      8.3 MQTT 通信实操
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8.3 MQTT 通信实操">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mqtt_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      MQTT 客户端数据发送与接收：
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mqtt-ssl" class="md-nav__link">
+    <span class="md-ellipsis">
+      MQTT SSL 客户端（无证书校验）数据发送与接收：
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mqtt-ssl_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      MQTT SSL 客户端（单向认证）数据发送与接收
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mqtt-ssl_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      MQTT SSL 客户端（双向认证）数据发送与接收
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      六、总结
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#mqtt" class="md-nav__link">
+    <span class="md-ellipsis">
+      一、MQTT 协议详解
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="一、MQTT 协议详解">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-mqtt" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.1 什么是 MQTT？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-mqtt" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.2 MQTT 的核心工作机制
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-mqtt" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.3 MQTT 的主要优势
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.4 典型应用场景
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      二、演示功能概述
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      三、演示硬件环境
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      四、演示软件环境
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="四、演示软件环境">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.1 软件环境
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.2 API 介绍
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      五、程序结构
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="五、程序结构">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.1 文件说明
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      六、核心模块详解
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="六、核心模块详解">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-mainlua" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.1 主程序 (main.lua)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.1 主程序 (main.lua)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#611" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.1.1 初始化流程
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-netdrv" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.2 网络驱动 (netdrv/)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.2 网络驱动 (netdrv/)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#621-4g-netdrv_4glua" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.2.1 4G 网络驱动 (netdrv_4g.lua)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#622-wifi-netdrv_wifilua" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.2.2 WIFI 网络驱动 (netdrv_wifi.lua)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#623-netdrv_eth_spilua" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.2.3 以太网网络驱动(netdrv_eth_spi.lua)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#624-netdrv_multiplelua" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.2.4 多网络驱动管理 (netdrv_multiple.lua)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-mqtt-mqtt-mqtts-mqtts_ca-mqtts_mutual_ca" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.3 MQTT 客户端 (mqtt/, mqtts/, mqtts_ca/, mqtts_mutual_ca/)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.3 MQTT 客户端 (mqtt/, mqtts/, mqtts_ca/, mqtts_mutual_ca/)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#631-_mainlua" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.3.1 客户端初始化 (_main.lua)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#632-_receiverlua" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.3.2 数据接收 (_receiver.lua)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#633-_senderlua" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.3.3 数据发送 (_sender.lua)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-timer_applua-uart_applua" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.4 应用功能 (timer_app.lua, uart_app.lua)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.4 应用功能 (timer_app.lua, uart_app.lua)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#641-timer_applua" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.4.1 定时器应用 (timer_app.lua)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#642-uart_applua" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.4.2 串口应用 (uart_app.lua)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#65-network_watchdoglua" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.5 网络环境检测看门狗 (network_watchdog.lua)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.5 网络环境检测看门狗 (network_watchdog.lua)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#651" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.5.1 设计原则
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#652" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.5.2 实现细节
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#66-ssl" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.6 SSL 连接实现
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.6 SSL 连接实现">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#661-mqtts" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.6.1 无证书校验 (mqtts/)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#662-mqtts_ca" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.6.2 单向证书校验 (mqtts_ca/)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#663-mqtts_mutual_ca" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.6.3 双向证书校验 (mqtts_mutual_ca/)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      七、系统与用户消息类型
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="七、系统与用户消息类型">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71" class="md-nav__link">
+    <span class="md-ellipsis">
+      7.1 系统消息
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72" class="md-nav__link">
+    <span class="md-ellipsis">
+      7.2 用户消息
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      八、演示功能
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="八、演示功能">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81" class="md-nav__link">
+    <span class="md-ellipsis">
+      8.1 准备工作
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8.1 准备工作">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#811-mqtt" class="md-nav__link">
+    <span class="md-ellipsis">
+      8.1.1 MQTT 客户端建立
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#812-mqtt-ssl" class="md-nav__link">
+    <span class="md-ellipsis">
+      8.1.2 MQTT SSL 客户端建立（无证书校验、单向认证）
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#813-mqtt-ssl" class="md-nav__link">
+    <span class="md-ellipsis">
+      8.1.3 MQTT SSL 客户端建立（双向认证）
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82" class="md-nav__link">
+    <span class="md-ellipsis">
+      8.2 不同网卡切换
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8.2 不同网卡切换">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4g" class="md-nav__link">
+    <span class="md-ellipsis">
+      切换网卡为 4G 网卡：
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wifi" class="md-nav__link">
+    <span class="md-ellipsis">
+      切换网卡为 WiFi 网卡：
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      切换网卡为以太网卡：
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      多网卡自动切换：
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83-mqtt" class="md-nav__link">
+    <span class="md-ellipsis">
+      8.3 MQTT 通信实操
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8.3 MQTT 通信实操">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mqtt_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      MQTT 客户端数据发送与接收：
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mqtt-ssl" class="md-nav__link">
+    <span class="md-ellipsis">
+      MQTT SSL 客户端（无证书校验）数据发送与接收：
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mqtt-ssl_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      MQTT SSL 客户端（单向认证）数据发送与接收
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mqtt-ssl_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      MQTT SSL 客户端（双向认证）数据发送与接收
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      六、总结
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>子文件2</h1>
+
+<blockquote>
+<p>作者：马梦阳</p>
+</blockquote>
+<h2 id="mqtt">一、MQTT 协议详解</h2>
+<h3 id="11-mqtt">1.1 什么是 MQTT？</h3>
+<p>MQTT（Message Queuing Telemetry Transport，消息队列遥测传输协议）是一种基于发布/订阅模式的轻量级通信协议。你可以把它想象成一个邮局系统：</p>
+<ul>
+<li><strong>发布者（Publisher）</strong>：就像寄信的人，把消息发送到特定的“邮箱”（主题）。</li>
+<li><strong>订阅者（Subscriber）</strong>：就像收信的人，他们事先告诉邮局（Broker）他们对哪些“邮箱”（主题）的信件感兴趣。</li>
+<li><strong>Broker（代理）</strong>：就像邮局，负责接收发布者的消息，并根据订阅者的兴趣将消息分发给他们。</li>
+</ul>
+<p>MQTT 协议由 IBM 在 1999 年开发，现在是 ISO 标准（ISO/IEC 20922），适用于物联网（IoT）和机器对机器（M2M）通信。</p>
+<h3 id="12-mqtt">1.2 MQTT 的核心工作机制</h3>
+<p><strong>1. 发布/订阅模式</strong>：</p>
+<ul>
+<li>发布者（Publisher）将消息发送到特定的主题（Topic）。</li>
+<li>订阅者（Subscriber）向Broker订阅感兴趣的主题。</li>
+<li>Broker负责将发布到主题的消息路由给所有订阅了该主题的客户端。</li>
+<li>这种模式实现了发布者和订阅者的解耦，简单来说就是它们不需要知道彼此的存在。</li>
+</ul>
+<p><strong>2. 服务质量（QoS）等级</strong>：</p>
+<ul>
+<li><strong>QoS 0（最多一次）</strong>：消息可能丢失，也可能因为网络层或中间件的意外重放而出现重复，但MQTT协议本身不会主动再发一次。适用于对可靠性要求不高的场景，如传感器数据。</li>
+<li><strong>QoS 1（至少一次）</strong>：发送端会一直重试，直到收到接收端的PUBACK确认，因此消息至少送达一次，但也可能因确认丢失而被重复投递。适用于需要确保消息送达但可以容忍重复的场景。</li>
+<li><strong>QoS 2（只有一次）</strong>：通过四步握手（PUBLISH → PUBREC → PUBREL → PUBCOMP）保证消息恰好送达一次；若任一步丢失，发送端会重传对应报文，直至整个流程完成，从而避免重复或丢失。适用于对消息可靠性要求极高的场景，如金融交易。</li>
+</ul>
+<p><strong>3. 轻量级设计</strong>：</p>
+<ul>
+<li>MQTT协议头最小只有2字节，非常适合网络带宽和设备资源有限的环境。</li>
+<li>协议简单，易于实现，降低了开发成本。</li>
+</ul>
+<h3 id="13-mqtt">1.3 MQTT 的主要优势</h3>
+<ul>
+<li><strong>低带宽消耗</strong>：协议设计精简，有效减少网络流量。</li>
+<li><strong>低功耗</strong>：适用于电池供电的设备。</li>
+<li><strong>高可靠性</strong>：通过 QoS 机制保证消息传递的可靠性。</li>
+<li><strong>双向通信</strong>：支持设备间和设备与服务器间的双向通信。</li>
+<li><strong>多语言支持</strong>：支持多种编程语言，便于开发。</li>
+<li><strong>安全性强</strong>：支持用户名/密码和 SSL/TLS 加密，保障通信安全。</li>
+</ul>
+<h3 id="14">1.4 典型应用场景</h3>
+<ul>
+<li><strong>智能家居</strong>：智能灯泡、智能插座、温控器等设备通过 MQTT 与家庭网关通信。</li>
+<li><strong>工业自动化</strong>：传感器数据采集、设备状态监控。</li>
+<li><strong>环境监测</strong>：气象站、水质监测站等远程数据收集。</li>
+<li><strong>车联网</strong>：车辆状态信息上报、远程控制指令下发。</li>
+<li><strong>医疗监控</strong>：远程病人监护设备数据传输。</li>
+</ul>
+<h2 id="_1">二、演示功能概述</h2>
+<p>1. 创建四路 mqtt 连接，详情如下</p>
+<blockquote>
+<p>注意：代码中的 mqtt 服务器地址和端口会不定期重启或维护，仅能用作测试用途，不可商用，说不定哪一天就关闭了。用户开发项目时，需要替换为自己的商用服务器地址和端口。</p>
+</blockquote>
+<ul>
+<li>创建一个 mqtt client，连接 mqtt server；</li>
+<li>创建一个 mqtt ssl client，连接 mqtt ssl server，不做证书校验；</li>
+<li>创建一个 mqtt ssl client，连接 mqtt ssl server，client 仅单向校验 server 的证书，server 不校验 client 的证书和密钥文件；</li>
+<li>创建一个 mqtt ssl client，连接 mqtt ssl server，client 校验 server 的证书，server 校验 client 的证书和密钥文件；</li>
+</ul>
+<p>2. 每一路 mqtt 连接出现异常后，自动重连；</p>
+<p>3. 每一路 mqtt 连接，client 按照以下几种逻辑发送数据给 server</p>
+<ul>
+<li>串口应用功能模块 <code>uart_app.lua</code>，通过 uart1 接收到串口数据，将串口数据增加 <code>send from uart:</code> 前缀后，使用 <code>mobile.imei().."/uart/up"</code> 主题，发送给 server；</li>
+<li>定时器应用功能模块 <code>timer_app.lua</code>，定时产生数据，将数据增加 <code>send from timer：</code> 前缀后，使用 <code>mobile.imei().."/timer/up"</code> 主题，发送给 server；</li>
+</ul>
+<p>4. 每一路 mqtt 连接，client 收到 server 数据后，将数据增加 recv from mqtt/mqtt ssl/mqtt ssl ca/mqtt ssl mutual ca（四选一）server: 前缀后，通过 uart1 发送出去；</p>
+<p>5. 启动一个网络业务逻辑看门狗 task，用来监控网络环境，如果连续长时间工作不正常，重启整个软件系统；</p>
+<p>6. netdrv_device：配置连接外网使用的网卡，目前支持以下四种选择（四选一）</p>
+<p>(1) netdrv_4g：4G 网卡</p>
+<p>(2) netdrv_wifi：WIFI STA 网卡</p>
+<p>(3) netdrv_eth_spi：通过 SPI 外挂 CH390H 芯片的以太网卡</p>
+<p>(4) netdrv_multiple：支持以上三种网卡，可以配置三种网卡的优先级</p>
+<h2 id="_2">三、演示硬件环境</h2>
+<p><img alt="" src="image/RUR3bSeE8odi8txNM8KcKkq5njg.png" /></p>
+<p>1. Air8000 开发板一块 + 可上网的 sim 卡一张 +4g 天线一根 +wifi 天线一根 + 网线一根：</p>
+<ul>
+<li>sim 卡插入开发板的 sim 卡槽</li>
+<li>天线装到开发板上</li>
+<li>网线一端插入开发板网口，另外一端连接可以上外网的路由器网口</li>
+</ul>
+<p>2. TYPE-C USB 数据线一根 + USB 转串口数据线一根，Air8000 开发板和数据线的硬件接线方式为：</p>
+<ul>
+<li>Air8000 开发板通过 TYPE-C USB 口供电；（外部供电/USB 供电 拨动开关 拨到 USB 供电一端）</li>
+<li>TYPE-C USB 数据线直接插到核心板的 TYPE-C USB 座子，另外一端连接电脑 USB 口；</li>
+<li>USB 转串口数据线，一般来说，白线连接开发板的 UART1_TX，绿线连接开发板的 UART1_RX，黑线连接核心板的 GND，另外一端连接电脑 USB 口；</li>
+</ul>
+<h2 id="_3">四、演示软件环境</h2>
+<h3 id="41">4.1 软件环境</h3>
+<p>1. 烧录工具：<a href="https://docs.openluat.com/air780epm/common/Luatools/">Luatools 下载调试工具</a></p>
+<p>2. 内核固件：<a href="https://docs.openluat.com/air8000/luatos/firmware/">Air8000 V2012 版本固件</a>（理论上，2025 年 7 月 26 日之后发布的固件都可以）</p>
+<p>3. 脚本文件：<a href="https://gitee.com/openLuat/LuatOS/tree/master/module/Air8000/demo/mqtt">Air8000 MQTT 脚本文件</a></p>
+<p>3. PC 端串口工具：例如 <a href="https://docs.openluat.com/air8000/luatos/common/swenv/#24-sscom">SSCOM</a>、<a href="https://docs.openluat.com/air8000/luatos/common/swenv/#25-llcom">LLCOM</a> 等都可以</p>
+<p>4. MQTT 客户端：<a href="https://docs.openluat.com/air8000/luatos/common/swenv/#27-mqttmqttx">MQTT 客户端软件 MQTTX</a></p>
+<p>5. LuatOS 运行所需要的 lib 文件：使用 Luatools 烧录时，勾选 添加默认 lib 选项，使用默认 lib 脚本文件。</p>
+<p>准备好软件环境之后，接下来查看<a href="https://docs.openluat.com/air8000/luatos/common/download/">如何烧录项目文件到 Air8000 核心板</a>中，将本篇文章中演示使用的项目文件烧录到 Air8000 开发板中。</p>
+<h3 id="42-api">4.2 API 介绍</h3>
+<p>sys 库：<a href="https://docs.openluat.com/osapi/core/sys/">https://docs.openluat.com/osapi/core/sys/</a></p>
+<p>libnet 库：<a href="https://docs.openluat.com/osapi/ext/libnet/">https://docs.openluat.com/osapi/ext/libnet/</a></p>
+<p>socket 库：<a href="https://docs.openluat.com/osapi/core/socket/">https://docs.openluat.com/osapi/core/socket/</a></p>
+<p>mqtt 库：<a href="https://docs.openluat.com/osapi/core/mqtt/">https://docs.openluat.com/osapi/core/mqtt/</a></p>
+<h2 id="_4">五、程序结构</h2>
+<pre><code class="language-lua">mqtt/
+├── main.lua
+├── mqtt/
+│   ├── mqtt_main.lua
+│   ├── mqtt_receiver.lua
+│   └── mqtt_sender.lua
+├── mqtts/
+│   ├── mqtts_main.lua
+│   ├── mqtts_receiver.lua
+│   └── mqtts_sender.lua
+├── mqtts_ca/
+│   ├── mqtts_ca_main.lua
+│   ├── mqtts_ca_receiver.lua
+│   ├── mqtts_ca_sender.lua
+│   ├── openluat_root_ca.crt
+│   └── sntp_app.lua
+├── mqtts_mutual_ca/
+│   ├── airtest_client.crt
+│   ├── airtest_client.key
+│   ├── mqtts_m_ca_main.lua
+│   ├── mqtts_m_ca_receiver.lua
+│   ├── mqtts_m_ca_sender.lua
+│   ├── openluat_root_ca.crt
+│   └── sntp_app.lua
+├── netdrv/
+│   ├── netdrv_4g.lua
+│   ├── netdrv_eth_spi.lua
+│   ├── netdrv_multiple.lua
+│   └── netdrv_wifi.lua
+├── netdrv_device.lua
+├── network_watchdog.lua
+├── timer_app.lua
+└── uart_app.lua
+</code></pre>
+<h3 id="51">5.1 文件说明</h3>
+<ul>
+<li><code>main.lua</code>：主程序入口文件，负责初始化系统、启动网络驱动和 MQTT 客户端。</li>
+<li>
+<p><code>mqtt/</code>：普通 MQTT 连接相关文件。</p>
+</li>
+<li>
+<p><code>mqtt_main.lua</code>：普通 MQTT 客户端的初始化和事件处理。</p>
+</li>
+<li><code>mqtt_receiver.lua</code>：普通 MQTT 客户端的数据接收处理。</li>
+<li>
+<p><code>mqtt_sender.lua</code>：普通 MQTT 客户端的数据发送队列管理。</p>
+</li>
+<li>
+<p><code>mqtts/</code>：MQTT SSL 连接（无证书校验）相关文件。</p>
+</li>
+<li>
+<p><code>mqtts_main.lua</code>：MQTT SSL 客户端的初始化和事件处理。</p>
+</li>
+<li><code>mqtts_receiver.lua</code>：MQTT SSL 客户端的数据接收处理。</li>
+<li>
+<p><code>mqtts_sender.lua</code>：MQTT SSL 客户端的数据发送队列管理。</p>
+</li>
+<li>
+<p><code>mqtts_ca/</code>：MQTT SSL 连接（单向证书校验）相关文件。</p>
+</li>
+<li>
+<p><code>mqtts_ca_main.lua</code>：MQTT SSL 单向证书校验客户端的初始化和事件处理。</p>
+</li>
+<li><code>mqtts_ca_receiver.lua</code>：MQTT SSL 单向证书校验客户端的数据接收处理。</li>
+<li><code>mqtts_ca_sender.lua</code>：MQTT SSL 单向证书校验客户端的数据发送队列管理。</li>
+<li><code>openluat_root_ca.crt</code>：服务器 CA 证书文件。</li>
+<li>
+<p><code>sntp_app.lua</code>：时间同步应用。</p>
+</li>
+<li>
+<p><code>mqtts_mutual_ca/</code>：MQTT SSL 连接（双向证书校验）相关文件。</p>
+</li>
+<li>
+<p><code>mqtts_m_ca_main.lua</code>：MQTT SSL 双向证书校验客户端的初始化和事件处理。</p>
+</li>
+<li><code>mqtts_m_ca_receiver.lua</code>：MQTT SSL 双向证书校验客户端的数据接收处理。</li>
+<li><code>mqtts_m_ca_sender.lua</code>：MQTT SSL 双向证书校验客户端的数据发送队列管理。</li>
+<li><code>airtest_client.crt</code>：客户端证书文件。</li>
+<li><code>airtest_client.key</code>：客户端私钥文件。</li>
+<li><code>openluat_root_ca.crt</code>：服务器 CA 证书文件。</li>
+<li>
+<p><code>sntp_app.lua</code>：时间同步应用。</p>
+</li>
+<li>
+<p><code>netdrv/</code>：网络驱动相关文件。</p>
+</li>
+<li><code>netdrv_4g.lua</code>：4G 网络驱动。</li>
+<li><code>netdrv_eth_spi.lua</code>：SPI 以太网驱动。</li>
+<li><code>netdrv_multiple.lua</code>：多网络驱动管理。</li>
+<li>
+<p><code>netdrv_wifi.lua</code>：WIFI 网络驱动。</p>
+</li>
+<li>
+<p><code>netdrv_device.lua</code>：网络设备配置文件。</p>
+</li>
+<li><code>network_watchdog.lua</code>：网络环境检测看门狗。</li>
+<li><code>timer_app.lua</code>：定时器应用，用于生成测试数据。</li>
+<li><code>uart_app.lua</code>：串口应用，用于与 PC 端通信。</li>
+</ul>
+<h2 id="_5">六、核心模块详解</h2>
+<h3 id="61-mainlua">6.1 主程序 (<code>main.lua</code>)</h3>
+<p>主程序文件 <code>main.lua</code> 是整个项目的入口点。它负责初始化系统环境。</p>
+<h4 id="611">6.1.1 初始化流程</h4>
+<p><strong>1. 项目和版本定义</strong>：</p>
+<ul>
+<li>定义<code>PROJECT</code>和<code>VERSION</code>变量。</li>
+</ul>
+<p><strong>2. 日志记录</strong>：</p>
+<ul>
+<li>使用<code>log.info("main", PROJECT, VERSION)</code>在日志中打印项目名和版本号。</li>
+</ul>
+<p><strong>3. 看门狗初始化</strong>（如果支持）：</p>
+<ul>
+<li>配置并启动硬件看门狗，防止程序死循环卡死。</li>
+</ul>
+<p><strong>4. 加载功能模块</strong>：</p>
+<ul>
+<li>加载网络环境检测看门狗模块（<code>network_watchdog</code>）。</li>
+<li>加载网络驱动设备模块（<code>netdrv_device</code>）。</li>
+<li>加载串口应用模块（<code>uart_app</code>）。</li>
+<li>加载定时器应用模块（<code>timer_app</code>）。</li>
+<li>加载MQTT客户端主模块（<code>mqtt_main</code>）。</li>
+<li>加载MQTT SSL客户端主模块（<code>mqtts_main</code>、<code>mqtts_ca_main</code>、<code>mqtts_m_ca_main</code>）。</li>
+</ul>
+<p><strong>5. 启动任务调度器</strong>：</p>
+<ul>
+<li>调用<code>sys.run()</code>启动LuatOS的任务调度器，开始执行各个任务。</li>
+</ul>
+<pre><code class="language-lua">--[[
+@module  main
+@summary LuatOS用户应用脚本文件入口，总体调度应用逻辑
+@version 1.0
+@date    2025.07.28
+@author  马梦阳
+@usage
+本demo演示的核心功能为：
+1、创建四路mqtt连接，详情如下
+- 创建一个mqtt client，连接mqtt server；
+- 创建一个mqtt ssl client，连接mqtt ssl server，不做证书校验；
+- 创建一个mqtt ssl client，连接mqtt ssl server，client仅单向校验server的证书，server不校验client的证书和密钥文件；
+- 创建一个mqtt ssl client，连接mqtt ssl server，client校验server的证书，server校验client的证书和密钥文件；
+2、每一路mqtt连接出现异常后，自动重连；
+3、每一路mqtt连接，client按照以下几种逻辑发送数据给server
+- 串口应用功能模块uart_app.lua，通过uart1接收到串口数据，将串口数据增加send from uart: 前缀后，使用mobile.imei()..&quot;/uart/up&quot;主题，发送给server；
+- 定时器应用功能模块timer_app.lua，定时产生数据，将数据增加send from timer：前缀后，使用mobile.imei()..&quot;/timer/up&quot;主题，发送给server；
+4、每一路mqtt连接，client收到server数据后，将数据增加recv from mqtt/mqtt ssl/mqtt ssl ca/mqtt ssl mutual ca（四选一）server: 前缀后，通过uart1发送出去；
+5、启动一个网络业务逻辑看门狗task，用来监控网络环境，如果连续长时间工作不正常，重启整个软件系统；
+6、netdrv_device：配置连接外网使用的网卡，目前支持以下四种选择（四选一）
+   (1) netdrv_4g：4G网卡
+   (2) netdrv_wifi：WIFI STA网卡
+   (3) netdrv_eth_spi：通过SPI外挂CH390H芯片的以太网卡
+   (4) netdrv_multiple：支持以上三种网卡，可以配置三种网卡的优先级
+
+更多说明参考本目录下的readme.md文件
+]]
+
+--[[
+必须定义PROJECT和VERSION变量，Luatools工具会用到这两个变量，远程升级功能也会用到这两个变量
+PROJECT：项目名，ascii string类型
+        可以随便定义，只要不使用,就行
+VERSION：项目版本号，ascii string类型
+        如果使用合宙iot.openluat.com进行远程升级，必须按照&quot;XXX.YYY.ZZZ&quot;三段格式定义：
+            X、Y、Z各表示1位数字，三个X表示的数字可以相同，也可以不同，同理三个Y和三个Z表示的数字也是可以相同，可以不同
+            因为历史原因，YYY这三位数字必须存在，但是没有任何用处，可以一直写为000
+        如果不使用合宙iot.openluat.com进行远程升级，根据自己项目的需求，自定义格式即可
+]]
+PROJECT = &quot;MQTT&quot;
+VERSION = &quot;001.000.000&quot;
+
+-- 在日志中打印项目名和项目版本号
+log.info(&quot;main&quot;, PROJECT, VERSION)
+
+-- 如果内核固件支持wdt看门狗功能，此处对看门狗进行初始化和定时喂狗处理
+-- 如果脚本程序死循环卡死，就会无法及时喂狗，最终会自动重启
+if wdt then
+    --配置喂狗超时时间为9秒钟
+    wdt.init(9000)
+    --启动一个循环定时器，每隔3秒钟喂一次狗
+    sys.timerLoopStart(wdt.feed, 3000)
+end
+
+-- 如果内核固件支持errDump功能，此处进行配置，【强烈建议打开此处的注释】
+-- 因为此功能模块可以记录并且上传脚本在运行过程中出现的语法错误或者其他自定义的错误信息，可以初步分析一些设备运行异常的问题
+-- 以下代码是最基本的用法，更复杂的用法可以详细阅读API说明文档
+-- 启动errDump日志存储并且上传功能，600秒上传一次
+-- if errDump then
+--     errDump.config(true, 600)
+-- end
+
+-- 使用LuatOS开发的任何一个项目，都强烈建议使用远程升级FOTA功能
+-- 可以使用合宙的iot.openluat.com平台进行远程升级
+-- 也可以使用客户自己搭建的平台进行远程升级
+-- 远程升级的详细用法，可以参考fota的demo进行使用
+
+-- 启动一个循环定时器
+-- 每隔3秒钟打印一次总内存，实时的已使用内存，历史最高的已使用内存情况
+-- 方便分析内存使用是否有异常
+-- sys.timerLoopStart(function()
+--     log.info(&quot;mem.lua&quot;, rtos.meminfo())
+--     log.info(&quot;mem.sys&quot;, rtos.meminfo(&quot;sys&quot;))
+-- end, 3000)
+
+-- 加载网络环境检测看门狗功能模块
+require &quot;network_watchdog&quot;
+
+-- 加载网络驱动设备功能模块
+require &quot;netdrv_device&quot;
+
+-- 加载串口应用功能模块
+require &quot;uart_app&quot;
+-- 加载定时器应用功能模块
+require &quot;timer_app&quot;
+
+-- 加载mqtt client 主应用功能模块
+require &quot;mqtt_main&quot;
+
+-- 加载mqtt ssl client 主应用功能模块（mqtt ssl 无证书校验）
+-- require &quot;mqtts_main&quot;
+
+-- 加载mqtt ssl ca client 主应用功能模块（mqtt ssl 单向证书校验）
+-- require &quot;mqtts_ca_main&quot;
+
+-- 加载mqtt ssl mutual ca client 主应用功能模块（mqtt ssl 双向证书校验）
+-- require &quot;mqtts_m_ca_main&quot;
+
+-- 用户代码已结束---------------------------------------------
+-- 结尾总是这一句
+sys.run()
+-- sys.run()之后不要加任何语句!!!!!因为添加的任何语句都不会被执行
+</code></pre>
+<h3 id="62-netdrv">6.2 网络驱动 (<code>netdrv/</code>)</h3>
+<p>网络驱动模块负责初始化和管理不同的网络连接方式，如 4G、WIFI 和以太网。</p>
+<h4 id="621-4g-netdrv_4glua">6.2.1 4G 网络驱动 (<code>netdrv_4g.lua</code>)</h4>
+<ul>
+<li>监听 <code>IP_READY</code> 和 <code>IP_LOSE</code> 消息，监控网络连接状态。</li>
+<li>设置默认网卡为 <code>socket.LWIP_GP</code>。</li>
+</ul>
+<pre><code class="language-lua">--[[
+@module  netdrv_4g
+@summary “4G网卡”驱动模块
+@version 1.0
+@date    2025.07.01
+@author  马梦阳
+@usage
+本文件为4G网卡驱动模块，核心业务逻辑为：
+1、监听&quot;IP_READY&quot;和&quot;IP_LOSE&quot;，在日志中进行打印；
+
+本文件没有对外接口，直接在其他功能模块中require &quot;netdrv_4g&quot;就可以加载运行；
+]]
+
+local function ip_ready_func(ip, adapter)
+    if adapter == socket.LWIP_GP then
+        log.info(&quot;netdrv_4g.ip_ready_func&quot;, &quot;IP_READY&quot;, socket.localIP(socket.LWIP_GP))
+    end
+end
+
+local function ip_lose_func(adapter)
+    if adapter == socket.LWIP_GP then
+        log.warn(&quot;netdrv_4g.ip_lose_func&quot;, &quot;IP_LOSE&quot;)
+    end
+end
+
+-- 此处订阅&quot;IP_READY&quot;和&quot;IP_LOSE&quot;两种消息
+-- 在消息的处理函数中，仅仅打印了一些信息，便于实时观察4G网络的连接状态
+-- 也可以根据自己的项目需求，在消息处理函数中增加自己的业务逻辑控制，例如可以在连网状态发生改变时更新网络图标
+sys.subscribe(&quot;IP_READY&quot;, ip_ready_func)
+sys.subscribe(&quot;IP_LOSE&quot;, ip_lose_func)
+
+-- 设置默认网卡为socket.LWIP_GP
+-- 在Air8000上，内核固件运行起来之后，默认网卡就是socket.LWIP_GP
+-- 在单4G网卡使用场景下，下面这一行代码加不加都没有影响，为了和其他网卡驱动模块的代码风格保持一致，所以加上了
+socket.dft(socket.LWIP_GP)
+</code></pre>
+<h4 id="622-wifi-netdrv_wifilua">6.2.2 WIFI 网络驱动 (<code>netdrv_wifi.lua</code>)</h4>
+<ul>
+<li>初始化 WIFI 模块，连接指定的热点（需要修改成需要连接的 WiFi 热点名称和密码，并且是 2.4G，不支持 5G WiFi）。</li>
+<li>通过将 <code>wlan.connect(, , 1)</code> 的第三个参数设置为 1 以开启自动重连功能。</li>
+<li>设置默认网卡为 <code>socket.LWIP_STA</code>。</li>
+</ul>
+<pre><code class="language-lua">--[[
+@module  netdrv_wifi
+@summary “WIFI STA网卡”驱动模块
+@version 1.0
+@date    2025.07.01
+@author  马梦阳
+@usage
+本文件为WIFI STA网卡驱动模块，核心业务逻辑为：
+1、初始化WIFI网络；
+2、连接WIFI路由器；
+3、和WIFI路由器之间的连接状态发生变化时，在日志中进行打印；
+
+本文件没有对外接口，直接在其他功能模块中require &quot;netdrv_wifi&quot;就可以加载运行；
+]]
+
+local function ip_ready_func(ip, adapter)
+    if adapter == socket.LWIP_STA then
+        log.info(&quot;netdrv_wifi.ip_ready_func&quot;, &quot;IP_READY&quot;, json.encode(wlan.getInfo()))
+    end
+end
+
+local function ip_lose_func(adapter)
+    if adapter == socket.LWIP_STA then
+        log.warn(&quot;netdrv_wifi.ip_lose_func&quot;, &quot;IP_LOSE&quot;)
+    end
+end
+
+-- 此处订阅&quot;IP_READY&quot;和&quot;IP_LOSE&quot;两种消息
+-- 在消息的处理函数中，仅仅打印了一些信息，便于实时观察WIFI的连接状态
+-- 也可以根据自己的项目需求，在消息处理函数中增加自己的业务逻辑控制，例如可以在连网状态发生改变时更新网络图标
+sys.subscribe(&quot;IP_READY&quot;, ip_ready_func)
+sys.subscribe(&quot;IP_LOSE&quot;, ip_lose_func)
+
+-- 设置默认网卡为socket.LWIP_STA
+socket.dft(socket.LWIP_STA)
+
+wlan.init()
+-- 连接WIFI热点，连接结果会通过&quot;IP_READY&quot;或者&quot;IP_LOSE&quot;消息通知
+-- Air8000仅支持2.4G的WIFI，不支持5G的WIFI
+-- 此处前两个参数表示WIFI热点名称以及密码，更换为自己测试时的真实参数即可
+-- 第三个参数1表示WIFI连接异常时，内核固件会自动重连
+wlan.connect(&quot;茶室-降功耗,找合宙!&quot;, &quot;Air123456&quot;, 1)
+
+-- WIFI联网成功（做为STATION成功连接AP，并且获取到了IP地址）后，内核固件会产生一个&quot;IP_READY&quot;消息
+-- 各个功能模块可以订阅&quot;IP_READY&quot;消息实时处理WIFI联网成功的事件
+-- 也可以在任何时刻调用socket.adapter(socket.LWIP_STA)来获取WIFI网络是否连接成功
+
+-- WIFI断网后，内核固件会产生一个&quot;IP_LOSE&quot;消息
+-- 各个功能模块可以订阅&quot;IP_LOSE&quot;消息实时处理WIFI断网的事件
+-- 也可以在任何时刻调用socket.adapter(socket.LWIP_STA)来获取WIFI网络是否连接成功
+</code></pre>
+<h4 id="623-netdrv_eth_spilua">6.2.3 以太网网络驱动(<code>netdrv_eth_spi.lua</code>)</h4>
+<ul>
+<li>通过 SPI 接口外挂 CH390H 芯片实现以太网。</li>
+<li>通过控制 GPIO140 引脚使能芯片供电。</li>
+<li>配置 SPI1 接口参数，用于与 CH390H 芯片通信。</li>
+<li>通过 <code>netdrv.setup</code> 函数配置以太网卡，并开启 DHCP 动态获取 IP 地址。</li>
+<li>设置默认网卡为 <code>socket.LWIP_ETH</code>。</li>
+</ul>
+<pre><code class="language-lua">--[[
+@module  netdrv_eth_spi
+@summary “通过SPI外挂CH390H芯片的以太网卡”驱动模块
+@version 1.0
+@date    2025.07.24
+@author  马梦阳
+@usage
+本文件为“通过SPI外挂CH390H芯片的以太网卡”驱动模块，核心业务逻辑为：
+1、打开CH390H芯片供电开关；
+2、初始化spi1，初始化以太网卡，并且在以太网卡上开启DHCP(动态主机配置协议)；
+3、以太网卡的连接状态发生变化时，在日志中进行打印；
+
+直接使用Air8000开发板硬件测试即可；
+
+本文件没有对外接口，直接在其他功能模块中require &quot;netdrv_eth_spi&quot;就可以加载运行；
+]]
+
+local function ip_ready_func(ip, adapter)
+    if adapter == socket.LWIP_ETH then
+        log.info(&quot;netdrv_eth_spi.ip_ready_func&quot;, &quot;IP_READY&quot;, socket.localIP(socket.LWIP_ETH))
+    end
+end
+
+local function ip_lose_func(adapter)
+    if adapter == socket.LWIP_ETH then
+        log.warn(&quot;netdrv_eth_spi.ip_lose_func&quot;, &quot;IP_LOSE&quot;)
+    end
+end
+
+-- 此处订阅&quot;IP_READY&quot;和&quot;IP_LOSE&quot;两种消息
+-- 在消息的处理函数中，仅仅打印了一些信息，便于实时观察“通过SPI外挂CH390H芯片的以太网卡”的连接状态
+-- 也可以根据自己的项目需求，在消息处理函数中增加自己的业务逻辑控制，例如可以在连网状态发生改变时更新网络图标
+sys.subscribe(&quot;IP_READY&quot;, ip_ready_func)
+sys.subscribe(&quot;IP_LOSE&quot;, ip_lose_func)
+
+-- 设置默认网卡为socket.LWIP_ETH
+socket.dft(socket.LWIP_ETH)
+
+-- 本demo测试使用的是Air8000开发板
+-- GPIO140为CH390H以太网芯片的供电使能控制引脚
+gpio.setup(140, 1, gpio.PULLUP)
+
+-- 这个task的核心业务逻辑是：初始化SPI，初始化以太网卡，并在以太网卡上开启动态主机配置协议
+local function netdrv_eth_spi_task_func()
+    -- 初始化SPI1
+    local result = spi.setup(
+        1,--spi_id
+        nil,
+        0,--CPHA
+        0,--CPOL
+        8,--数据宽度
+        25600000--,--频率
+        -- spi.MSB,--高低位顺序    可选，默认高位在前
+        -- spi.master,--主模式     可选，默认主
+        -- spi.full--全双工       可选，默认全双工
+    )
+    log.info(&quot;netdrv_eth_spi&quot;, &quot;spi open result&quot;, result)
+    --返回值为0，表示打开成功
+    if result ~= 0 then
+        log.error(&quot;netdrv_eth_spi&quot;, &quot;spi open error&quot;,result)
+        return
+    end
+
+    --初始化以太网卡
+
+    --以太网联网成功（成功连接路由器，并且获取到了IP地址）后，内核固件会产生一个&quot;IP_READY&quot;消息
+    --各个功能模块可以订阅&quot;IP_READY&quot;消息实时处理以太网联网成功的事件
+    --也可以在任何时刻调用socket.adapter(socket.LWIP_ETH)来获取以太网是否连接成功
+
+    --以太网断网后，内核固件会产生一个&quot;IP_LOSE&quot;消息
+    --各个功能模块可以订阅&quot;IP_LOSE&quot;消息实时处理以太网断网的事件
+    --也可以在任何时刻调用socket.adapter(socket.LWIP_ETH)来获取以太网是否连接成功
+
+    -- socket.LWIP_ETH 指定网络适配器编号
+    -- netdrv.CH390外挂CH390
+    -- SPI ID 1, 片选 GPIO12
+    netdrv.setup(socket.LWIP_ETH, netdrv.CH390, {spi=1, cs=12})
+
+    -- 在以太网上开启动态主机配置协议
+    netdrv.dhcp(socket.LWIP_ETH, true)
+end
+
+-- 创建并且启动一个task
+-- task的处理函数为netdrv_eth_spi_task_func
+sys.taskInit(netdrv_eth_spi_task_func)
+</code></pre>
+<h4 id="624-netdrv_multiplelua">6.2.4 多网络驱动管理 (<code>netdrv_multiple.lua</code>)</h4>
+<ul>
+<li>管理多个网络驱动实例，根据配置选择合适的网络连接方式。</li>
+<li>通过 <code>exnetif.set_priority_order</code> 函数配置多网卡的控制参数以及优先级。</li>
+<li>通过 <code>exnetif.notify_status</code> 函数设置网卡状态变化通知回调函数。</li>
+</ul>
+<pre><code class="language-lua">--[[
+@module  netdrv_multiple
+@summary 多网卡（4G网卡、WIFI STA网卡、通过SPI外挂CH390H芯片的以太网卡）驱动模块
+@version 1.0
+@date    2025.07.24
+@author  马梦阳
+@usage
+本文件为多网卡驱动模块，核心业务逻辑为：
+1、调用exnetif.set_priority_order配置多网卡的控制参数以及优先级；
+
+直接使用Air8000开发板硬件测试即可；
+
+本文件没有对外接口，直接在其他功能模块中require &quot;netdrv_multiple&quot;就可以加载运行；
+]]
+
+local exnetif = require &quot;exnetif&quot;
+
+-- 网卡状态变化通知回调函数
+-- 当exnetif中检测到网卡切换或者所有网卡都断网时，会触发调用此回调函数
+-- 当网卡切换切换时：
+--     net_type：string类型，表示当前使用的网卡字符串
+--     adapter：number类型，表示当前使用的网卡id
+-- 当所有网卡断网时：
+--     net_type：为nil
+--     adapter：number类型，为-1
+local function netdrv_multiple_notify_cbfunc(net_type,adapter)
+    if type(net_type)==&quot;string&quot; then
+        log.info(&quot;netdrv_multiple_notify_cbfunc&quot;, &quot;use new adapter&quot;, net_type, adapter)
+    elseif type(net_type)==&quot;nil&quot; then
+        log.warn(&quot;netdrv_multiple_notify_cbfunc&quot;, &quot;no available adapter&quot;, net_type, adapter)
+    else
+        log.warn(&quot;netdrv_multiple_notify_cbfunc&quot;, &quot;unknown status&quot;, net_type, adapter)
+    end
+end
+
+local function netdrv_multiple_task_func()
+    --设置网卡优先级
+    exnetif.set_priority_order(
+        {
+            -- “通过SPI外挂CH390H芯片”的以太网卡，使用Air8000开发板验证
+            {
+                ETHERNET = {
+                    -- 供电使能GPIO
+                    pwrpin = 140,
+                    -- 设置的多个“已经IP READY，但是还没有ping通”网卡，循环执行ping动作的间隔（单位毫秒，可选）
+                    -- 如果没有传入此参数，exnetif会使用默认值10秒
+                    ping_time = 3000,
+
+                    -- 连通性检测ip(选填参数)；
+                    -- 如果没有传入ip地址，exnetif中会默认使用httpdns能否成功获取baidu.com的ip作为是否连通的判断条件；
+                    -- 如果传入，一定要传入可靠的并且可以ping通的ip地址；
+                    -- ping_ip = &quot;填入可靠的并且可以ping通的ip地址&quot;,
+
+                    -- 网卡芯片型号(选填参数)，仅spi方式外挂以太网时需要填写。
+                    tp = netdrv.CH390,
+                    opts = {spi=1, cs=12}
+                }
+            },
+
+            -- WIFI STA网卡
+            {
+                WIFI = {
+                    -- 要连接的WIFI路由器名称
+                    ssid = &quot;茶室-降功耗,找合宙!&quot;,
+                    -- 要连接的WIFI路由器密码
+                    password = &quot;Air123456&quot;,
+
+                    -- 连通性检测ip(选填参数)；
+                    -- 如果没有传入ip地址，exnetif中会默认使用httpdns能否成功获取baidu.com的ip作为是否连通的判断条件；
+                    -- 如果传入，一定要传入可靠的并且可以ping通的ip地址；
+                    -- ping_ip = &quot;填入可靠的并且可以ping通的ip地址&quot;,
+                }
+            },
+
+            -- 4G网卡
+            {
+                LWIP_GP = true
+            }
+        }
+    )
+end
+
+-- 设置网卡状态变化通知回调函数netdrv_multiple_notify_cbfunc
+exnetif.notify_status(netdrv_multiple_notify_cbfunc)
+
+-- 如果存在udp网络应用，并且udp网络应用中，根据应用层的心跳能够判断出来udp数据通信出现了异常；
+-- 可以在判断出现异常的位置，调用一次exnetif.check_network_status()接口，强制对当前正式使用的网卡进行一次连通性检测；
+-- 如果存在tcp网络应用，不需要用户调用exnetif.check_network_status()接口去控制，exnetif会在tcp网络应用通信异常时自动对当前使用的网卡进行连通性检测。
+
+-- 启动一个task，task的处理函数为netdrv_multiple_task_func
+-- 在处理函数中调用exnetif.set_priority_order设置网卡优先级
+-- 因为exnetif.set_priority_order要求必须在task中被调用，所以此处启动一个task
+sys.taskInit(netdrv_multiple_task_func)
+</code></pre>
+<h3 id="63-mqtt-mqtt-mqtts-mqtts_ca-mqtts_mutual_ca">6.3 MQTT 客户端 (<code>mqtt/</code>, <code>mqtts/</code>, <code>mqtts_ca/</code>, <code>mqtts_mutual_ca/</code>)</h3>
+<p>每个 MQTT 客户端目录都包含三个核心文件：<code>_main.lua</code>、<code>_receiver.lua</code> 和 <code>_sender.lua</code>，分别负责客户端的初始化、数据接收和数据发送。</p>
+<h4 id="631-_mainlua">6.3.1 客户端初始化 (<code>_main.lua</code>)</h4>
+<blockquote>
+<p>注意：代码中的 mqtt 服务器地址和端口会不定期重启或维护，仅能用作测试用途，不可商用，说不定哪一天就关闭了。用户开发项目时，需要替换为自己的商用服务器地址和端口。</p>
+</blockquote>
+<ul>
+<li>创建 MQTT 客户端对象，配置服务器地址、端口、客户端 ID、用户名、密码等参数。</li>
+<li>设置事件回调函数，处理连接、订阅、接收和异常等事件。</li>
+<li>启动客户端任务，开始连接 MQTT 服务器。</li>
+</ul>
+<h4 id="632-_receiverlua">6.3.2 数据接收 (<code>_receiver.lua</code>)</h4>
+<ul>
+<li>实现 <code>proc</code> 函数，处理接收到的数据。</li>
+<li>打印接收到的数据内容。</li>
+<li>通过 <code>sys.publish("FEED_NETWORK_WATCHDOG")</code> 触发网络看门狗喂狗。</li>
+</ul>
+<h4 id="633-_senderlua">6.3.3 数据发送 (<code>_sender.lua</code>)</h4>
+<ul>
+<li>实现 <code>send</code> 函数，将数据添加到发送队列。</li>
+<li>管理发送队列，按顺序发送数据。</li>
+<li>支持 QoS 配置和发送结果回调。</li>
+</ul>
+<h3 id="64-timer_applua-uart_applua">6.4 应用功能 (<code>timer_app.lua</code>, <code>uart_app.lua</code>)</h3>
+<p>应用功能模块负责生成测试数据和处理串口通信。</p>
+<h4 id="641-timer_applua">6.4.1 定时器应用 (<code>timer_app.lua</code>)</h4>
+<ul>
+<li>创建一个 5 秒循环的定时器。</li>
+<li>定时生成递增的测试数据。</li>
+<li>通过 <code>sys.publish("SEND_DATA_REQ", data)</code> 发布发送请求消息。</li>
+<li>实现发送结果回调，根据发送结果决定是否重发数据。</li>
+</ul>
+<pre><code class="language-lua">--[[
+@module  timer_app
+@summary 定时器应用功能模块
+@version 1.0
+@date    2025.07.01
+@author  马梦阳
+@usage
+本文件为定时器应用功能模块，核心业务逻辑为：
+创建一个5秒的循环定时器，每次产生一段数据，通知四个mqtt client进行处理；
+
+本文件的对外接口有一个：
+1、sys.publish(&quot;SEND_DATA_REQ&quot;, &quot;timer&quot;, mobile.imei()..&quot;/timer/up&quot;, payload, 0, {func=send_data_cbfunc, para=&quot;timer&quot;..payload})
+   通过publish通知四路mqtt client数据发送功能模块publish数据;
+   数据发送结果通过执行回调函数send_data_cbfunc通知本功能模块；
+]]
+
+local payload = 1
+
+-- 数据发送结果回调函数
+-- result：发送结果，true为发送成功，false为发送失败
+-- para：回调参数，sys.publish(&quot;SEND_DATA_REQ&quot;, &quot;timer&quot;, mobile.imei()..&quot;/timer/up&quot;, payload, 0, {func=send_data_cbfunc, para=&quot;timer&quot;..payload})中携带的para
+local function send_data_cbfunc(result, para)
+    log.info(&quot;send_data_cbfunc&quot;, result, para)
+    -- 无论上一次发送成功还是失败，启动一个5秒的定时器，5秒后发送下次数据
+    sys.timerStart(send_data_req_timer_cbfunc, 5000)
+end
+
+-- 定时器回调函数
+function send_data_req_timer_cbfunc()
+    -- 发布消息&quot;SEND_DATA_REQ&quot;
+    -- 携带的第一个参数&quot;timer&quot;表示是定时器应用模块发布的消息
+    -- 携带的第二个参数mobile.imei()..&quot;/timer/up&quot;为要publish的topic
+    -- 携带的第三个参数payload为要publish的payload
+    -- 携带的第四个参数0为publish的qos
+    -- 携带的第五个参数cb为发送结果回调(可以为空，如果为空，表示不关心mqtt client发送数据成功还是失败)，其中：
+    --       cb.func为回调函数(可以为空，如果为空，表示不关心mqtt client发送数据成功还是失败)
+    --       cb.para为回调函数的第二个参数(可以为空)，回调函数的第一个参数为发送结果(true表示成功，false表示失败)
+    sys.publish(&quot;SEND_DATA_REQ&quot;, &quot;timer&quot;, mobile.imei()..&quot;/timer/up&quot;, payload, 0, {func=send_data_cbfunc, para=&quot;timer&quot;..payload})
+    payload = payload+1
+end
+
+-- 启动一个5秒的单次定时器
+-- 时间到达后，执行一次send_data_req_timer_cbfunc函数
+sys.timerStart(send_data_req_timer_cbfunc, 5000)
+</code></pre>
+<h4 id="642-uart_applua">6.4.2 串口应用 (<code>uart_app.lua</code>)</h4>
+<ul>
+<li>配置 UART1，波特率为 115200。</li>
+<li>接收来自 PC 的数据，并通过 MQTT 发送。</li>
+<li>将 MQTT 接收到的数据通过串口输出到 PC。</li>
+<li>实现数据缓冲和超时处理。</li>
+</ul>
+<pre><code class="language-lua">--[[
+@module  uart_app
+@summary 串口应用功能模块
+@version 1.0
+@date    2025.07.28
+@author  马梦阳
+@usage
+本文件为串口应用功能模块，核心业务逻辑为：
+1、打开uart1，波特率115200，数据位8，停止位1，无奇偶校验位；
+2、uart1和pc端的串口工具相连；
+3、从uart1接收到pc端串口工具发送的数据后，通知四个mqtt client进行处理；
+4、收到四个mqtt client从socket server接收到的数据后，将数据通过uart1发送到pc端串口工具；
+
+本文件的对外接口有两个：
+1、sys.publish(&quot;SEND_DATA_REQ&quot;, &quot;uart&quot;, mobile.imei()..&quot;/uart/up&quot;, read_buf, 1)
+   通知mqtt client数据发送模块，在mobile.imei()..&quot;/uart/up&quot;的topic上publish数据read_buf，不关心数据发送成功还是失败；
+2、sys.subscribe(&quot;RECV_DATA_FROM_SERVER&quot;, recv_data_from_server_proc)，订阅RECV_DATA_FROM_SERVER消息，处理消息携带的数据；
+]]
+
+-- 使用UART1
+local UART_ID = 1
+-- 串口接收数据缓冲区
+local read_buf = &quot;&quot;
+
+-- 将前缀prefix和topic，payload数据拼接
+-- 然后末尾增加回车换行两个字符，通过uart发送出去，方便在PC端换行显示查看
+local function recv_data_from_server_proc(prefix, topic, payload)
+    uart.write(UART_ID, prefix..topic..&quot;,&quot;..payload..&quot;\r\n&quot;)
+end
+
+local function concat_timeout_func()
+    -- 如果存在尚未处理的串口缓冲区数据；
+    -- 将数据通过publish通知其他应用功能模块处理；
+    -- 然后清空本文件的串口缓冲区数据
+    if read_buf:len() &gt; 0 then
+        sys.publish(&quot;SEND_DATA_REQ&quot;, &quot;uart&quot;, mobile.imei()..&quot;/uart/up&quot;, read_buf, 1)
+        read_buf = &quot;&quot;
+    end
+end
+
+-- UART1的数据接收中断处理函数，UART1接收到数据时，会执行此函数
+local function read()
+    local s
+    while true do
+        -- 非阻塞读取UART1接收到的数据，最长读取1024字节
+        s = uart.read(UART_ID, 1024)
+
+        -- 如果从串口没有读到数据
+        if not s or s:len() == 0 then
+            -- 启动50毫秒的定时器，如果50毫秒内没收到新的数据，则处理当前收到的所有数据
+            -- 这样处理是为了防止将一大包数据拆分成多个小包来处理
+            -- 例如pc端串口工具下发1100字节的数据，可能会产生将近20次的中断进入到read函数，才能读取完整
+            -- 此处的50毫秒可以根据自己项目的需求做适当修改，在满足整包拼接完整的前提下，时间越短，处理越及时
+            sys.timerStart(concat_timeout_func, 50)
+            -- 跳出循环，退出本函数
+            break
+        end
+
+        log.info(&quot;uart_app.read len&quot;, s:len())
+        -- log.info(&quot;uart_app.read&quot;, s)
+
+        -- 将本次从串口读到的数据拼接到串口缓冲区read_buf中
+        read_buf = read_buf..s
+    end
+end
+
+-- 初始化UART1，波特率115200，数据位8，停止位1
+uart.setup(UART_ID, 115200, 8, 1)
+
+-- 注册UART1的数据接收中断处理函数，UART1接收到数据时，会执行read函数
+uart.on(UART_ID, &quot;receive&quot;, read)
+
+-- 订阅&quot;RECV_DATA_FROM_SERVER&quot;消息的处理函数recv_data_from_server_proc
+-- 收到&quot;RECV_DATA_FROM_SERVER&quot;消息后，会执行函数recv_data_from_server_proc
+sys.subscribe(&quot;RECV_DATA_FROM_SERVER&quot;, recv_data_from_server_proc)
+</code></pre>
+<h3 id="65-network_watchdoglua">6.5 网络环境检测看门狗 (<code>network_watchdog.lua</code>)</h3>
+<p>网络看门狗模块负责监控网络连接状态和数据收发情况，确保系统在网络异常时能够自动恢复。</p>
+<h4 id="651">6.5.1 设计原则</h4>
+<ul>
+<li>看门狗超时时间应大于任意一个 MQTT 连接的发送间隔。</li>
+<li>通过接收 <code>FEED_NETWORK_WATCHDOG</code> 消息来喂狗。</li>
+<li>超时未收到喂狗消息时，系统自动重启。</li>
+</ul>
+<h4 id="652">6.5.2 实现细节</h4>
+<ul>
+<li>创建 <code>network_watchdog_task_func</code> 任务函数。</li>
+<li>任务函数循环等待 <code>FEED_NETWORK_WATCHDOG</code> 消息，超时时间为 5 分钟。</li>
+<li>超时则调用 <code>sys.restart("network timeout")</code> 重启系统。</li>
+</ul>
+<pre><code class="language-lua">--[[
+@module  network_watchdog
+@summary 网络环境检测看门狗功能模块
+@version 1.0
+@date    2025.07.23
+@author  马梦阳
+@usage
+本文件为网络环境检测看门狗功能模块，监控网络环境是否工作正常（设备和服务器双向通信正常，或者至少单向通信正常），核心业务逻辑为：
+1、启动一个网络环境检测看门狗task，等待其他mqtt网络应用功能模块来喂狗，如果喂狗超时，则控制软件重启；
+2、如何确定“喂狗超时时间”，一般来说，有以下几个原则；
+   (1) 先确定一个最小基准值T1，2分钟或者5分钟或者10分钟，这个取值取决于具体项目需求，但是不能太短，因为开机后，在网络环境不太好的地方，网络初始化可能需要比较长的时间，一般推荐这个值不能小于2分钟；
+   (2) 再确定一个和产品业务逻辑有关的一个值T2，这个值和产品的应用业务逻辑息息相关，假设你的产品业务中：
+       &lt;1&gt; 服务器会定时下发数据给设备，例如设备连接上业务服务器之后，每隔3分钟，设备都会给服务器发送一次心跳，然后服务器都会立即回复一个心跳应答包；
+           这种情况下，可以取3分钟的大于等于1的倍数(例如1倍，1.5倍，2倍等等)+一段时间(例如10秒钟，如果前面是1倍，则此处必须加一段时间，给网络数据传输过程留够充足的时间)；
+       &lt;2&gt; mqtt本身有keep alive的心跳机制，例如设备连接上业务服务器之后，默认每隔2分钟，设备都会给服务器发送一次心跳，服务器也会回复一个心跳应答数据；
+           这种情况下，可以取2分钟的大于等于1的倍数(例如1倍，1.5倍，2倍等等)+一段时间(例如10秒钟，如果前面是1倍，则此处必须加一段时间，给网络数据传输过程留够充足的时间)；
+    (3) 取T1和T2的最大值，就是“喂狗超时时间”
+3、其他mqtt网络业务功能模块的喂狗时机，和上面2.2的描述相对应，一般来说，可以在以下几种时间点执行喂狗动作：
+   (1) 设备收到服务器下发的数据时
+   (2) 设备收到服务器回复的mqtt心跳应答数据时
+4、最重要的一点是：以上所说的原则，仅仅是建议，要根据自己的实际项目业务逻辑以及自己的需求最终确定看门狗方案
+
+5、具体到本demo
+   (1) 产品业务逻辑为：
+       &lt;1&gt; 创建了一个mqtt连接，设备每隔5秒钟发送一次数据到服务器，服务器何时下发应用数据给设备不确定；
+       &lt;2&gt; 创建了一个mqtt ssl、不需要证书校验的连接，设备每隔5秒钟发送一次数据到服务器，服务器何时下发应用数据给设备不确定；
+       &lt;3&gt; 创建了一个mqtt ssl、client单向校验server证书的连接，设备每隔5秒钟发送一次数据到服务器，服务器何时下发应用数据给设备不确定；
+       &lt;4&gt; 每隔3分钟，这三路mqtt连接都会发送一次mqtt心跳给server，server收到心跳后回复心跳应答给client；
+   (2) 确定喂狗超时时间：
+       &lt;1&gt; 本demo支持单WIFI、单以太网、单4G网络连接外网，网络环境准备就绪预留2分钟的时间已经足够，所以最小基准值T1取值2分钟；
+       &lt;2&gt; 本demo中存在3路mqtt连接，但是这3路mqtt连接都没有定时或者至少一段时间，服务器下发应用数据给设备，所以无法基于服务器下发应用数据的业务逻辑来确定T2的值；
+       &lt;3&gt; 本demo中存在3路mqtt连接，每1路mqtt连接，设备都是3分钟发送一次mqtt心跳数据给服务器，服务器收到后会立即回复一个mqtt心跳应答数据给设备；
+           所以可以通过3分钟的大于等于1的倍数(例如1倍，1.5倍，2倍等等)+一段时间(例如10秒钟，如果前面是1倍，则此处必须加一段时间，给网络数据传输过程留够充足的时间)来确定T2的值；
+           在这个demo中，我能接受的网络连续异常时长是5分钟，所以，T2取值5分钟；
+       &lt;4&gt; 取T1 2分钟和T2 5分钟的最大值，最终的喂狗超时时间就是5分钟；
+   (3) 确定喂狗时机：
+       &lt;1&gt; 3路mqtt连接中，任何1路收到服务器的下发的应用数据时；
+       &lt;2&gt; 3路mqtt连接中，任何1路收到服务器的回复的心跳应答数据时；
+6、本demo设计的网络环境检测看门狗功能模块，可以检测以下两种种的任意一种网络环境异常：
+   (1) 网络环境连续超过5分钟没有准备就绪
+   (2) mqtt、mqtt ssl、mqtt ssl单向校验证书3路连接中，连续5分钟没有收到服务器下发的应用数据或者服务器回复的心跳应答数据； 
+
+本文件没有对外接口，直接在main.lua中require &quot;network_watchdog&quot;就可以加载运行；
+外部功能模块喂狗时，直接调用sys.publish(&quot;FEED_NETWORK_WATCHDOG&quot;)
+]]
+
+-- 网络环境检测看门狗task处理函数
+local function network_watchdog_task_func()
+    while true do
+        --如果等待180秒没有等到&quot;FEED_NETWORK_WATCHDOG&quot;消息，则看门狗超时
+        if not sys.waitUntil(&quot;FEED_NETWORK_WATCHDOG&quot;, 300000) then
+            log.error(&quot;network_watchdog_task_func timeout&quot;)
+            -- 等待3秒钟，然后软件重启
+            sys.wait(3000)
+            rtos.reboot()
+        end
+    end
+end
+
+--创建并且启动一个task
+--运行这个task的处理函数network_watchdog_task_func
+sys.taskInit(network_watchdog_task_func)
+</code></pre>
+<h3 id="66-ssl">6.6 SSL 连接实现</h3>
+<p>项目展示了三种不同的 SSL 连接实现方式，满足不同安全等级的需求。</p>
+<h4 id="661-mqtts">6.6.1 无证书校验 (<code>mqtts/</code>)</h4>
+<ul>
+<li>在创建 MQTT 客户端时，设置 <code>ssl</code> 参数为 <code>true</code>。</li>
+<li>不进行服务器证书校验，适用于对安全性要求不高的场景。</li>
+</ul>
+<h4 id="662-mqtts_ca">6.6.2 单向证书校验 (<code>mqtts_ca/</code>)</h4>
+<ul>
+<li>加载服务器 CA 证书文件 <code>openluat_root_ca.crt</code>。</li>
+<li>在创建 MQTT 客户端时，配置 <code>ssl</code> 参数，指定 CA 证书路径。</li>
+<li>依赖 <code>sntp_app.lua</code> 同步系统时间，以验证证书有效期。</li>
+</ul>
+<h4 id="663-mqtts_mutual_ca">6.6.3 双向证书校验 (<code>mqtts_mutual_ca/</code>)</h4>
+<ul>
+<li>同时加载服务器 CA 证书、客户端证书和客户端私钥。</li>
+<li>在创建 MQTT 客户端时，配置 <code>ssl</code> 参数，指定所有证书和密钥的路径。</li>
+<li>使用特定端口（8886）进行连接。</li>
+</ul>
+<h2 id="_6">七、系统与用户消息类型</h2>
+<h3 id="71">7.1 系统消息</h3>
+<ul>
+<li><code>IP_READY</code>：网络 IP 地址已准备好。</li>
+<li><code>IP_LOSE</code>：网络 IP 地址丢失。</li>
+<li><code>NTP_UPDATE</code>：SNTP 时间同步完成。</li>
+</ul>
+<h3 id="72">7.2 用户消息</h3>
+<ul>
+<li><code>RECV_DATA_FROM_SERVER</code>：从 MQTT 服务器接收到数据。</li>
+<li><code>SEND_DATA_REQ</code>：请求发送数据。</li>
+<li><code>FEED_NETWORK_WATCHDOG</code>：网络看门狗喂狗消息。</li>
+</ul>
+<h2 id="_7">八、演示功能</h2>
+<h3 id="81">8.1 准备工作</h3>
+<h4 id="811-mqtt">8.1.1 MQTT 客户端建立</h4>
+<p>MQTT 客户端测试工具：<a href="https://docs.openluat.com/air8000/luatos/common/swenv/#27-mqttmqttx">MQTT 客户端软件 MQTTX</a></p>
+<p>（1）创建一个 MQTT 客户端</p>
+<blockquote>
+<p>这里我使用合宙测试服务器（lbsmqtt.airm2m.com:1884）进行建立，大家一定不要将测试服务器用于正式批量的项目中。</p>
+</blockquote>
+<p><img alt="" src="image/CpTpbHO8IoIMXhxKPCKcKq0rnPc.png" /></p>
+<p>（2）设置发布/订阅主题</p>
+<blockquote>
+<p>在设置发布/订阅主题时，主题格式一定要根据要求来写，否则会出现数据无法通信的情况。</p>
+</blockquote>
+<p><img alt="" src="image/ZTRnbHHtioDlm2xxPKecPEEunvb.png" /></p>
+<h4 id="812-mqtt-ssl">8.1.2 MQTT SSL 客户端建立（无证书校验、单向认证）</h4>
+<p>MQTT 客户端测试工具：<a href="https://docs.openluat.com/air8000/luatos/common/swenv/#27-mqttmqttx">MQTT 客户端软件 MQTTX</a></p>
+<p>（1）创建一个 MQTT 客户端</p>
+<blockquote>
+<p>这里我使用合宙测试服务器（airtest.openluat.com:8888）进行建立，大家一定不要将测试服务器用于正式批量的项目中。
+无证书校验、单向认证使用的是同一个域名端口，在 MQTTX 工具上创建客户端只是用于与 Air8000 建立的 MQTT 客户端进行数据通信，因此这时候可以在 MQTTX 工具上只建立一个 MQTT SSL 客户端。</p>
+</blockquote>
+<p><img alt="" src="image/IkXebxSWPo0AqYxaLVacIK98nPb.png" /></p>
+<p>（2）设置发布/订阅主题</p>
+<blockquote>
+<p>在设置发布/订阅主题时，主题格式一定要根据要求来写，否则会出现数据无法通信的情况。</p>
+</blockquote>
+<p><img alt="" src="image/As84bvC3Gomco2x6nrycS1ehnMd.png" /></p>
+<h4 id="813-mqtt-ssl">8.1.3 MQTT SSL 客户端建立（双向认证）</h4>
+<p>MQTT 客户端测试工具：<a href="https://docs.openluat.com/air8000/luatos/common/swenv/#27-mqttmqttx">MQTT 客户端软件 MQTTX</a></p>
+<p>（1）创建一个 MQTT 客户端</p>
+<blockquote>
+<p>这里我使用合宙测试服务器（airtest.openluat.com:8886）进行建立，大家一定不要将测试服务器用于正式批量的项目中。</p>
+</blockquote>
+<p><img alt="" src="image/Lpm8b95vBoQxAoxl9zSc1eHBnQb.png" /></p>
+<p>（2）设置发布/订阅主题</p>
+<blockquote>
+<p>在设置发布/订阅主题时，主题格式一定要根据要求来写，否则会出现数据无法通信的情况。</p>
+</blockquote>
+<p><img alt="" src="image/XOM0byhaDoJDSlxIkU9cfwaynwh.png" /></p>
+<h3 id="82">8.2 不同网卡切换</h3>
+<blockquote>
+<p>Air8000 模组支持单 4g 网卡，单 wifi 网卡，单 spi 以太网卡，多网卡。</p>
+</blockquote>
+<h4 id="4g">切换网卡为 4G 网卡：</h4>
+<p>在 <code>netdrv_device.lua</code> 模块里只打开 <code>netdrv_4g</code> 模块。<code>netdrv_4g.lua</code> 模块中的代码不需要修改。</p>
+<p><img alt="" src="image/PBGnbljE3oxI6Txcjb2cqx8XnOf.png" /></p>
+<p>LuaTools 工具日志打印：</p>
+<p>如下图所示，如出现类似 <code>I/user.netdrv_4g.ip_ready_func IP_READY 10.246.107.37 255.255.255.255 0.0.0.0 nil</code> 的日志，则表示 4g 网卡连接成功。</p>
+<p><img alt="" src="image/QUESbz5t3obEE1xa8DccJXM9nff.png" /></p>
+<h4 id="wifi">切换网卡为 WiFi 网卡：</h4>
+<blockquote>
+<p>注意：如果需要单 WIFI STA 网卡，打开 <code>require "netdrv_wifi"</code>，其余注释掉；同时 <code>netdrv_wifi.lua</code> 中的 <code>wlan.connect("茶室-降功耗,找合宙!", "Air123456", 1)</code>，前两个参数，修改为自己测试时 wifi 热点的名称和密码；注意：仅支持 2.4G 的 wifi，不支持 5G 的 wifi</p>
+</blockquote>
+<p>在 <code>netdrv_device.lua</code> 模块里只打开 <code>netdrv_wifi</code> 模块。<code>netdrv_wifi</code> 模块中的代码不需要修改。</p>
+<p><img alt="" src="image/E6szb3VI8oPGTPxbTUEckXqqnQh.png" /></p>
+<p>luatools 日志打印：</p>
+<p>如出现类似 <code>I/user.netdrv_wifi.ip_ready_func IP_READY {"gw":"192.168.168.199","rssi":-31,"bssid":"722D10C7C9CF"}</code> 的日志，则表示 WIFI STA 网卡联网成功。</p>
+<p><img alt="" src="image/RfllbkkHPoEkCWx6vupcIHPXnWx.png" /></p>
+<h4 id="_8">切换网卡为以太网卡：</h4>
+<blockquote>
+<p>注意：Air8000 的以太网卡是通过 SPI 外挂 CH390H 芯片实现的。</p>
+</blockquote>
+<p>在 <code>netdrv_device.lua</code> 模块里只打开 <code>netdrv_eth_spi</code> 模块。如果是使用合宙官方的开发板，<code>netdrv_eth_spi</code> 模块中的代码不需要修改。</p>
+<p><img alt="" src="image/MSI9buwCioKnSoxHc0gcSvHWnnd.png" /></p>
+<p>luatools 日志打印：</p>
+<p>如出现类似 <code>I/user.netdrv_eth_spi.ip_ready_func IP_READY 192.168.0.110 255.255.255.0 192.168.0.1 nil</code> 的日志，则表示以太网卡联网成功。</p>
+<p><img alt="" src="image/DT8GbbURZoz8TGxbaOCcQc2VnSf.png" /></p>
+<h4 id="_9">多网卡自动切换：</h4>
+<blockquote>
+<p>如果需要多网卡，打开 <code>require "netdrv_multiple"</code>，其余注释掉；同时 <code>netdrv_multiple.lua</code> 中的 <code>ssid = "茶室-降功耗,找合宙!", password = "Air123456"</code>, 修改为自己测试时 wifi 热点的名称和密码；注意：仅支持 2.4G 的 wifi，不支持 5G 的 wifi。
+可根据自己的需求调整网卡的优先级，以下示例设置为以太网卡是最高优先级。</p>
+</blockquote>
+<p>首先在 <code>netdrv_device.lua</code> 文件中只打开 <code>netdrv_multiple</code> 模块。</p>
+<p><img alt="" src="image/MCGPb2bI9oSFBFxK5CdchwDInjf.png" /></p>
+<p>默认以太网卡进行连接</p>
+<p><img alt="" src="image/Guj2bTnKdoWxlxxDyihcChBInle.png" /></p>
+<p>拔掉网线后，网络切换为 wifi 网卡</p>
+<p><img alt="" src="image/AV8Ab5I61oTO1oxdIvfcowksnTh.png" /></p>
+<p>关闭设备连接的 wifi 热点，切换为 4g 网卡</p>
+<p><img alt="" src="image/ZeahbSmXzochA5x5nDFcRIqHnwb.png" /></p>
+<h3 id="83-mqtt">8.3 MQTT 通信实操</h3>
+<h4 id="mqtt_1">MQTT 客户端数据发送与接收：</h4>
+<p>下图为 Air8000 模组建立的 MQTT 客户端通过指定主题向其他同域名端口的 MQTT 客户端发送数据成功后的日志打印。</p>
+<p><img alt="" src="image/HmxtblbYNoFpV7xbMjyc4kuen27.png" /></p>
+<p>如下图在 MQTTX 测试工具上建立相同域名端口的 MQTT 客户端（Client ID 需要不一致），通过订阅指定主题，可以接收到其他同域名端口的 MQTT 客户通过该指定主题发送的数据。</p>
+<p><img alt="" src="image/IYKwbeIhGoHjWvxMCbXcVRBInxb.png" /></p>
+<p>如下图所示，通过 MQTTX 测试工具上建立的 MQTT 客户端向指定主题发送一个数据。</p>
+<p><img alt="" src="image/RZ7tbEpeAoVHOUxIqcBcIPVQnHd.png" /></p>
+<p>模组端在建立同域名端口的 MQTT 客户端后，在代码中还订阅了指定主题，因此 MQTTX 测试工具上建立的同域名端口的 MQTT 客户端通过指定主题发送数据时，模组端建立的同域名端口的 MQTT 客户端可以接收到这个数据，并在代码中做了处理，从而让其显示在 LuaTools 工具上。</p>
+<p><img alt="" src="image/H8ZLb11MkolIhDxsZbNcjjzHnHS.png" /></p>
+<p>在 PC 端使用串口工具发送数据给 Air8000，Air8000 内部会将接收到的数据通过建立的同域名端口的 MQTT 客户端按照指定主题转发出去，MQTTX 测试工具建立的同域名端口的 MQTT 客户端通过订阅这个指定主题可以接收到 Air8000 转发出去的数据。</p>
+<p><img alt="" src="image/ASFSbme8LoRw1HxAzy3c0DZVnqf.png" /></p>
+<p>在 MQTTX 测试工具建立的同域名端口的 MQTT 客户端，通过指定主题发送数据后，Air8000 模组建立的同域名端口的 MQTT 客户端通过订阅该指定主题后可以接收到数据，并将数据通过 UART 转发给 PC 端串口工具。</p>
+<p><img alt="" src="image/H9s2bPyzmoJL45xV5pWc6obrnlc.png" /></p>
+<h4 id="mqtt-ssl">MQTT SSL 客户端（无证书校验）数据发送与接收：</h4>
+<p>下图为 Air8000 模组建立的 MQTT SSL 客户端（无证书校验）通过指定主题向其他同域名端口的 MQTT SSL 客户端发送数据成功后的日志打印。</p>
+<p><img alt="" src="image/D6TBbO86Pom1wwxCL9Cc6c65n8e.png" /></p>
+<p>如下图在 MQTTX 测试工具上建立相域名端口的 MQTT SSL 客户端（Client ID 需要不一致），通过订阅指定主题，可以接收到其他同域名端口的 MQTT SSL 客户通过该指定主题发送的数据。</p>
+<p><img alt="" src="image/HlRtbogMAoACV1xix5JccrsHnUc.png" /></p>
+<p>如下图所示，通过 MQTTX 测试工具建立的同域名端口的 MQTT SSL 客户端向指定主题发送一个数据。</p>
+<p><img alt="" src="image/L84BbkANhoAbefxC9JmcsYO4nuh.png" /></p>
+<p>模组端在建立同域名端口 MQTT SSL 客户端（无证书校验）后，在代码中订阅了这个指定主题，因此当 MQTTX 测试工具建立的同域名端口的 MQTT SSL 客户端通过指定主题发送数据时，模组端建立的同域名端口的 MQTT SSL 客户端（无证书校验）可以接收到这个数据，并在代码中做了处理，从而让其显示在 LuaTools 工具上。</p>
+<p><img alt="" src="image/TbTWbbsMLoIhWexRlAPcH96FnCd.png" /></p>
+<p>在 PC 端使用串口工具发送数据给 Air8000，Air8000 内部会将接收到的数据通过建立的同域名端口 MQTT SSL 客户端（无证书校验）按照指定主题转发出去，MQTTX 测试工具建立的同域名端口的 MQTT SSL 客户端通过订阅这个指定主题可以接收到 Air8000 转发出去的数据。</p>
+<p><img alt="" src="image/PQWBbntpYo4NTmxbMfDcFbNqnKf.png" /></p>
+<p>在 MQTTX 测试工具建立的同域名端口的 MQTT SSL 客户端（无证书校验）通过指定主题发送数据后，Air8000 模组建立的同域名端口的 MQTT SSL 客户端（无证书校验）通过订阅该指定主题后可以接收到数据，并将数据通过 UART 转发给 PC 端串口工具。</p>
+<p><img alt="" src="image/Na5ebKJ22oCXWcxOu9RcYVxxnSg.png" /></p>
+<h4 id="mqtt-ssl_1">MQTT SSL 客户端（单向认证）数据发送与接收</h4>
+<p>下图为 Air8000 模组建立的 MQTT SSL 客户端（单向认证）通过指定主题向其他同域名端口的 MQTT 客户端发送数据成功后的日志打印。</p>
+<p><img alt="" src="image/HyR2bTdENoSJzYxepldcNB6Snqb.png" /></p>
+<p>如下图在 MQTTX 测试工具上建立同域名端口的 MQTT SSL 客户端（Client ID 需要不一致），通过订阅指定主题，可以接收到其他同域名端口的 MQTT SSL 客户通过该主题发送的数据。</p>
+<p><img alt="" src="image/TBBhbTbO1oF00VxRxvlcjJmvnEg.png" /></p>
+<p>如下图所示，通过 MQTTX 测试工具建立的同域名端口的 MQTT SSL 客户端（单向认证）向指定主题发送一个数据。</p>
+<p><img alt="" src="image/Ga5DbkmBHo6XmLxUaAFcHQnDnhc.png" /></p>
+<p>模组端在建立同域名端口 MQTT SSL 客户端（单向认证）后，在代码中还订阅了指定主题，因此当 MQTTX 测试工具建立的同域名端口的 MQTT SSL 客户端通过指定主题发送数据时，模组端建立的同域名端口的 MQTT SSL 客户端（单向认证）可以接收到这个数据，并在代码中做了处理，从而让其显示在 LuaTools 工具上。</p>
+<p><img alt="" src="image/TT0SbeCUvobEMLxsqrXcnSVFnIg.png" /></p>
+<p>在 PC 端使用串口工具发送数据给 Air8000，Air8000 内部会将接收到的数据通过建立的同域名端口的 MQTT SSL 客户端（单向认证）按照指定主题转发出去，MQTTX 测试工具建立的同域名端口的 MQTT SSL 客户端通过订阅这个指定主题可以接收到 Air8000 转发出去的数据。</p>
+<p><img alt="" src="image/G69NbWTKtoxFWaxTl63c3A1WnJh.png" /></p>
+<p>在 MQTTX 测试工具建立的同域名端口的 MQTT SSL 客户端（单向认证）通过指定主题发送数据后，Air8000 模组建立的同域名端口的 MQTT SSL 客户端（单向认证）通过订阅该指定主题后可以接收到数据，并将数据通过 UART 转发给 PC 端串口工具。</p>
+<p><img alt="" src="image/BDEkbe5K5oO8qqxyUbVcnCdenVf.png" /></p>
+<h4 id="mqtt-ssl_2">MQTT SSL 客户端（双向认证）数据发送与接收</h4>
+<p>下图为 Air8000 模组建立的 MQTT SSL 客户端（双向认证）通过指定主题向其他同域名端口的 MQTT SSL 客户端发送数据成功后的日志打印。</p>
+<p><img alt="" src="image/MHFEbmBOSoAiE3xI177cUVVtnGf.png" /></p>
+<p>如下图在 MQTTX 测试工具上建立同域名端口的 MQTT 客户端（Client ID 需要不一致），通过订阅指定主题，可以接收到其他同域名端口的 MQTT 客户端通过该主题发送的数据。</p>
+<p><img alt="" src="image/DqV0bz5DQoKKCzxtBmyc35MYnsR.png" /></p>
+<p>如下图所示，通过 MQTTX 测试工具建立的同域名端口的 MQTT SSL 客户端向指定主题发送一个数据。</p>
+<p><img alt="" src="image/BmtDb5cGzoaDJnx27MYciEM8nUg.png" /></p>
+<p>模组端在建立同域名端口 MQTT SSL 客户端（双向认证）后，在代码中还订阅了指定主题，因此当 MQTTX 测试工具建立的同域名端口的 MQTT SSL 客户端通过指定主题发送数据时，模组端建立的同域名端口的 MQTT SSL 客户端（双向认证）可以接收到这个数据，并在代码中做了处理，从而让其显示在 LuaTools 工具上。</p>
+<p><img alt="" src="image/VjADbuXJmojPdWxpUTkc2fdMnrb.png" /></p>
+<p>在 PC 端使用串口工具发送数据给 Air8000，Air8000 内部会将接收到的数据通过建立的 MQTT SSL 客户端（双向认证）按照指定主题转发出去，MQTTX 测试工具建立的同域名端口的 MQTT SSL 客户端通过订阅这个指定主题可以接收到 Air8000 转发出去的数据。</p>
+<p><img alt="" src="image/Gn4EbnhrEo3nKqx7pi5cSAdbnzd.png" /></p>
+<p>在 MQTTX 测试工具建立的同域名端口的 MQTT SSL 客户端（双向认证）通过指定主题发送数据后，Air8000 模组建立的同域名端口的 MQTT SSL 客户端（双向认证）通过订阅该指定主题后可以接收到数据，并将数据通过 UART 转发给 PC 端串口工具。</p>
+<p><img alt="" src="image/J8krbuV3no3LMGxZ0dQcumolnxg.png" /></p>
+<h2 id="_10">六、总结</h2>
+<p>至此，我们演示了使用不同网卡进行 MQTT 通信的全过程，相信聪明的你已经完全领悟 MQTT 通信的逻辑了，快来实际操作一下吧！</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+    
+  </body>
+</html>
