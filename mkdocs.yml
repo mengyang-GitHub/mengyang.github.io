@@ -8,4 +8,4 @@ nav:
 
   - 第一个文件: 
     - 子文件1: first/index.md
-    # - 子文件2: mqtt/index.md
+    - 子文件2: test/index.md

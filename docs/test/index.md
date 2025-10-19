@@ -1,1151 +1,931 @@
-> 作者：马梦阳
+# Air780EPM管脚说明
 
-## 一、MQTT 协议详解
+> 作者：陆相成
 
-### 1.1 什么是 MQTT？
+## 一，管脚分类；
 
-MQTT（Message Queuing Telemetry Transport，消息队列遥测传输协议）是一种基于发布/订阅模式的轻量级通信协议。你可以把它想象成一个邮局系统：
+![](../../../../../合宙通信/文档网站/luatos-doc-pool/docs/root/docs/air780epm/product/image/TZZAb6ljEo8C7XxJUqgcmrmFncg.png)
 
-- **发布者（Publisher）**：就像寄信的人，把消息发送到特定的“邮箱”（主题）。
-- **订阅者（Subscriber）**：就像收信的人，他们事先告诉邮局（Broker）他们对哪些“邮箱”（主题）的信件感兴趣。
-- **Broker（代理）**：就像邮局，负责接收发布者的消息，并根据订阅者的兴趣将消息分发给他们。
+Air780EPM 共有 109 个管脚，大致可以分为如下几类：  
 
-MQTT 协议由 IBM 在 1999 年开发，现在是 ISO 标准（ISO/IEC 20922），适用于物联网（IoT）和机器对机器（M2M）通信。
+1. 对内供电输入管脚，VBAT；    
 
-### 1.2 MQTT 的核心工作机制
+2. 对外供电输出管脚，VDD_EXT;  
 
-**1\. 发布/订阅模式**：
+3. 开机键管脚，PWRKEY；  
 
-- 发布者（Publisher）将消息发送到特定的主题（Topic）。
-- 订阅者（Subscriber）向Broker订阅感兴趣的主题。
-- Broker负责将发布到主题的消息路由给所有订阅了该主题的客户端。
-- 这种模式实现了发布者和订阅者的解耦，简单来说就是它们不需要知道彼此的存在。
+4. 复位键管脚，RESET；  
 
-**2\. 服务质量（QoS）等级**：
+5. 下载使能管脚，USB_BOOT，也常被简称为 BOOT；    
 
-- **QoS 0（最多一次）**：消息可能丢失，也可能因为网络层或中间件的意外重放而出现重复，但MQTT协议本身不会主动再发一次。适用于对可靠性要求不高的场景，如传感器数据。
-- **QoS 1（至少一次）**：发送端会一直重试，直到收到接收端的PUBACK确认，因此消息至少送达一次，但也可能因确认丢失而被重复投递。适用于需要确保消息送达但可以容忍重复的场景。
-- **QoS 2（只有一次）**：通过四步握手（PUBLISH → PUBREC → PUBREL → PUBCOMP）保证消息恰好送达一次；若任一步丢失，发送端会重传对应报文，直至整个流程完成，从而避免重复或丢失。适用于对消息可靠性要求极高的场景，如金融交易。
+6. 模数转换管脚，ADC;   
+    - ADC1；   
 
-**3\. 轻量级设计**：
+    - ADC2；    
 
-- MQTT协议头最小只有2字节，非常适合网络带宽和设备资源有限的环境。
-- 协议简单，易于实现，降低了开发成本。
+    - ADC3；    
 
-### 1.3 MQTT 的主要优势
+    - ADC4；    
 
-- **低带宽消耗**：协议设计精简，有效减少网络流量。
-- **低功耗**：适用于电池供电的设备。
-- **高可靠性**：通过 QoS 机制保证消息传递的可靠性。
-- **双向通信**：支持设备间和设备与服务器间的双向通信。
-- **多语言支持**：支持多种编程语言，便于开发。
-- **安全性强**：支持用户名/密码和 SSL/TLS 加密，保障通信安全。
+    - 
 
-### 1.4 典型应用场景
+7. USB 管脚；
 
-- **智能家居**：智能灯泡、智能插座、温控器等设备通过 MQTT 与家庭网关通信。
-- **工业自动化**：传感器数据采集、设备状态监控。
-- **环境监测**：气象站、水质监测站等远程数据收集。
-- **车联网**：车辆状态信息上报、远程控制指令下发。
-- **医疗监控**：远程病人监护设备数据传输。
+8. VBUS  ； 
+   1. USB_DP；        
+      USB_DM ；          
 
-## 二、演示功能概述
+9. SIM 卡管脚，包括 SIM1 和 SIM2；    
 
-1\. 创建四路 mqtt 连接，详情如下
+   - SIM1；   
+     VDD_SIM1；  
+     SIM1_DAT；  
+     SIM1_CLK；  
+     SIM1_RST；        
 
-> 注意：代码中的 mqtt 服务器地址和端口会不定期重启或维护，仅能用作测试用途，不可商用，说不定哪一天就关闭了。用户开发项目时，需要替换为自己的商用服务器地址和端口。
+   - SIM2；  
+     VDD_SIM2；  
+     SIM2_DAT；  
+     SIM2_CLK；  
+     SIM2_RST；   
 
-- 创建一个 mqtt client，连接 mqtt server；
-- 创建一个 mqtt ssl client，连接 mqtt ssl server，不做证书校验；
-- 创建一个 mqtt ssl client，连接 mqtt ssl server，client 仅单向校验 server 的证书，server 不校验 client 的证书和密钥文件；
-- 创建一个 mqtt ssl client，连接 mqtt ssl server，client 校验 server 的证书，server 校验 client 的证书和密钥文件；
+10. 天线管脚，LTE_ANT，4G 和 WiFi Scan 共用；
 
-2\. 每一路 mqtt 连接出现异常后，自动重连；
+11. NC 管脚，因为各种原因，或者为了兼容之前，或者为了兼容其它型号，虽然存在但是并没有实际功能的管脚，这些管脚通常被标注为 NC、Reserved、悬空或不标注任何文字；
 
-3\. 每一路 mqtt 连接，client 按照以下几种逻辑发送数据给 server
+12. 数字 IO 管脚，比如 GPIO、PWM、UART、ONEWIRE、SPI、I2C、LCD、Camera、CAN 接口等；
+    这类管脚，因为最常用的功能是 GPIO，所以也常被称作 GPIO 管脚，实际可以复用为多种功能；
+    下表是 LuatOS 已经支持的 IO 管脚的复用关系，我们会在后面的章节里详细介绍。
 
-- 串口应用功能模块 `uart_app.lua`，通过 uart1 接收到串口数据，将串口数据增加 `send from uart: ` 前缀后，使用 `mobile.imei().."/uart/up"` 主题，发送给 server；
-- 定时器应用功能模块 `timer_app.lua`，定时产生数据，将数据增加 `send from timer：` 前缀后，使用 `mobile.imei().."/timer/up"` 主题，发送给 server；
+![](../../../../../合宙通信/文档网站/luatos-doc-pool/docs/root/docs/air780epm/product/image/WjsVbubC4oFIcYxYEA9cZ0BanHc.png)
 
-4\. 每一路 mqtt 连接，client 收到 server 数据后，将数据增加 recv from mqtt/mqtt ssl/mqtt ssl ca/mqtt ssl mutual ca（四选一）server: 前缀后，通过 uart1 发送出去；
+## 二，对内供电，VBAT；
 
-5\. 启动一个网络业务逻辑看门狗 task，用来监控网络环境，如果连续长时间工作不正常，重启整个软件系统；
+![](../../../../../合宙通信/文档网站/luatos-doc-pool/docs/root/docs/air780epm/product/image/OVzebXWa3oWQNcxWawGcjUoMnzd.png)
 
-6\. netdrv_device：配置连接外网使用的网卡，目前支持以下四种选择（四选一）
+1. 模组管脚：PIN42/43;   
 
-(1) netdrv_4g：4G 网卡
+2. 电源特性；    
 
-(2) netdrv_wifi：WIFI STA 网卡
+   电压范围：3.3V-4.35V；  
 
-(3) netdrv_eth_spi：通过 SPI 外挂 CH390H 芯片的以太网卡
+   电流需求：1A以上，所以通常需要并联搭配220uF电解电容或者22uF钽电容以用于瞬时大电流的输出响应；
 
-(4) netdrv_multiple：支持以上三种网卡，可以配置三种网卡的优先级
+3. 电池供电；
 
-## 三、演示硬件环境
+   常规型锂电池的放电范围是一般是3.2V-4.2V，为了更好地保护锂电池，一般将放电截止电压规定为3.3V；
 
-![](image/RUR3bSeE8odi8txNM8KcKkq5njg.png)
+   高压型锂电池的放电范围是一般是3.2V-4.35V，一样的原因，为了更好地保护锂电池，一般将放电截止电压规定为3.3V；
 
-1\. Air8000 开发板一块 + 可上网的 sim 卡一张 +4g 天线一根 +wifi 天线一根 + 网线一根：
+   其它类型的电池，比如锂锰电池、锂亚电池，放电截止电压可能低至2.0V，这种类型的电池需要在系统中增加升压DCDC，使其在放电期间供给模组的电压保持在3.3V以上；
+      用于这种场景下的升压型DCDC我们使用过的是ETA1161；
+     [ETA1161](file/ETA1161 V1.0.pdf){:target="_blank"}
 
-- sim 卡插入开发板的 sim 卡槽
-- 天线装到开发板上
-- 网线一端插入开发板网口，另外一端连接可以上外网的路由器网口
+4. 电源供电；
 
-2\. TYPE-C USB 数据线一根 + USB 转串口数据线一根，Air8000 开发板和数据线的硬件接线方式为：
+   这里说的电源，指的是类似于充电器这样的、通过AC/DC转换器为系统供电的电源形式，后面我们统一称这种电源形式为直流电源；
 
-- Air8000 开发板通过 TYPE-C USB 口供电；（外部供电/USB 供电 拨动开关 拨到 USB 供电一端）
-- TYPE-C USB 数据线直接插到核心板的 TYPE-C USB 座子，另外一端连接电脑 USB 口；
-- USB 转串口数据线，一般来说，白线连接开发板的 UART1_TX，绿线连接开发板的 UART1_RX，黑线连接核心板的 GND，另外一端连接电脑 USB 口；
+   直流电源的供电电压，市场上常见的有5V/9V/12V/18V/24V等，不同的输入电压，选择不同的降压型DCDC；
 
-## 四、演示软件环境
+   DCDC的输出电压，建议设置在3.8V，且需要特别注意的是：
+      有些DCDC在上电初始时的输出电压有可能会上窜到超出设置的输出电压值很多，比如，设置输出电压为3.8V，上电初始时的输出电压高达6V甚至7V以上，非常大概率的将模组的芯片或射频PA打坏，务必特别注意！
+       用于这种场景下的降压型DCDC我们使用过的是JW5357和JW5103；
+     JW5357，用于输入电压低于 18V 以下的场景；  
+     [JW5357](file/JW5357HFM_Datasheet_R0.8_EN_20240130.pdf){:target="_blank"} 
 
-### 4.1 软件环境
+- JW5103，用于输入电压低于 36V 以下的场景；  
+  [JW5103](JWH5103_Datasheet_R0.21_EN_20230920_for 合宙.pdf){:target="_blank"} 
 
-1\. 烧录工具：[Luatools 下载调试工具](https://docs.openluat.com/air780epm/common/Luatools/)
+5. 耐压特性；
 
-2\. 内核固件：[Air8000 V2012 版本固件](https://docs.openluat.com/air8000/luatos/firmware/)（理论上，2025 年 7 月 26 日之后发布的固件都可以）
+   长时间的正常工作，不能高于4.5V，包括偶尔的尖峰电压；
+    为了兼容电池和直流电源两种供电形式，电池电压一般低于4.35V，直流电源经过DCDC降压后一般设置为3.8V输出，因此，模组的正常工作电压范围一般规定为3.3V-4.35V；
 
-3\. 脚本文件：[Air8000 MQTT 脚本文件](https://gitee.com/openLuat/LuatOS/tree/master/module/Air8000/demo/mqtt)
+   短时的浪涌尖峰电压，不能高于5V，否则有可能将模组损坏；
 
-3\. PC 端串口工具：例如 [SSCOM](https://docs.openluat.com/air8000/luatos/common/swenv/#24-sscom)、[LLCOM](https://docs.openluat.com/air8000/luatos/common/swenv/#25-llcom) 等都可以
+   VBAT处使用的TVS选型建议：
+    TVS应保证VRWM略大于芯片最大工作电压(4.5V)，VBR典型值在5.3V左右，最大VBR值建议不超过6V，钳位电压VC尽量小，建议浪涌IPP大于160A，IPP=100A (8*20uS脉冲)的钳位电压约为7.5V；
+    建议型号，芯禾微 XESD317D-4V5；  
+     [XESD317D-4V5](file/XESD317D-4V5 Rev 0.1.pdf){:target="_blank"} 
 
-4\. MQTT 客户端：[MQTT 客户端软件 MQTTX](https://docs.openluat.com/air8000/luatos/common/swenv/#27-mqttmqttx)
+6. 特别提醒！
 
-5\. LuatOS 运行所需要的 lib 文件：使用 Luatools 烧录时，勾选 添加默认 lib 选项，使用默认 lib 脚本文件。
+   * 虽然模组正常工作建议的电压范围是3.3V-4.35V，但是模组实际可以开机运行的电压最低可以到2.1V，但是，请特别注意如下提示：
 
-准备好软件环境之后，接下来查看[如何烧录项目文件到 Air8000 核心板](https://docs.openluat.com/air8000/luatos/common/download/)中，将本篇文章中演示使用的项目文件烧录到 Air8000 开发板中。
+     * 当模组IO电平设置为1.8V和VBAT供电为2.1V且模组可以开机运行时，此时IO电平可以正常保持1.8V，但射频指标，包括发射功率和接收灵敏度，已经严重恶化，甚至无法正常驻网；
 
-### 4.2 API 介绍
+     * 当模组IO电平设置为3.3V和VBAT供电为2.1V且模组可以开机运行时，此时IO电平实际输出为2.0V，且射频指标，包括发射功率和接收灵敏度，已经严重恶化，甚至无法正常驻网；
 
-sys 库：[https://docs.openluat.com/osapi/core/sys/](https://docs.openluat.com/osapi/core/sys/)
+     * 因此，再次强调，模组正常工作建议的电压范围是3.3V-4.35V，过低电压会导致射频指标恶化甚至无法正常驻网；
 
-libnet 库：[https://docs.openluat.com/osapi/ext/libnet/](https://docs.openluat.com/osapi/ext/libnet/)
+* 模组上电开机时，需确保VBAT上电时的起始电压小于0.5V，否则可能会因电压临界状态造成模组时序混乱而无法正常开机；关于这一点的详细介绍，会在“开机时序”章节进行详细介绍；
 
-socket 库：[https://docs.openluat.com/osapi/core/socket/](https://docs.openluat.com/osapi/core/socket/)
+  	* 实际应用中最常见的问题是：
+  	
+  	掉电关机后短时间内再上电，但是在此期间系统上大电容的电未放完，导致VBAT电压停留在0.5V至2.0V中间，模组主芯片部分功能无法完全关闭，导致再上电时开机时序不符合要求而无法正常开机；
+  	  
+  	 * 记忆中有客户做的项目，大电容完全放电完毕用时需要将近30秒左右，非常容易导致陷入"为何无法开机、模组是不是坏了"的长时间分析中；
+  			
+  	 * 常见的余电快速放电电路有两种；
+  			
+  	第一种，优势是电路简单，缺点是功耗较高且会一直损耗，进而导致放电速度无法设置的太快(放电电阻R4不能使用阻值太小的电阻)；
 
-mqtt 库：[https://docs.openluat.com/osapi/core/mqtt/](https://docs.openluat.com/osapi/core/mqtt/)
+     ![](../../../../../合宙通信/文档网站/luatos-doc-pool/docs/root/docs/air780epm/product/image/MZJebVOz0oZR0DxHarBc4zVSnHb.png)
+     第二种，优势是只有在断电的情况下才会放电，不会产生额外的功耗，缺点是电路相对复杂，且由于单向导电电路(二极管 D1)的存在会导致工作端电压有损耗(二极管压降 0.3V)；
+  ![](../../../../../合宙通信/文档网站/luatos-doc-pool/docs/root/docs/air780epm/product/image/B63Zb3McDo1l6Yx2K34ckZePn8g.png)
 
-## 五、程序结构
+7. VBAT 电压可以检测，具体见 LuatOS 核心库"ADC"章节的介绍 [1 adc - 合宙模组资料中心](https://docs.openluat.com/osapi/core/adc/) ；
+   **adc.CH_VBAT**
 
-```lua
-mqtt/
-├── main.lua
-├── mqtt/
-│   ├── mqtt_main.lua
-│   ├── mqtt_receiver.lua
-│   └── mqtt_sender.lua
-├── mqtts/
-│   ├── mqtts_main.lua
-│   ├── mqtts_receiver.lua
-│   └── mqtts_sender.lua
-├── mqtts_ca/
-│   ├── mqtts_ca_main.lua
-│   ├── mqtts_ca_receiver.lua
-│   ├── mqtts_ca_sender.lua
-│   ├── openluat_root_ca.crt
-│   └── sntp_app.lua
-├── mqtts_mutual_ca/
-│   ├── airtest_client.crt
-│   ├── airtest_client.key
-│   ├── mqtts_m_ca_main.lua
-│   ├── mqtts_m_ca_receiver.lua
-│   ├── mqtts_m_ca_sender.lua
-│   ├── openluat_root_ca.crt
-│   └── sntp_app.lua
-├── netdrv/
-│   ├── netdrv_4g.lua
-│   ├── netdrv_eth_spi.lua
-│   ├── netdrv_multiple.lua
-│   └── netdrv_wifi.lua
-├── netdrv_device.lua
-├── network_watchdog.lua
-├── timer_app.lua
-└── uart_app.lua
+```
+常量含义：VBAT供电电压的通道id；
+数据类型：number；
+常量取值：-2；
+示例代码：adc.open(adc.CH_VBAT)；
 ```
 
-### 5.1 文件说明
+常量含义：VBAT 供电电压的通道 id；
+数据类型：number；
+常量取值：-2；
+示例代码：adc.open(adc.CH_VBAT)；
 
-- `main.lua`：主程序入口文件，负责初始化系统、启动网络驱动和 MQTT 客户端。
-- `mqtt/`：普通 MQTT 连接相关文件。
-  - `mqtt_main.lua`：普通 MQTT 客户端的初始化和事件处理。
-  - `mqtt_receiver.lua`：普通 MQTT 客户端的数据接收处理。
-  - `mqtt_sender.lua`：普通 MQTT 客户端的数据发送队列管理。
-- `mqtts/`：MQTT SSL 连接（无证书校验）相关文件。
-  - `mqtts_main.lua`：MQTT SSL 客户端的初始化和事件处理。
-  - `mqtts_receiver.lua`：MQTT SSL 客户端的数据接收处理。
-  - `mqtts_sender.lua`：MQTT SSL 客户端的数据发送队列管理。
-- `mqtts_ca/`：MQTT SSL 连接（单向证书校验）相关文件。
-  - `mqtts_ca_main.lua`：MQTT SSL 单向证书校验客户端的初始化和事件处理。
-  - `mqtts_ca_receiver.lua`：MQTT SSL 单向证书校验客户端的数据接收处理。
-  - `mqtts_ca_sender.lua`：MQTT SSL 单向证书校验客户端的数据发送队列管理。
-  - `openluat_root_ca.crt`：服务器 CA 证书文件。
-  - `sntp_app.lua`：时间同步应用。
-- `mqtts_mutual_ca/`：MQTT SSL 连接（双向证书校验）相关文件。
-  - `mqtts_m_ca_main.lua`：MQTT SSL 双向证书校验客户端的初始化和事件处理。
-  - `mqtts_m_ca_receiver.lua`：MQTT SSL 双向证书校验客户端的数据接收处理。
-  - `mqtts_m_ca_sender.lua`：MQTT SSL 双向证书校验客户端的数据发送队列管理。
-  - `airtest_client.crt`：客户端证书文件。
-  - `airtest_client.key`：客户端私钥文件。
-  - `openluat_root_ca.crt`：服务器 CA 证书文件。
-  - `sntp_app.lua`：时间同步应用。
-- `netdrv/`：网络驱动相关文件。
-  - `netdrv_4g.lua`：4G 网络驱动。
-  - `netdrv_eth_spi.lua`：SPI 以太网驱动。
-  - `netdrv_multiple.lua`：多网络驱动管理。
-  - `netdrv_wifi.lua`：WIFI 网络驱动。
-- `netdrv_device.lua`：网络设备配置文件。
-- `network_watchdog.lua`：网络环境检测看门狗。
-- `timer_app.lua`：定时器应用，用于生成测试数据。
-- `uart_app.lua`：串口应用，用于与 PC 端通信。
-
-## 六、核心模块详解
-
-### 6.1 主程序 (`main.lua`)
-
-主程序文件 `main.lua` 是整个项目的入口点。它负责初始化系统环境。
-
-#### 6.1.1 初始化流程
-
-**1\. 项目和版本定义**：
-
-- 定义`PROJECT`和`VERSION`变量。
-
-**2\. 日志记录**：
-
-- 使用`log.info("main", PROJECT, VERSION)`在日志中打印项目名和版本号。
-
-**3\. 看门狗初始化**（如果支持）：
-
-- 配置并启动硬件看门狗，防止程序死循环卡死。
-
-**4\. 加载功能模块**：
-
-- 加载网络环境检测看门狗模块（`network_watchdog`）。
-- 加载网络驱动设备模块（`netdrv_device`）。
-- 加载串口应用模块（`uart_app`）。
-- 加载定时器应用模块（`timer_app`）。
-- 加载MQTT客户端主模块（`mqtt_main`）。
-- 加载MQTT SSL客户端主模块（`mqtts_main`、`mqtts_ca_main`、`mqtts_m_ca_main`）。
-
-**5\. 启动任务调度器**：
-
-- 调用`sys.run()`启动LuatOS的任务调度器，开始执行各个任务。
-
-```lua
---[[
-@module  main
-@summary LuatOS用户应用脚本文件入口，总体调度应用逻辑
-@version 1.0
-@date    2025.07.28
-@author  马梦阳
-@usage
-本demo演示的核心功能为：
-1、创建四路mqtt连接，详情如下
-- 创建一个mqtt client，连接mqtt server；
-- 创建一个mqtt ssl client，连接mqtt ssl server，不做证书校验；
-- 创建一个mqtt ssl client，连接mqtt ssl server，client仅单向校验server的证书，server不校验client的证书和密钥文件；
-- 创建一个mqtt ssl client，连接mqtt ssl server，client校验server的证书，server校验client的证书和密钥文件；
-2、每一路mqtt连接出现异常后，自动重连；
-3、每一路mqtt连接，client按照以下几种逻辑发送数据给server
-- 串口应用功能模块uart_app.lua，通过uart1接收到串口数据，将串口数据增加send from uart: 前缀后，使用mobile.imei().."/uart/up"主题，发送给server；
-- 定时器应用功能模块timer_app.lua，定时产生数据，将数据增加send from timer：前缀后，使用mobile.imei().."/timer/up"主题，发送给server；
-4、每一路mqtt连接，client收到server数据后，将数据增加recv from mqtt/mqtt ssl/mqtt ssl ca/mqtt ssl mutual ca（四选一）server: 前缀后，通过uart1发送出去；
-5、启动一个网络业务逻辑看门狗task，用来监控网络环境，如果连续长时间工作不正常，重启整个软件系统；
-6、netdrv_device：配置连接外网使用的网卡，目前支持以下四种选择（四选一）
-   (1) netdrv_4g：4G网卡
-   (2) netdrv_wifi：WIFI STA网卡
-   (3) netdrv_eth_spi：通过SPI外挂CH390H芯片的以太网卡
-   (4) netdrv_multiple：支持以上三种网卡，可以配置三种网卡的优先级
-
-更多说明参考本目录下的readme.md文件
-]]
-
---[[
-必须定义PROJECT和VERSION变量，Luatools工具会用到这两个变量，远程升级功能也会用到这两个变量
-PROJECT：项目名，ascii string类型
-        可以随便定义，只要不使用,就行
-VERSION：项目版本号，ascii string类型
-        如果使用合宙iot.openluat.com进行远程升级，必须按照"XXX.YYY.ZZZ"三段格式定义：
-            X、Y、Z各表示1位数字，三个X表示的数字可以相同，也可以不同，同理三个Y和三个Z表示的数字也是可以相同，可以不同
-            因为历史原因，YYY这三位数字必须存在，但是没有任何用处，可以一直写为000
-        如果不使用合宙iot.openluat.com进行远程升级，根据自己项目的需求，自定义格式即可
-]]
-PROJECT = "MQTT"
-VERSION = "001.000.000"
-
--- 在日志中打印项目名和项目版本号
-log.info("main", PROJECT, VERSION)
-
--- 如果内核固件支持wdt看门狗功能，此处对看门狗进行初始化和定时喂狗处理
--- 如果脚本程序死循环卡死，就会无法及时喂狗，最终会自动重启
-if wdt then
-    --配置喂狗超时时间为9秒钟
-    wdt.init(9000)
-    --启动一个循环定时器，每隔3秒钟喂一次狗
-    sys.timerLoopStart(wdt.feed, 3000)
-end
-
--- 如果内核固件支持errDump功能，此处进行配置，【强烈建议打开此处的注释】
--- 因为此功能模块可以记录并且上传脚本在运行过程中出现的语法错误或者其他自定义的错误信息，可以初步分析一些设备运行异常的问题
--- 以下代码是最基本的用法，更复杂的用法可以详细阅读API说明文档
--- 启动errDump日志存储并且上传功能，600秒上传一次
--- if errDump then
---     errDump.config(true, 600)
--- end
-
--- 使用LuatOS开发的任何一个项目，都强烈建议使用远程升级FOTA功能
--- 可以使用合宙的iot.openluat.com平台进行远程升级
--- 也可以使用客户自己搭建的平台进行远程升级
--- 远程升级的详细用法，可以参考fota的demo进行使用
-
--- 启动一个循环定时器
--- 每隔3秒钟打印一次总内存，实时的已使用内存，历史最高的已使用内存情况
--- 方便分析内存使用是否有异常
--- sys.timerLoopStart(function()
---     log.info("mem.lua", rtos.meminfo())
---     log.info("mem.sys", rtos.meminfo("sys"))
--- end, 3000)
-
--- 加载网络环境检测看门狗功能模块
-require "network_watchdog"
-
--- 加载网络驱动设备功能模块
-require "netdrv_device"
-
--- 加载串口应用功能模块
-require "uart_app"
--- 加载定时器应用功能模块
-require "timer_app"
-
--- 加载mqtt client 主应用功能模块
-require "mqtt_main"
-
--- 加载mqtt ssl client 主应用功能模块（mqtt ssl 无证书校验）
--- require "mqtts_main"
-
--- 加载mqtt ssl ca client 主应用功能模块（mqtt ssl 单向证书校验）
--- require "mqtts_ca_main"
-
--- 加载mqtt ssl mutual ca client 主应用功能模块（mqtt ssl 双向证书校验）
--- require "mqtts_m_ca_main"
-
--- 用户代码已结束---------------------------------------------
--- 结尾总是这一句
-sys.run()
--- sys.run()之后不要加任何语句!!!!!因为添加的任何语句都不会被执行
+```
+adc.open(adc.CH_VBAT)--打开adc.CH_VBAT通道
+local data6 = adc.get(adc.CH_VBAT)--获取adc.CH_VBAT计算值，将获取到的值赋给data6
+adc.close(adc.CH_VBAT)--关闭adc.CH_VBAT通道
+log.info("VBAT", data6)--打印adc.CH_VBAT计算值
 ```
 
-### 6.2 网络驱动 (`netdrv/`)
+## 三，开机键，PWRKEY；
 
-网络驱动模块负责初始化和管理不同的网络连接方式，如 4G、WIFI 和以太网。
+![](../../../../../合宙通信/文档网站/luatos-doc-pool/docs/root/docs/air780epm/product/image/WShBbXaeboKLLSxr61Vcy3uEnDD.png)
 
-#### 6.2.1 4G 网络驱动 (`netdrv_4g.lua`)
+1. 模组管脚：PIN7；
 
-- 监听 `IP_READY` 和 `IP_LOSE` 消息，监控网络连接状态。
-- 设置默认网卡为 `socket.LWIP_GP`。
+2. 功能说明；
+
+   模组工作电压范围 3.3V-4.35V，PWRKEY 为开机键， 内部上拉至 VBAT；
+
+   如果 PWRKEY 接地，芯片上电即开机；
+       
+
+          1. PWRKEY 可以直接接地，也可以串联电阻接地；
+          2. 串联电阻接地时，最大阻值不应该超过 10K，否则有可能无法正常开机；
+          3. 相对于直接接地，串联电阻的作用是 PWRKEY 因内部上拉到 VBAT 而引起的漏电流可以进一步减小；
+
+   PWRKEY 不接地时：
+       
+
+       1. 模组关机状态下，检测到 PWRKEY 下降沿，模组启动上电流程；
+       2. 当系统在启动状态下检测到 PWRKEY 下降沿时触发中断，是否进入关机过程或其他动作由软件决定；
+       3. 模组上电开机时，需确保 VBAT 上电时的起始电压小于 0.5V，否则可能会因低电压造成模组时序混乱而无法正常开机；关于这一点的详细介绍，会在“开机时序”章节进行详细介绍；
+
+3. 关于 PWRKEY 的详细参数介绍，见下表； 
+
+   <style> td {white-space:nowrap;border:0.5pt solid #dee0e3;font-size:10pt;font-style:normal;font-weight:normal;vertical-align:middle;word-break:normal;word-wrap:normal;}</style>
+
+   | 参数                      | 描述                     | 规格 |      |      | 单位 |
+   | ------------------------- | :----------------------- | ---- | ---- | ---- | ---- |
+   |                           |                          | Min  | Typ. | Max  |      |
+   | PWRKEY                    |                          |      |      |      |      |
+   | 高电平                    | High-level input voltage | 1.7  |      | 3.6  | V    |
+   | 低电平                    | Low-level input voltage  |      |      | 1.1  | V    |
+   | 低功耗模式 pm.WORK_MODE,1 | LowPower Voltage         | 1.7  | 1.9  | 2.1  | V    |
+   | PSM+模式 pm.WORK_MODE,3   | PSM+ Voltage             | 1.7  | 1.9  | 2.1  | V    |
+   | 上拉电阻                  | Pull-up Resistance       | 130k | 180k | 230k | Ω    |
+
+4. 当 PWRKEY 接实体按键进行拉低执行开机、关机或中断输入动作检测时，实体按键键帽与底座接触时极易产生静电，因此，需要增加 TVS 进行保护；
+   推荐物料，芯禾微 XESD100N-3V3；
+   [XESD100N-3V3](file/XESD100N-3V3 Rev. 0.1.pdf){:target="_blank"}
+
+5. 开机前，PWRKEY 是开机键；开机后，PWRKEY 就是一个中断输入，执行什么动作取决于软件的设置；
+   关于 PWRKEY 作为中断输入的 LuatOS 库函数介绍，详见：[21 gpio - 合宙模组资料中心](https://docs.openluat.com/osapi/core/gpio/)；
+
+<style> td {white-space:nowrap;border:0.5pt solid #dee0e3;font-size:10pt;font-style:normal;font-weight:normal;vertical-align:middle;word-break:normal;word-wrap:normal;}</style>
+
+| 常量                | 类型       | 常量取值 | 解释                                                         | 参数示例                                           | 适用产品型号                     |
+| ------------------- | ---------- | -------- | ------------------------------------------------------------ | -------------------------------------------------- | -------------------------------- |
+| gpio.LOW<br>        | number<br> | 0        | 低电平<br>                                                   | gpio.set(17, gpio.LOW)                             | 全支持<br><br>                   |
+| gpio.HIGH           | number<br> | 1        | 高电平                                                       | gpio.set(17, gpio.HIGH)                            | 全支持                           |
+| gpio.PULLUP         | number<br> | 1        | 上拉                                                         | gpio.setup(17, nil, gpio.PULLUP)                   | 全支持                           |
+| gpio.PULLDOWN       | number<br> | 2        | 下拉<br>                                                     | gpio.setup(17, nil, gpio.PULLDOWN                  | 全支持                           |
+| gpio.RISING<br>     | number<br> | 0        | 上升沿触发<br>                                               | gpio.setup(27, irqFunc, gpio.PULLUP, gpio.RISING)  | 全支持                           |
+| gpio.FALLING        | number     | 1        | 下降沿触发                                                   | gpio.setup(27, irqFunc, gpio.PULLUP, gpio.FALLING) | 全支持                           |
+| gpio.BOTH<br>       | number<br> | 2        | 双向触发<br>                                                 | gpio.setup(27, irqFunc, gpio.PULLUP, gpio.BOTH)    | 仅Air780EXXX系列/Air8000系列支持 |
+| gpio.WAKEUP0        | number     | 39       | 休眠唤醒脚0，不支持输出                                      | gpio.setup(gpio.WAKEUP0, nil)                      | 仅Air780EXXX系列/Air8000系列支持 |
+| gpio.WAKEUP1<br>    | number<br> | 40       | VBUS，USB唤醒脚，不支持输出<br>                              | gpio.setup(gpio.WAKEUP1, nil)                      | 仅Air780EXXX系列/Air8000系列支持 |
+| gpio.WAKEUP2<br>    | number<br> | 41       | USIM热插拔脚，不支持输出<br>                                 | gpio.setup(gpio.WAKEUP2, nil)                      | 仅Air780EXXX系列/Air8000系列支持 |
+| gpio.WAKEUP3<br>    | number<br> | 42       | 休眠唤醒脚3，与GPIO20是同一个引脚<br>                        | gpio.setup(gpio.WAKEUP3, nil)                      | 仅Air780EXXX系列/Air8000系列支持 |
+| gpio.WAKEUP4<br>    | number<br> | 43       | 休眠唤醒脚4，与GPIO21是同一个引脚<br>                        | gpio.setup(gpio.WAKEUP4, nil)                      | 仅Air780EXXX系列/Air8000系列支持 |
+| gpio.WAKEUP5<br>    | number<br> | 44       | 休眠唤醒脚5，与GPIO22是同一个引脚<br>                        | gpio.setup(gpio.WAKEUP5, nil)                      | 仅Air780EXXX系列/Air8000系列支持 |
+| gpio.WAKEUP6<br>    | number<br> | 45       | 休眠唤醒脚6，不支持输出<br>                                  | gpio.setup(gpio.WAKEUP6, nil)                      | 仅Air8000系列支持<br>            |
+| gpio.AUDIOPA_EN<br> | number<br> | 22       | 音频PA使能脚，仅Air780EHV特有的引脚<br>                      | gpio.setup(gpio.AUDIOPA_EN, 0)                     | 仅Air780EHV支持<br>              |
+| gpio.PWR_KEY        | number     | 46       | 开机前：开机键，下降沿时触发；<br>开机后：双向触发中断，不支持输出； | gpio.setup(gpio.PWR_KEY, nil)                      | 仅Air780EXX系列/Air8000系列支持  |
+
+## 四，复位键，RESET；
+
+![](../../../../../合宙通信/文档网站/luatos-doc-pool/docs/root/docs/air780epm/product/image/ClUPbDkilouXQnxSOkMcQusrn8d.png)
+
+1. 模组管脚：PIN15；
+
+2. 功能说明；
+
+       - 模组 Reset 管脚为系统硬复位，低有效；
+       
+       - 模组 Reset 高电平应大于 1.3V 且不大于 3.6V；
+       
+       - 如果 MCU GPIO 通过三极管连接到模块的 RESET，则要求三极管的截止漏电流小于 0.5uA。否则，由于 RESET 内部上拉微弱，大漏电可能会将 RESET 拉到 1.3V 以下进而造成模组无法正常工作；
+       
+       - 在三极管漏电流不能保证的情况下，可使用 MOS 管代替三极管， 大多数 MOS 漏电流相对较低；
+       
+       - 如果外部高电平可能将 RESET 拉至 1.3V 以下，则需要外加上拉电阻使其在合理范围内；
+       
+       - 模组 Reset 容易受到干扰而引起异常复位，如有必要可在 Reset 引脚上添加 RC 滤波电路；
+
+     ![](../../../../../合宙通信/文档网站/luatos-doc-pool/docs/root/docs/air780epm/product/image/NIp9bhglboeTZRxRWBgcOI4FnPc.png)
+
+3. 关于 RESET 的详细参数介绍，见下表；
+
+   <style> td {white-space:nowrap;border:0.5pt solid #dee0e3;font-size:10pt;font-style:normal;font-weight:normal;vertical-align:middle;word-break:normal;word-wrap:normal;}</style>
+
+   | 参数                      | 描述               | 规格 |      |      | 单位 |
+   | ------------------------- | ------------------ | ---- | ---- | ---- | ---- |
+   |                           |                    | Min  | Typ. | Max  |      |
+   | RESET                     |                    |      |      |      |      |
+   | 高电平                    | Input High Voltage | 1    |      | 3.6  | V    |
+   | 低电平                    | Input Low Voltage  |      |      | 0.3  | V    |
+   | 低功耗模式 pm.WORK_MODE,1 | LowPower Voltage   | 1    | 1.15 | 1.3  | V    |
+   | PSM+模式 pm.WORK_MODE,3   | PSM+ Voltage       | 1    | 1.15 | 1.3  | V    |
+   | 上拉电阻                  | Pull-up Resistance | 80k  | 120k | 160k | Ω    |
+
+4. 当 RESET 接实体按键进行拉低执行开机、关机或中断输入动作检测时，实体按键键帽与底座接触时极易产生静电，因此，需要增加 TVS 进行保护；
+   推荐物料，芯禾微 XESD100N-3V3；
+   [XESD100N-3V3](file/XESD100N-3V3 Rev. 0.1.pdf){:target="_blank"} 
+
+5. 注意！RESET 是硬件重启，不是软件重启，也不是关机；
+   RESET 只接受外部输入，模组软件无法直接操作 RESET；
+
+## 五，BOOT 键，USB_BOOT；
+
+![](../../../../../合宙通信/文档网站/luatos-doc-pool/docs/root/docs/air780epm/product/image/D3JGbmitgoONPEx4fhOcGPgvnxy.png)
+
+1. 模组管脚：PIN82；
+ 2. 功能说明； 
+    - USB_BOOT，顾名思义通过操作该管脚从而使模组 Boot from USB，也就是进入 USB 下载模式；
+    - USB_BOOT，软件初始化完成之前默认 I&PD 状态，即"输入 + 下拉"，因此，该管脚：
+          悬空或外部下拉时，Boot from Flash；
+          上拉至 VDD_EXT 时，Boot from USB；
+     - USB_BOOT 管脚可以复用为 GPIO0，但需要注意：
+       开机初始化完成之前，固定为 USB_BOOT 功能；
+       开机初始化完成之后，可以复用为 GPIO0 功能；
+       在设计硬件电路时，需要避免在开机初始化之前对该管脚形成事实性的上拉效果，否现会导致模组等待 Boot from USB 至少 30 秒后才可以启动 Boot from Flash 正常开机流程；
+     - USB_BOOT 管脚的详细描述如下图所示；
+
+![](../../../../../合宙通信/文档网站/luatos-doc-pool/docs/root/docs/air780epm/product/image/GZYHb2GANoZwBLxLgVKcXc1vnff.png)
+
+ 3.USB_BOOT 复用为 GPIO0 时的详细参数介绍，见下表；
+
+<style> td {white-space:nowrap;border:0.5pt solid #dee0e3;font-size:10pt;font-style:normal;font-weight:normal;vertical-align:middle;word-break:normal;word-wrap:normal;}</style>
+
+| 参数                      | 描述                         | 规格    |      |          | 单位 |
+| ------------------------- | ---------------------------- | ------- | ---- | -------- | ---- |
+|                           |                              | Min     | Typ  | MAX      |      |
+| GPIO0，VDD_EXT=1.8V       |                              |         |      |          |      |
+| VDD                       | IO Supply Voltage            |         | 1.8  |          | V    |
+| 输入高电平                | High-level input voltage     | 0.7*VDD |      |          | V    |
+| 输入低电平                | Low-level input voltage      |         |      | 0.2*VDD  | V    |
+| 输出高电平                | High-level output voltage    | 0.8*VDD |      |          | V    |
+| 输出低电平                | Low-level output voltage     |         |      | 0.15*VDD | V    |
+| 低功耗模式 pm.WORK_MODE,1 | LowPower Voltage             |         | 0    |          | V    |
+| PSM+模式 pm.WORK_MODE,3   | PSM+ Voltage                 |         | 0    |          | V    |
+| 输出高电平时的驱动能力    | Digital High, Output Current | 4       | 6    | 9        | mA   |
+| 输出低电平时的驱动能力    | Digital Low, Output Current  | 4       | 6    | 9        | mA   |
+| 上拉电阻                  | Pull-up Resistance           | 110k    | 160k | 210k     | Ω    |
+| 下拉电阻                  | Pull-down Resistance         | 160k    | 210k | 260k     | Ω    |
+| GPIO0，VDD_EXT=2.8V       |                              |         |      |          |      |
+| VDD                       | IO Supply Voltage            |         | 2.8  |          | V    |
+| 输入高电平                | High-level input voltage     | 0.7*VDD |      |          | V    |
+| 输入低电平                | Low-level input voltage      |         |      | 0.2*VDD  | V    |
+| 输出高电平                | High-level output voltage    | 0.8*VDD |      |          | V    |
+| 输出低电平                | Low-level output voltage     |         |      | 0.15*VDD | V    |
+| 低功耗模式 pm.WORK_MODE,1 | LowPower Voltage             |         | 0    |          | V    |
+| PSM+模式 pm.WORK_MODE,3   | PSM+ Voltage                 |         | 0    |          | V    |
+| 输出高电平时的驱动能力    | Digital High, Output Current | 5.3     | 14   | 29.1     | mA   |
+| 输出低电平时的驱动能力    | Digital Low, Output Current  | 4.2     | 18   | 25.4     | mA   |
+| 上拉电阻                  | Pull-up Resistance           | 55k     | 85k  | 115k     | Ω    |
+| 下拉电阻                  | Pull-down Resistance         | 70k     | 100k | 130k     | Ω    |
+| GPIO0，VDD_EXT=3.3V       |                              |         |      |          |      |
+| VDD                       | IO Supply Voltage            |         | 3.3  |          | V    |
+| 输入高电平                | High-level input voltage     | 0.7*VDD |      |          | V    |
+| 输入低电平                | Low-level input voltage      |         |      | 0.2*VDD  | V    |
+| 输出高电平                | High-level output voltage    | 0.8*VDD |      |          | V    |
+| 输出低电平                | Low-level output voltage     |         |      | 0.15*VDD | V    |
+| 低功耗模式 pm.WORK_MODE,1 | LowPower Voltage             |         | 0    |          | V    |
+| PSM+模式 pm.WORK_MODE,3   | PSM+ Voltage                 |         | 0    |          | V    |
+| 输出高电平时的驱动能力    | Digital High, Output Current | 9.6     | 14.9 | 20.8     | mA   |
+| 输出低电平时的驱动能力    | Digital Low, Output Current  | 11.6    | 22.4 | 36.3     | mA   |
+| 上拉电阻                  | Pull-up Resistance           | 58k     | 77k  | 109k     | Ω    |
+| 下拉电阻                  | Pull-down Resistance         | 49k     | 78k  | 138k     | Ω    |
+
+4. 当 RUSB_BOOT 接实体按键进行拉低执行开机、关机或中断输入动作检测时，实体按键键帽与底座接触时极易产生静电，因此，需要增加 TVS 进行保护；
+   推荐物料，芯禾微 XESD100N-3V3；
+   [XESD100N-3V3](file/XESD100N-3V3 Rev. 0.1.pdf){:target="_blank"} 
+
+5. 注意！USB_BOOT 只接受外部输入，模组软件无法直接操作 RESET；
+
+## 六，USB 接口；
+
+![](../../../../../合宙通信/文档网站/luatos-doc-pool/docs/root/docs/air780epm/product/image/YBmtbU8Gco4rlrxjPiocsSqOnDf.png)
+
+1. 模组管脚；
+
+       - VBUS，PIN61；
+       
+       - USB_DM，PIN60；
+       
+       - USB_DP，PIN59；
+
+     说明：
+     图中所示的 USB_DN 正确的写法应该是 USB_DM，历史原因一直将错误写法延续到了现在；
+     USB_DM，USB Data Minus，USB 数据负信号；
+     USB_DP，USB Data Positive，USB 数据正信号；
+
+2. 功能说明；
+
+   - 支持 USB Full speed，全速模式，最高支持 12Mbps，即 1.5MB/s；
+
+   - 支持 USB High speed，高速模式，最高支持 480Mbps，即 40MB/s；
+
+   - 支持 USB 下载软件，Boot from USB；
+
+   - 支持 USB RNDIS，搭配 Windows/Linux 实现快速上网；
+
+   - 仅支持 USB Slave，不支持 USB HOST;
+
+3. 相关提示；
+
+与 USB 相关的操作，重点关注如下几个方面：
+    - 上电开机前将 USB_BOOT(GPIO0)上拉至 VDD_EXT，模组将进入 USB 下载模式(Boot from USB)；
+    - 模组内部用于 USB 部分供电的电源是 LDO33USB(3.3V 输出)，该 LDO 只为 USB 功能提供电源，模组管脚未引出；
+    - 低功耗模式 pm.WORK_MODE,1 和 PSM+ 模式 pm.WORK_MODE,3 下会将 LDO33USB 关闭；
+    - 模组 VBAT 最低 2.3V 左右(实测最低可至 2.1V)时仍可工作，但因此时 LDO33USB 的输入(2.3V)已远低于输出(3.3V)所以 USB 已无法正常工作；
+     - VBUS，在模组内部实际接的是 WAKEUP1，USB_VBUS 的 5V 经过分压后接到 WAKEUP1，用于 USB 插入检测；
+
+4. 硬件参考设计；
+   ![](../../../../../合宙通信/文档网站/luatos-doc-pool/docs/root/docs/air780epm/product/image/QlvNbHBWeoImx8xmFa1c7SfinCg.png)
+
+- USB 接口的 PCB 设计中，差分信号线(USB_DP/USB_DM)的阻抗需控制在 90Ω±10%(即 81Ω～99Ω)，这是保证信号完整性的关键参数，阻抗不匹配将会导致信号反射、眼图闭合、误码率上升，甚至通信失败；
+
+- 布线原则：
+
+      1. 差分对等长匹配：长度差控制在 5mil 以内，避免时序偏差和共模干扰；
+      2. 减少换层过孔：每次换层加一对回流地过孔，维持信号回流路径连续性，降低阻抗不连续风险；
+      3. 保持完整参考平面：避免跨分割，优先内层布线，包地处理减少串扰；
+
+- USB 接口容易引入静电干扰，因此需要在电路上增加 TVS 保护；
+  USB High speed 差分数据线选择 TVS 的最关键参数是结电容容值，需要小于 1pF；
+  我们验证使用过的是芯禾微 XESD124N-5V0 ;
+  [XESD124N-5V0](file/XESD124N-5V0 Rev 0.1.pdf){:target="_blank"} 
+
+- VBUS 电源上使用的 TVS 我们使用过的是 XESD307D-5V0 ;
+  [XESD307D-5V0](file/XESD307D-5V0 Rev 0.1.pdf){:target="_blank"} 
+
+  5. 与 USB 相关的 LuatOS API；
+
+- pm 库 [52 pm - 合宙模组资料中心](https://docs.openluat.com/osapi/core/pm/) ；
+  **pm.USB**
+
+  ```lua
+  常量含义：USB的供电使能；
+  数据类型：number；
+  常量取值：0；
+  适用产品：Air780E系列、Air700E系列、Air8000系列；
+  示例代码：--如下方所示，关闭USB的供电使能，即可关闭USB功能；
+       pm.power(pm.USB ，false）
+  ```
+
+* mobile库 [43 mobile - 合宙模组资料中心](https://docs.openluat.com/osapi/core/mobile/) ；
+  **mobile.CONF_USB_ETHERNET**
+
+  ```
+  常量含义：蜂窝网络模块的USB以太网卡控制；
+  数据类型：number；
+  常量取值：11；
+  取值范围：0x01：开启RNDIS功能；
+       0x03：开启RNDIS功能，使用NAT模式(基站分配ip)；
+       0x05：开启ECM功能；
+       0x07：开启ECM功能，使用NAT模式(基站分配ip)；
+  注意事项：控制设备的USB以太网卡功能，通过位操作来控制不同的功能；
+       仅在开启前可以修改；bit2：协议选择（1ECM协议，0RNDIS协议）；
+       必须在飞行模式下设置才能生效；
+       仅支持Air780EXXX系列和Air8000系列模块；
+  示例代码：-- 进入飞行模式
+       mobile.flymode(0, true)
+       -- 设置开启RNDIS协议（bit0=1, bit1=1, bit2=0 → 0x03）
+       mobile.config(mobile.CONF_USB_ETHERNET, 0x03)
+       -- 退出飞行模式
+       mobile.flymode(0, false)
+  ```
+
+- UART 库 [66 uart - 合宙模组资料中心](https://docs.openluat.com/osapi/core/uart/) ；
+  **uart.VUART_0**
+
+  ```lua
+  常量含义：usb虚拟端口(适用于Air780EXX系列和Air8000系列模组)；
+  数据类型：number；
+  常量取值：32；
+  示例代码: uart.setup(uart.VUART_0, 115200, 8, 1)；
+  ```
+
+## 七，上电/下载/复位/WakeUp时序；
+
+上电时序、复位时序、下载时序，主要跟几个主要因素有关：
+
+VBAT，供电；
+
+时钟，系统运行的Clock信号；
+
+PWRKEY，开机键；
+
+RESET，复位键；
+
+硬件BOOT，即USB_BOOT管脚的硬件操作，悬空或上拉；
+
+软件BOOT，即软件开始执行BOOT动作，Boot from USB、UART or Flash；
+
+说明：
+
+虽然模组可以支持UART下载，本章节后面的内容也会简单说明UART下载，但建议请默认仅支持USB下载进行电路设计和实际操作；
+
+1. 上电时序(PWRKEY不接地)；
+
+![](../../../../../合宙通信/文档网站/luatos-doc-pool/docs/root/docs/air780epm/product/image/OU0TbVzomogByUxJMKYcJw9Onph.png)
+
+2. 上电时序(PWRKEY接地);
+
+![](../../../../../合宙通信/文档网站/luatos-doc-pool/docs/root/docs/air780epm/product/image/O02EbAnjEoIkGKxf5KGcH7P1nEc.png)
+
+3. 上电下载时序(PWRKEY不接地)；
+
+![](../../../../../合宙通信/文档网站/luatos-doc-pool/docs/root/docs/air780epm/product/image/LgdBbZz9zojLHVxWIJwc5OmXncf.png)
+
+4. 上电下载时序(PWRKEY接地)；
+
+![](../../../../../合宙通信/文档网站/luatos-doc-pool/docs/root/docs/air780epm/product/image/WEIGb1Yfro5CBHxJrqCcNO7jnJe.png)
+
+5. 复位时序；
+
+![](../../../../../合宙通信/文档网站/luatos-doc-pool/docs/root/docs/air780epm/product/image/H3jQbZUSdobYxHxKip5cJYutnre.png)
+
+6.WakeUp时序;
+ 说明：
+
+1. WAKEUP主要用于模组处于 低功耗模式pm.WORK_MODE,1 和 PSM+模式pm.WORK_MODE,3 下的休眠唤醒功能；
+
+2. 关于WAKEUP的作用，在接下来的后续章节会详细说明，本处先仅作简单的时序介绍；
+
+![](../../../../../合宙通信/文档网站/luatos-doc-pool/docs/root/docs/air780epm/product/image/CldPbp2cCoD4JpxiezlcNnURnNg.png)
+
+## 八，双卡单待，SIM1/SIM2；
+
+![](../../../../../合宙通信/文档网站/luatos-doc-pool/docs/root/docs/air780epm/product/image/FyZ6bTnaxojhuHxZb4McHjGXnWc.png)
+
+1. 模组管脚；
+
+   - SIM1；
+     VDD_SIM1，PIN14；
+     SIM1_DAT，PIN11；
+     SIM1_RST，PIN12；
+     SIM1_CLK，PIN13；
+
+   - SIM2；
+     VDD_SIM2，PIN65；
+     SIM2_DAT，PIN64；
+     SIM2_RST，PIN63；
+     SIM2_CLK，PIN62；
+
+2. 功能说明；
+
+   - 模组支持双卡，但只能单待；
+
+   - 模组SIM1为原生SIM卡接口，SIM2的数字信号为GPIO模拟，电源共用SIM1；
+
+   - 复用为SIM2的GPIO，在硬件上同时被引到了不同的模组管脚上，比如：
+     USIM2_RST，与CAM_BCLK(GPIO4)复用，二者不可同时使用；
+     USIM2_CLK，与CAM_CS(GPIO5)复用，二者不可同时使用；
+     USIM2_DAT，与CAM_RX0(GPIO6)复用，二者不可同时使用；
+     这里的不可同时使用，是指在同一个硬件产品上，使用SIM2时就不能再使用GPIO4/5/6，包括这三个GPIO可以复用的其它功能，比如Camera、I2C、UART等，具体见GPIO复用表；
+     ![](../../../../../合宙通信/文档网站/luatos-doc-pool/docs/root/docs/air780epm/product/image/MzJ1bdRnno02B1xoz6zcWeQSneh.png)
+
+   - SIM1支持1.8V/2.8V两种IO电平的SIM卡，SIM2由于是GPIO4/5/6复用所以可以支持的SIM卡的电平与模组IO的电平保持一致，模组IO电平设置为1.8V时，SIM2则只支持1.8V电平的SIM卡，模组IO电平设置为2.8V/3.3V时，SIM2则只支持2.8V/3.3V电平的SIM卡(就IO电平而言，2.8V和3.3V可认为电平一致)；
+     当前运营商提供的SIM卡基本默认兼容1.8V/2.8V电平，所以大家在实际应用中很少遇到因为IO电平不一致而导致不识卡的情况；
+
+   - 也可以使用"SIM1+模拟开关"的方式实现双卡单待，我们验证调试过的SIM卡模拟开关为BCT4567；
+     [BCT4567](file/SIM卡模拟开关-多路复用器_BCT4567EFE-TR_规格书.PDF){:target="_blank"} 
+
+3. 参考设计；
+
+   - 双卡设计时，推荐SIM1带插入检测功能，且配合SIM卡座的规格，保证在SIM卡插入后USIM_DET信号悬空而不是接地，可以进一步降低功耗；
+
+   - 双卡设计且其中之一为贴片SIM卡时，推荐使用SIM2接贴片SIM卡，SIM1接SIM卡座；
+
+   - SIM1注意事项；
+
+     1. USIM_DET为SIM卡插入检测管脚，不需要时可以不接；
+
+     2. USIM_DET推荐默认使用WAKEUP2，当然使用其它WAKEUP或GPIO中断也可以；
+
+     3. WAKEUP2被命名为USIM_DET，目的是为了引导大家默认使用WAKEUP2用作USIM_DET，当产品设计中不需要USIM_DET时，该管脚WAKEUP2与其它WAKEUP信号没有区别，也可以用作它用；
+
+     4. USIM_DET代码示例；
+
+     ```lua
+     --设置防抖，USM_DET脚的常量为gpio.WAKEUP2,直接填即可
+     gpio.debounce(gpio.WAKEUP2,500)
+     --设置中断触发，拔卡进入飞行模式，插卡进出飞行模式，val值为上升沿或者下降沿触发0/1
+     gpio.setup(gpio.WAKEUP2,function(val)
+     if val==0 then
+     log.info("拔卡")
+     mobile.flymode(0,true)
+     else
+     log.info("插卡")
+     mobile.flymode(0,true)
+     mobile.flymode(0,false)
+     end
+     end)
+     
+     ```
+
+     5. USIM_DET需上拉至某一AGPIO，比如AGPIO3(GPIO23，软件可以控制一直高电平输出，此管脚在某些文档中也常被称为Vref)，不能使用VDD_EXT(低功耗模式pm.WORK_MODE,1 和 PSM+模式pm.WORK_MODE,3 下不能一直输出，后续的章节中会详细介绍)；
+        ![](../../../../../合宙通信/文档网站/luatos-doc-pool/docs/root/docs/air780epm/product/image/RVa4b4omVoLjwNxTRozc1ES8nLo.png)
+
+   - SIM2 注意事项；
+
+     1. 请严格按照 SIM2 参考设计电路进行设计，SIM2 可以接 SIM 卡座，也可以接贴片 SIM 卡；
+     2. USIM2，无论电源还是信号(CLK/DATA/RST)，均为复用模组的其它管脚；
+        USIM2_VDD，与 USIM1_VDD 使用同一个电源 LDOSIM；
+        USIM2_RST，与 CAM_BCLK(GPIO4)复用，二者不可同时使用；
+        USIM2_CLK，与 CAM_CS(GPIO5)复用，二者不可同时使用；
+        USIM2_DAT，与 CAM_RX0(GPIO6)复用，二者不可同时使用；
+     3. 使用 SIM2 时，必须使用 API 函数 mobile.simid(1)进行切换，否则模组不会自动初始化 SIM2；
+        关于 mobile.simid(2)的详细说明，见：[43 mobile - 合宙模组资料中心](https://docs.openluat.com/osapi/core/mobile/) ；
+        ![](../../../../../合宙通信/文档网站/luatos-doc-pool/docs/root/docs/air780epm/product/image/JeG2bTHzioGxhHxxA9xcTrmGnfc.png)
+
+     - SIM 卡插拔时极易产生静电，电路上需要添加 TVS 保护；
+       推荐 TVS 型号为芯禾微 XESD100N-3V3 ；
+       [XESD100N-3V3](file/XESD100N-3V3 Rev. 0.1.pdf){:target="_blank"} 
+
+4. 特别提示；
+
+   - SIM 卡不识卡，使用万用表测量 SIM 卡电源 VDD_SIM 没有电压，怎么办???
+
+     1. 首先，需要明确的是，是因为模组没有识别到卡，所以 VDD_SIM 没有电压，并不是因为 VDD_SIM 没有电压所以识别不到 SIM 卡，因果关系不要反了，这几乎是所有新用户都会遇到的常识性的认知错误；
+     2. 真实原因是：
+        SIM 卡在初始化时，系统会尝试 4 次与 SIM 卡交互，此时 VDD_SIM 也会打开 4 次，分别在 1.8V 和 3.3V 交替检测，若检测不到 SIM 卡，VDD_SIM 卡就会关闭，因此在检测不到 SIM 卡的情况下你用万用表测量 USIM_VDD 总是低电平；
+        下图为使用示波器测量出来的对应 SIM 卡未被识别到时的波形；
+        ![](../../../../../合宙通信/文档网站/luatos-doc-pool/docs/root/docs/air780epm/product/image/Uw9ubvoWloP2m7xcWsJcjqqynCf.jpg)
+
+   3. 一般来说，不识别卡的主要原因大概有如下几个；
+      - SIM 卡封装做错；
+      - SIM 卡接触不良；
+      - SIM 卡信号线连错；
+      - SIM 卡信号使用的 TVS 容值太大，导致 SIM 卡信号变形严重；
+      - SIM 卡本身不良，一般做法是先使用个人手机 SIM 卡对比测试；
+      - SIM2 不识别时，大概率是没有设置 mobile.simid(1) 导致的，详见 [43 mobile - 合宙模组资料中心](https://docs.openluat.com/osapi/core/mobile/#mobilesimidid-priority)；
+      - SIM2 由 GPIO 复用而来，所以模组底层软件并不会主动轮询识别 SIM1 和 SIM2，只会默认初始化识别 SIM1，初始化 SIM2 需要主动设置 mobile.simid(1) ，再次强调！
+
+5. 关于 LuatOS 中 SIM 相关的介绍；
+   以下为两个常见的 API，更详细的请点击：[43 mobile - 合宙模组资料中心](https://docs.openluat.com/osapi/core/mobile/) ；
+   **mobile.imsi(index)**
+   **功能**
+   获取 IMSI（国际移动用户识别码）
+   **参数**
+   _index_
 
 ```lua
---[[
-@module  netdrv_4g
-@summary “4G网卡”驱动模块
-@version 1.0
-@date    2025.07.01
-@author  马梦阳
-@usage
-本文件为4G网卡驱动模块，核心业务逻辑为：
-1、监听"IP_READY"和"IP_LOSE"，在日志中进行打印；
-
-本文件没有对外接口，直接在其他功能模块中require "netdrv_4g"就可以加载运行；
-]]
-
-local function ip_ready_func(ip, adapter)
-    if adapter == socket.LWIP_GP then
-        log.info("netdrv_4g.ip_ready_func", "IP_READY", socket.localIP(socket.LWIP_GP))
-    end
-end
-
-local function ip_lose_func(adapter)
-    if adapter == socket.LWIP_GP then
-        log.warn("netdrv_4g.ip_lose_func", "IP_LOSE")
-    end
-end
-
--- 此处订阅"IP_READY"和"IP_LOSE"两种消息
--- 在消息的处理函数中，仅仅打印了一些信息，便于实时观察4G网络的连接状态
--- 也可以根据自己的项目需求，在消息处理函数中增加自己的业务逻辑控制，例如可以在连网状态发生改变时更新网络图标
-sys.subscribe("IP_READY", ip_ready_func)
-sys.subscribe("IP_LOSE", ip_lose_func)
-
--- 设置默认网卡为socket.LWIP_GP
--- 在Air8000上，内核固件运行起来之后，默认网卡就是socket.LWIP_GP
--- 在单4G网卡使用场景下，下面这一行代码加不加都没有影响，为了和其他网卡驱动模块的代码风格保持一致，所以加上了
-socket.dft(socket.LWIP_GP)
+参数含义：编号；
+数据类型：number；
+取值范围：0或1，不填默认0；
+是否必选：可选传入此参数；
+注意事项：必须等待sim卡准备就绪后，才能获取成功；
+         在支持双卡的模块上才会出现0或1的情况；
+参数示例：0 -- 表示获取第一张SIM卡的IMSI
 ```
 
-#### 6.2.2 WIFI 网络驱动 (`netdrv_wifi.lua`)
-
-- 初始化 WIFI 模块，连接指定的热点（需要修改成需要连接的 WiFi 热点名称和密码，并且是 2.4G，不支持 5G WiFi）。
-- 通过将 `wlan.connect(, , 1)` 的第三个参数设置为 1 以开启自动重连功能。
-- 设置默认网卡为 `socket.LWIP_STA`。
+**返回值**
+  local result = mobile.imsi(index)
+  _result_
 
 ```lua
---[[
-@module  netdrv_wifi
-@summary “WIFI STA网卡”驱动模块
-@version 1.0
-@date    2025.07.01
-@author  马梦阳
-@usage
-本文件为WIFI STA网卡驱动模块，核心业务逻辑为：
-1、初始化WIFI网络；
-2、连接WIFI路由器；
-3、和WIFI路由器之间的连接状态发生变化时，在日志中进行打印；
-
-本文件没有对外接口，直接在其他功能模块中require "netdrv_wifi"就可以加载运行；
-]]
-
-local function ip_ready_func(ip, adapter)
-    if adapter == socket.LWIP_STA then
-        log.info("netdrv_wifi.ip_ready_func", "IP_READY", json.encode(wlan.getInfo()))
-    end
-end
-
-local function ip_lose_func(adapter)
-    if adapter == socket.LWIP_STA then
-        log.warn("netdrv_wifi.ip_lose_func", "IP_LOSE")
-    end
-end
-
--- 此处订阅"IP_READY"和"IP_LOSE"两种消息
--- 在消息的处理函数中，仅仅打印了一些信息，便于实时观察WIFI的连接状态
--- 也可以根据自己的项目需求，在消息处理函数中增加自己的业务逻辑控制，例如可以在连网状态发生改变时更新网络图标
-sys.subscribe("IP_READY", ip_ready_func)
-sys.subscribe("IP_LOSE", ip_lose_func)
-
--- 设置默认网卡为socket.LWIP_STA
-socket.dft(socket.LWIP_STA)
-
-wlan.init()
--- 连接WIFI热点，连接结果会通过"IP_READY"或者"IP_LOSE"消息通知
--- Air8000仅支持2.4G的WIFI，不支持5G的WIFI
--- 此处前两个参数表示WIFI热点名称以及密码，更换为自己测试时的真实参数即可
--- 第三个参数1表示WIFI连接异常时，内核固件会自动重连
-wlan.connect("茶室-降功耗,找合宙!", "Air123456", 1)
-
--- WIFI联网成功（做为STATION成功连接AP，并且获取到了IP地址）后，内核固件会产生一个"IP_READY"消息
--- 各个功能模块可以订阅"IP_READY"消息实时处理WIFI联网成功的事件
--- 也可以在任何时刻调用socket.adapter(socket.LWIP_STA)来获取WIFI网络是否连接成功
-
--- WIFI断网后，内核固件会产生一个"IP_LOSE"消息
--- 各个功能模块可以订阅"IP_LOSE"消息实时处理WIFI断网的事件
--- 也可以在任何时刻调用socket.adapter(socket.LWIP_STA)来获取WIFI网络是否连接成功
+含义说明：当前的IMSI值；
+数据类型：string；
+取值范围：IMSI字符串，若失败返回nil；
+返回示例："460111234567890" -- IMSI字符串
 ```
 
-#### 6.2.3 以太网网络驱动(`netdrv_eth_spi.lua`)
-
-- 通过 SPI 接口外挂 CH390H 芯片实现以太网。
-- 通过控制 GPIO140 引脚使能芯片供电。
-- 配置 SPI1 接口参数，用于与 CH390H 芯片通信。
-- 通过 `netdrv.setup` 函数配置以太网卡，并开启 DHCP 动态获取 IP 地址。
-- 设置默认网卡为 `socket.LWIP_ETH`。
+**示例**
 
 ```lua
---[[
-@module  netdrv_eth_spi
-@summary “通过SPI外挂CH390H芯片的以太网卡”驱动模块
-@version 1.0
-@date    2025.07.24
-@author  马梦阳
-@usage
-本文件为“通过SPI外挂CH390H芯片的以太网卡”驱动模块，核心业务逻辑为：
-1、打开CH390H芯片供电开关；
-2、初始化spi1，初始化以太网卡，并且在以太网卡上开启DHCP(动态主机配置协议)；
-3、以太网卡的连接状态发生变化时，在日志中进行打印；
-
-直接使用Air8000开发板硬件测试即可；
-
-本文件没有对外接口，直接在其他功能模块中require "netdrv_eth_spi"就可以加载运行；
-]]
-
-local function ip_ready_func(ip, adapter)
-    if adapter == socket.LWIP_ETH then
-        log.info("netdrv_eth_spi.ip_ready_func", "IP_READY", socket.localIP(socket.LWIP_ETH))
-    end
+if mobile.simPin() then
+    log.info("SIM卡准备就绪，开始获取imsi")
+    log.info("imsi", mobile.imsi())
+else
+    log.info("SIM卡未准备就绪，可能未插入SIM卡或SIM卡有问题")
 end
-
-local function ip_lose_func(adapter)
-    if adapter == socket.LWIP_ETH then
-        log.warn("netdrv_eth_spi.ip_lose_func", "IP_LOSE")
-    end
-end
-
--- 此处订阅"IP_READY"和"IP_LOSE"两种消息
--- 在消息的处理函数中，仅仅打印了一些信息，便于实时观察“通过SPI外挂CH390H芯片的以太网卡”的连接状态
--- 也可以根据自己的项目需求，在消息处理函数中增加自己的业务逻辑控制，例如可以在连网状态发生改变时更新网络图标
-sys.subscribe("IP_READY", ip_ready_func)
-sys.subscribe("IP_LOSE", ip_lose_func)
-
--- 设置默认网卡为socket.LWIP_ETH
-socket.dft(socket.LWIP_ETH)
-
--- 本demo测试使用的是Air8000开发板
--- GPIO140为CH390H以太网芯片的供电使能控制引脚
-gpio.setup(140, 1, gpio.PULLUP)
-
--- 这个task的核心业务逻辑是：初始化SPI，初始化以太网卡，并在以太网卡上开启动态主机配置协议
-local function netdrv_eth_spi_task_func()
-    -- 初始化SPI1
-    local result = spi.setup(
-        1,--spi_id
-        nil,
-        0,--CPHA
-        0,--CPOL
-        8,--数据宽度
-        25600000--,--频率
-        -- spi.MSB,--高低位顺序    可选，默认高位在前
-        -- spi.master,--主模式     可选，默认主
-        -- spi.full--全双工       可选，默认全双工
-    )
-    log.info("netdrv_eth_spi", "spi open result", result)
-    --返回值为0，表示打开成功
-    if result ~= 0 then
-        log.error("netdrv_eth_spi", "spi open error",result)
-        return
-    end
-
-    --初始化以太网卡
-
-    --以太网联网成功（成功连接路由器，并且获取到了IP地址）后，内核固件会产生一个"IP_READY"消息
-    --各个功能模块可以订阅"IP_READY"消息实时处理以太网联网成功的事件
-    --也可以在任何时刻调用socket.adapter(socket.LWIP_ETH)来获取以太网是否连接成功
-
-    --以太网断网后，内核固件会产生一个"IP_LOSE"消息
-    --各个功能模块可以订阅"IP_LOSE"消息实时处理以太网断网的事件
-    --也可以在任何时刻调用socket.adapter(socket.LWIP_ETH)来获取以太网是否连接成功
-
-    -- socket.LWIP_ETH 指定网络适配器编号
-    -- netdrv.CH390外挂CH390
-    -- SPI ID 1, 片选 GPIO12
-    netdrv.setup(socket.LWIP_ETH, netdrv.CH390, {spi=1, cs=12})
-
-    -- 在以太网上开启动态主机配置协议
-    netdrv.dhcp(socket.LWIP_ETH, true)
-end
-
--- 创建并且启动一个task
--- task的处理函数为netdrv_eth_spi_task_func
-sys.taskInit(netdrv_eth_spi_task_func)
 ```
 
-#### 6.2.4 多网络驱动管理 (`netdrv_multiple.lua`)
+  **mobile.iccid(id)**
 
-- 管理多个网络驱动实例，根据配置选择合适的网络连接方式。
-- 通过 `exnetif.set_priority_order` 函数配置多网卡的控制参数以及优先级。
-- 通过 `exnetif.notify_status` 函数设置网卡状态变化通知回调函数。
+  **功能**
+
+  获取或设置 ICCID（集成电路卡识别码）
+
+  **参数**
+
+  _id_
+
+```
+参数含义：SIM卡的编号；
+数据类型：number；
+取值范围：0或1,不填默认0；
+是否必选：可选传入此参数；
+注意事项：必须等待sim卡准备就绪后，才能获取成功；
+参数示例：0 -- 表示获取第一张SIM卡的ICCID
+```
+
+  **返回值**
+
+  local result = mobile.iccid(id)
+
+  _result_
+
+```
+含义说明：ICCID值；
+数据类型：string；
+取值范围：ICCID字符串，若失败返回nil；
+返回示例："89860855102480513111" -- 一个20位的ICCID字符串
+```
+
+  **示例**
 
 ```lua
---[[
-@module  netdrv_multiple
-@summary 多网卡（4G网卡、WIFI STA网卡、通过SPI外挂CH390H芯片的以太网卡）驱动模块
-@version 1.0
-@date    2025.07.24
-@author  马梦阳
-@usage
-本文件为多网卡驱动模块，核心业务逻辑为：
-1、调用exnetif.set_priority_order配置多网卡的控制参数以及优先级；
-
-直接使用Air8000开发板硬件测试即可；
-
-本文件没有对外接口，直接在其他功能模块中require "netdrv_multiple"就可以加载运行；
-]]
-
-local exnetif = require "exnetif"
-
--- 网卡状态变化通知回调函数
--- 当exnetif中检测到网卡切换或者所有网卡都断网时，会触发调用此回调函数
--- 当网卡切换切换时：
---     net_type：string类型，表示当前使用的网卡字符串
---     adapter：number类型，表示当前使用的网卡id
--- 当所有网卡断网时：
---     net_type：为nil
---     adapter：number类型，为-1
-local function netdrv_multiple_notify_cbfunc(net_type,adapter)
-    if type(net_type)=="string" then
-        log.info("netdrv_multiple_notify_cbfunc", "use new adapter", net_type, adapter)
-    elseif type(net_type)=="nil" then
-        log.warn("netdrv_multiple_notify_cbfunc", "no available adapter", net_type, adapter)
-    else
-        log.warn("netdrv_multiple_notify_cbfunc", "unknown status", net_type, adapter)
-    end
+ if mobile.simPin() then
+    log.info("SIM卡准备就绪，开始获取iccid")
+    log.info("iccid", mobile.iccid())
+else
+    log.info("SIM卡未准备就绪，可能未插入SIM卡或SIM卡有问题")
 end
-
-local function netdrv_multiple_task_func()
-    --设置网卡优先级
-    exnetif.set_priority_order(
-        {
-            -- “通过SPI外挂CH390H芯片”的以太网卡，使用Air8000开发板验证
-            {
-                ETHERNET = {
-                    -- 供电使能GPIO
-                    pwrpin = 140,
-                    -- 设置的多个“已经IP READY，但是还没有ping通”网卡，循环执行ping动作的间隔（单位毫秒，可选）
-                    -- 如果没有传入此参数，exnetif会使用默认值10秒
-                    ping_time = 3000,
-
-                    -- 连通性检测ip(选填参数)；
-                    -- 如果没有传入ip地址，exnetif中会默认使用httpdns能否成功获取baidu.com的ip作为是否连通的判断条件；
-                    -- 如果传入，一定要传入可靠的并且可以ping通的ip地址；
-                    -- ping_ip = "填入可靠的并且可以ping通的ip地址",
-
-                    -- 网卡芯片型号(选填参数)，仅spi方式外挂以太网时需要填写。
-                    tp = netdrv.CH390,
-                    opts = {spi=1, cs=12}
-                }
-            },
-
-            -- WIFI STA网卡
-            {
-                WIFI = {
-                    -- 要连接的WIFI路由器名称
-                    ssid = "茶室-降功耗,找合宙!",
-                    -- 要连接的WIFI路由器密码
-                    password = "Air123456",
-
-                    -- 连通性检测ip(选填参数)；
-                    -- 如果没有传入ip地址，exnetif中会默认使用httpdns能否成功获取baidu.com的ip作为是否连通的判断条件；
-                    -- 如果传入，一定要传入可靠的并且可以ping通的ip地址；
-                    -- ping_ip = "填入可靠的并且可以ping通的ip地址",
-                }
-            },
-
-            -- 4G网卡
-            {
-                LWIP_GP = true
-            }
-        }
-    )
-end
-
--- 设置网卡状态变化通知回调函数netdrv_multiple_notify_cbfunc
-exnetif.notify_status(netdrv_multiple_notify_cbfunc)
-
--- 如果存在udp网络应用，并且udp网络应用中，根据应用层的心跳能够判断出来udp数据通信出现了异常；
--- 可以在判断出现异常的位置，调用一次exnetif.check_network_status()接口，强制对当前正式使用的网卡进行一次连通性检测；
--- 如果存在tcp网络应用，不需要用户调用exnetif.check_network_status()接口去控制，exnetif会在tcp网络应用通信异常时自动对当前使用的网卡进行连通性检测。
-
--- 启动一个task，task的处理函数为netdrv_multiple_task_func
--- 在处理函数中调用exnetif.set_priority_order设置网卡优先级
--- 因为exnetif.set_priority_order要求必须在task中被调用，所以此处启动一个task
-sys.taskInit(netdrv_multiple_task_func)
 ```
 
-### 6.3 MQTT 客户端 (`mqtt/`, `mqtts/`, `mqtts_ca/`, `mqtts_mutual_ca/`)
+## 九，模数转换，ADC；
 
-每个 MQTT 客户端目录都包含三个核心文件：`_main.lua`、`_receiver.lua` 和 `_sender.lua`，分别负责客户端的初始化、数据接收和数据发送。
+![](../../../../../合宙通信/文档网站/luatos-doc-pool/docs/root/docs/air780epm/product/image/VvNEbMIz1oImctxfO4Lcrtzxnps.png)
 
-#### 6.3.1 客户端初始化 (`_main.lua`)
+1. 模组管脚；
 
-> 注意：代码中的 mqtt 服务器地址和端口会不定期重启或维护，仅能用作测试用途，不可商用，说不定哪一天就关闭了。用户开发项目时，需要替换为自己的商用服务器地址和端口。
+   - ADC0，PIN9；
 
-- 创建 MQTT 客户端对象，配置服务器地址、端口、客户端 ID、用户名、密码等参数。
-- 设置事件回调函数，处理连接、订阅、接收和异常等事件。
-- 启动客户端任务，开始连接 MQTT 服务器。
+   - ADC1，PIN96；
 
-#### 6.3.2 数据接收 (`_receiver.lua`)
+   - ADC2，PIN77；
 
-- 实现 `proc` 函数，处理接收到的数据。
-- 打印接收到的数据内容。
-- 通过 `sys.publish("FEED_NETWORK_WATCHDOG")` 触发网络看门狗喂狗。
+   - ADC3，PIN76；
 
-#### 6.3.3 数据发送 (`_sender.lua`)
+2. 功能说明；
 
-- 实现 `send` 函数，将数据添加到发送队列。
-- 管理发送队列，按顺序发送数据。
-- 支持 QoS 配置和发送结果回调。
+   - 虽然我们习惯在沟通和交流中习惯称为 ADC，但更为准确的称呼应该是 AUXADC，AUXADC 是芯片内部的辅助 ADC 通道，主要用于温度监测、电池电量检测等；
 
-### 6.4 应用功能 (`timer_app.lua`, `uart_app.lua`)
+   - 模组共有 4 个 AUXADC 通道，包含以下三个主要功能：
 
-应用功能模块负责生成测试数据和处理串口通信。
+     1. 外接模拟电压信号检测通路；
+        - 选择内部分压电路，适用于外接信号电压范围为 0~3.3V；
+        - 选择直通 AUXADC 输入端的通路， 适用于电压范围 0-1.6V，或经外部分压后在 1.6V，分压后电压范围需控制在 0~1.6V；
+     2. VBAT 电压检测通路；
+        - VBAT 电压经过分压电路到达 AUXADC 输入口；
+     3. 温度传感器检测通路；
+        - 模组芯片内部温度检测：芯片温度发生变化时，片内 Thermal Sensor 的电压信号也会随之变化，将 THM_VBE 信号送至 AUXADC 测试；
 
-#### 6.4.1 定时器应用 (`timer_app.lua`)
+   - ADC 内部框图；
+     ![](../../../../../合宙通信/文档网站/luatos-doc-pool/docs/root/docs/air780epm/product/image/NRg0beVhBoaO1rxGcCOcksp9nTe.png)
+     注意！
 
-- 创建一个 5 秒循环的定时器。
-- 定时生成递增的测试数据。
-- 通过 `sys.publish("SEND_DATA_REQ", data)` 发布发送请求消息。
-- 实现发送结果回调，根据发送结果决定是否重发数据。
+     1. 图中用 AIO 表示从外部输入到模组内部 AUXADC 的部分，可以理解为直接连接到模组 ADC 管脚的电平；
+
+     2. 片内电阻绝对偏差 MAX= ±8.5%(-40~85 ℃)，片内电阻的相对偏差，阻值比误差 MAX=+/-0.15%(-40~85 ℃)；
+
+     3. AUXADC 可以选择内部分压，也可以选择外部分压，不管选择外部分压还是内部分压，都需要调整合适的分压比，保证 AUXADC 输入端电压在 0~1.6V 范围；
+
+     4. 当被测电压低于 1.6V 时，外部无需分压，内部也无需分压，LuatOS ADC 函数对应选择 adc.ADC_RANGE_MIN 常量；
+
+     5. 当被测电压低于 3.3V 时，外部无需分压，内部需要分压至 1.6V 以内，LuatOS 已将该部分在底层做好，ADC 函数对应选择 adc.ADC_RANGE_MAX 常量即可；
+
+     6. 当被测电压大于 3.3V 时，内部无需分压，外部需要分压至 1.6V 以内，LuatOS 已将该部分在底层做好，ADC 函数对应选择 adc.ADC_RANGE_MAX 常量即可；
+
+     7. 读取模组芯片温度的常量为 adc.CH_CPU ，可检测温度范围为 -40 °C ~ 85 °C ，外部硬件电路上无需任何操作；
+
+     8. 读取 VBAT 电压的常量为 adc.CH_VBAT ，电压范围为 2.2V-4.8V，在 VBAT 输入电压范围 3.3V-4.35V 之内，外部硬件电路上无需任何操作；
+
+     9. 关于以上说明，汇总表格如下：
+
+     <style> td {white-space:nowrap;border:0.5pt solid #dee0e3;font-size:10pt;font-style:normal;font-weight:normal;vertical-align:middle;word-break:normal;word-wrap:normal;}</style>
+
+     | Channel | Application                                         | Input Range    | 外部分压           | 内部分压            | ADC函数常量       |
+     | ------- | --------------------------------------------------- | -------------- | ------------------ | ------------------- | ----------------- |
+     | AIO1~4  | Input signal come from the outside direct signal.   | 0V ~ 1.6V      | 不需要             | 不需要              | adc.ADC_RANGE_MIN |
+     | AIO1~4  | Input signal comes from the outside divided signal. | 0V ~ 3.3V以上  | 需要分压至1.6V以内 | 不需要              | adc.ADC_RANGE_MIN |
+     | AIO1~4  | Input signal come from the outside direct signal.   | 0V ~ 3.3V      | 不需要             | 需要,LuatOS底层操作 | adc.ADC_RANGE_MAX |
+     | 温度    | Inner thermal sensor generate the signal            | -40 °C ~ 85 °C | 无需任何操作       | 无需任何操作        | adc.CH_CPU        |
+     | VBAT    | VBAT voltage input                                  | 2.2V ~ 4.5V    | 不需要             | 需要,LuatOS底层操作 | adc.CH_VBAT       |
+
+     10. 关于 LuatOS 中 ADC 的介绍，详见：[1 adc - 合宙模组资料中心](https://docs.openluat.com/osapi/core/adc/) ；
+
+3.ADC 的详细参数介绍，如下表；
+![](../../../../../合宙通信/文档网站/luatos-doc-pool/docs/root/docs/air780epm/product/image/S9fCbm9DTonp9sxjQfHcieIhnSe.png)
+
+4. 特别注意事项；
+
+   - AUXADC 的有效输入范围为 0.1V~1.5V，在 0~0.1V 和 1.5V~1.6V 范围可能存在较大误差，不建议使用；
+
+   - 外部分压时，如果 AUXADC 输入电压无法满足低于 1.6V，以 NTC 电阻为例，可使用如下图右侧所示电路进行分压设计；
+     ![](../../../../../合宙通信/文档网站/luatos-doc-pool/docs/root/docs/air780epm/product/image/DUTvb2jwpoAxnzx4CD0c0vbPnqf.png)
+
+   - 如果不希望 ADC 变化太快，可以通过软件算法处理，过滤掉变化较大的数值，也可以在硬件电路上增加滤波电路；
+     比如，外部分压时，可以增加滤波电容增加 ADC 输入稳定性，但缺点是 ADC 的细微变化会被过滤掉，请根据实际需要谨慎选择；
+     说明：R300 可以增加 ESD 能力，阻值建议为 510Ω，不建议使用 K 级阻值的电阻；
+     ![](../../../../../合宙通信/文档网站/luatos-doc-pool/docs/root/docs/air780epm/product/image/YZv0bfpB2oMMAXxIYUvcHseankd.png)5.关于 LuatOS 中 ADC 的介绍，详见：[1 adc - 合宙模组资料中心](https://docs.openluat.com/osapi/core/adc/) ；
+     特别说明：
+
+     1. 所有 ADC 共用一个通道，同时只能调用一路 ADC 采样，包括芯片温度、VBAT 电压；
+
+     2. ADC 打开( adc.open() )后，会产生约 500uA 的功耗，如需低功耗控制，请将 ADC 关闭( adc.close() )；
 
 ```lua
---[[
-@module  timer_app
-@summary 定时器应用功能模块
-@version 1.0
-@date    2025.07.01
-@author  马梦阳
-@usage
-本文件为定时器应用功能模块，核心业务逻辑为：
-创建一个5秒的循环定时器，每次产生一段数据，通知四个mqtt client进行处理；
+local function adc_all_task()
+    while 1 do
+        sys.wait(1000)--延时1S           
+        adc.setRange(adc.ADC_RANGE_MIN)--设置ADC引脚的测量范围0-1.5V，这种方式被测电压可以经过外部电阻分压后再挂在ADC上；
+        adc.open(0)--打开ADC通道0
+        local data0 = adc.get(0)--获取adc计算值，将获取到的值赋给data0
+        adc.close(0)--关闭ADC通道0
+        log.info("adc通道0", data0)--打印adc计算值
 
-本文件的对外接口有一个：
-1、sys.publish("SEND_DATA_REQ", "timer", mobile.imei().."/timer/up", payload, 0, {func=send_data_cbfunc, para="timer"..payload})
-   通过publish通知四路mqtt client数据发送功能模块publish数据;
-   数据发送结果通过执行回调函数send_data_cbfunc通知本功能模块；
-]]
+        adc.open(1)--打开ADC通道1
+        local data1 = adc.get(1)--获取adc计算值，将获取到的值赋给data1
+        adc.close(1)--关闭ADC通道1
+        log.info("adc通道1", data1)--打印adc计算值
 
-local payload = 1
+        adc.open(2)--打开ADC通道2
+        local data2 = adc.get(2)--获取adc计算值，将获取到的值赋给data2
+        adc.close(2)--关闭ADC通道2
+        log.info("adc通道2", data2)--打印adc计算值
 
--- 数据发送结果回调函数
--- result：发送结果，true为发送成功，false为发送失败
--- para：回调参数，sys.publish("SEND_DATA_REQ", "timer", mobile.imei().."/timer/up", payload, 0, {func=send_data_cbfunc, para="timer"..payload})中携带的para
-local function send_data_cbfunc(result, para)
-    log.info("send_data_cbfunc", result, para)
-    -- 无论上一次发送成功还是失败，启动一个5秒的定时器，5秒后发送下次数据
-    sys.timerStart(send_data_req_timer_cbfunc, 5000)
+        adc.open(3)--打开ADC通道3
+        local data3 = adc.get(3)--获取adc计算值，将获取到的值赋给data3
+        adc.close(3)--关闭ADC通道3
+        log.info("adc通道3", data3)--打印adc计算值
+
+        adc.open(adc.CH_CPU)--打开adc.CH_CPU通道
+        local data5 = adc.get(adc.CH_CPU)--获取adc.CH_CPU计算值，将获取到的值赋给data5
+        adc.close(adc.CH_CPU)--关闭adc.CH_CPU通道
+        log.info("CPU TEMP", data5)--打印adc.CH_CPU计算值
+
+        adc.open(adc.CH_VBAT)--打开adc.CH_VBAT通道
+        local data6 = adc.get(adc.CH_VBAT)--获取adc.CH_VBAT计算值，将获取到的值赋给data6
+        adc.close(adc.CH_VBAT)--关闭adc.CH_VBAT通道
+        log.info("VBAT", data6)--打印adc.CH_VBAT计算值
+    end  
 end
 
--- 定时器回调函数
-function send_data_req_timer_cbfunc()
-    -- 发布消息"SEND_DATA_REQ"
-    -- 携带的第一个参数"timer"表示是定时器应用模块发布的消息
-    -- 携带的第二个参数mobile.imei().."/timer/up"为要publish的topic
-    -- 携带的第三个参数payload为要publish的payload
-    -- 携带的第四个参数0为publish的qos
-    -- 携带的第五个参数cb为发送结果回调(可以为空，如果为空，表示不关心mqtt client发送数据成功还是失败)，其中：
-    --       cb.func为回调函数(可以为空，如果为空，表示不关心mqtt client发送数据成功还是失败)
-    --       cb.para为回调函数的第二个参数(可以为空)，回调函数的第一个参数为发送结果(true表示成功，false表示失败)
-    sys.publish("SEND_DATA_REQ", "timer", mobile.imei().."/timer/up", payload, 0, {func=send_data_cbfunc, para="timer"..payload})
-    payload = payload+1
-end
-
--- 启动一个5秒的单次定时器
--- 时间到达后，执行一次send_data_req_timer_cbfunc函数
-sys.timerStart(send_data_req_timer_cbfunc, 5000)
+sys.taskInit(adc_all_task)
 ```
 
-#### 6.4.2 串口应用 (`uart_app.lua`)
+## 十，对外电源，VDD_EXT；
 
-- 配置 UART1，波特率为 115200。
-- 接收来自 PC 的数据，并通过 MQTT 发送。
-- 将 MQTT 接收到的数据通过串口输出到 PC。
-- 实现数据缓冲和超时处理。
+![loading-ag-2151](../../../../../合宙通信/文档网站/luatos-doc-pool/docs/root/docs/air780epm/product/image/2.png)
+
+1. 模组管脚；
+
+   * VDD_EXT，PIN24；
+
+2. 功能说明；
+
+   * VDD_EXT，是模组主芯片内部的一个LDO，其主要作用是为模组大部分IO(或者叫做GPIO)提供电源；
+
+   * VDD_EXT，是模组主芯片内部的一个LDO，但并不是唯一一个LDO，也并不是模组所有的IO都由VDD_EXT负责供电；
+
+   * 大家可以看到和可以使用的模组IO，共有内部的两个LDO负责供电，一个是VDD_EXT，一个是LDO_AON，其中，LDO_AON仅供内部使用，未在模组管脚引出；
+
+   * VDD_EXT和LDO_AON分别负责哪些IO？二者有什么区别？见下表；
+     ![](../../../../../合宙通信/文档网站/luatos-doc-pool/docs/root/docs/air780epm/product/image/1.png)
+
+   * VDD_EXT和LDO_AON都是上电后自动开启，也都无法软件自定义关闭，不同的是：
+     a. LDO_AON，开机后一直开启，低功耗模式pm.WORK_MODE,1 和 PSM+模式pm.WORK_MODE,3 不关闭，因此，其电压域下的IO，包括AGPIO、AGPIOWU、WAKEUP和Reset，在 低功耗模式pm.WORK_MODE,1 和 PSM+模式pm.WORK_MODE,3 下都可以保持工作；
+     LDO_AON的详细状态，如下表所示；
+
+     | VDD_EXT                   | 电压可调                 | 输出状态                                                     |
+     | ------------------------- | ------------------------ | ------------------------------------------------------------ |
+     | 常规模式pm.WORK_MODE,0    | 完全开启1.8V/2.8V/3.3V   | 1)上电开机后自动开启，初始电压为1.8V，之后调整至模组定义的IO默认电平3.3V；如需自定义调整，可通过pm.ioVol()配置；<br><br>2)电流输出上限200mA； |
+     | 低功耗模式 pm.WORK_MODE,1 | 间歇性输出1.8V/2.8V/3.3V | 3)低功耗模式pm.WORK_MODE,1 状态下间歇性输出，频率和与通信协议要求的时间间隔相同，通常为0.64S/1.28S/2.56S中的一个； |
+     | PSM+模式 pm.WORK_MODE,3   | 完全关闭                 | 4)PSM+模式(pm.WORK_MODE,3)下完全掉电;                        |
+
+       b. VDD_EXT，开机后的状态比较复杂，如下表所示：
+
+     | VDD_EXT                   | 电压可调                 | 输出状态                                                     |
+     | ------------------------- | ------------------------ | ------------------------------------------------------------ |
+     | 常规模式pm.WORK_MODE,0    | 完全开启1.8V/2.8V/3.3V   | 1)上电开机后自动开启，初始电压为1.8V，之后调整至模组定义的IO默认电平3.3V；如需自定义调整，可通过pm.ioVol()配置；<br><br>2)电流输出上限200mA； |
+     | 低功耗模式 pm.WORK_MODE,1 | 间歇性输出1.8V/2.8V/3.3V | 3)低功耗模式pm.WORK_MODE,1 状态下间歇性输出，频率和与通信协议要求的时间间隔相同，通常为0.64S/1.28S/2.56S中的一个； |
+     | PSM+模式 pm.WORK_MODE,3   | 完全关闭                 | 4)PSM+模式(pm.WORK_MODE,3)下完全掉电;                        |
+
+     VDD_EXT，由于在 低功耗模式 pm.WORK_MODE,1 下状态为间线性输出，既不是完全打开，也不是完全关闭，因此，其电压域下的IO，GPIO0-19和GPOIO29-38，在低功耗模式 pm.WORK_MODE,1 下也会跟VDD_EXT一样，随着系统间歇性唤醒与基站交互而频繁产生高脉冲(重点是无法保持高电平或低电平)，间歇性唤醒频率和与通信协议要求的时间间隔相同，通常为0.64S/1.28S/2.56S中的一个；
+       c.  VDD_EXT和LDO_AON都是通过函数 pm.ioVol() 设置输出电压，且 pm.ioVol() 对二者同时进行修改，所以大家看到的模组的所有IO，包括VDD_EXT电压域和LDO_AON电压域，电平都是同时修改且保持一致；
+
+3. VDD_EXT详细参数；
+   ![](../../../../../合宙通信/文档网站/luatos-doc-pool/docs/root/docs/air780epm/product/image/5.png)
+
+4. 特别注意事项；
+
+   * VDD_EXT标称输出电流最大至200mA，但是，VDD_EXT同时用于模组芯片内部和外部，为了保证内部该电压域负载的使用稳定性，请保证外部负载消耗电流不要超过50mA；
+
+   * VDD_EXT在 低功耗模式pm.WORK_MODE,1 状态下间歇性输出，频率和与通信协议要求的时间间隔相同，通常为0.64S/1.28S/2.56S中的一个，因此，在可能影响低功耗模式pm.WORK_MODE,1 下中断唤醒的场合，要避免使用VDD_EXT做上拉电平用，比如UART1电平转换电路(UART1为LPUART，低功耗模式pm.WORK_MODE,1 下可被唤醒)；
+     如下图所示，如果VREF使用VDD_EXT，那么低功耗模式pm.WORK_MODE,1 下模组的UART1_RX频繁的高低电平变化就会将模组唤醒，进而导致模组退出低功耗模式而功耗无法降低；
+     ![](../../../../../合宙通信/文档网站/luatos-doc-pool/docs/root/docs/air780epm/product/image/3.png)
+
+5. VDD_EXT相关LuatOS API；
+
+   * VDD_EXT相关LuatOS API，请看pm库：[52 pm - 合宙模组资料中心](https://docs.openluat.com/osapi/core/pm/) ；
+
+   * 配置IO电平，其实就是配置给IO供电的LDO，包括VDD_EXT和LDO_AON;
+     相应的，配置VDD_EXT，就可以通过配置IO电平来实现；
+
+* **pm.ioVol(id, val)**
+  **功能**
+    配置模块所有 IO 引脚的高电平电压
+    **注意事项**
+    可配置 IO 电平, 范围 1650 ~ 2000，2650~3400 , 单位毫伏, 步进 50mv，可以根据外围电路需求配置；
+    实际应用中，经常配置的三个经典电压值为 1.8V/2.8V/3.3V；
+    合宙支持二次开发的模组，绝大多数默认都为 3.3V，例外是：
+    Air8000 系列模组，全系只支持 3.3V，不支持其它电平；
+    Air780EHV，IO 电平固定为 3.3V；相对应的，Air780EHV-1.8V，IO 电平固定为 1.8V；
+    **参数**
+    id
+
+  ```lua
+  含义说明：需要配置高电平电压的对象；
+  数据类型：number；
+  取值范围：0；
+  注意事项：对象id仅有pm.IOVOL_ALL_GPIO，如命名含义，指配置所有GPIO的高电压电平，调用该接口时模块会以该接口配置的高电压电平调整，无视固件的默认配置和硬件100脚IO_Volt_Set的拉高和拉低配置；
+  参数示例：--如下方所示，第一个参数为**pm.IOVOL_ALL_GPIO**，所有GPIO高电平输出1.8V；
+          pm.ioVol(pm.IOVOL_ALL_GPIO, 1800)
+  ```
+
+  val
 
 ```lua
---[[
-@module  uart_app
-@summary 串口应用功能模块
-@version 1.0
-@date    2025.07.28
-@author  马梦阳
-@usage
-本文件为串口应用功能模块，核心业务逻辑为：
-1、打开uart1，波特率115200，数据位8，停止位1，无奇偶校验位；
-2、uart1和pc端的串口工具相连；
-3、从uart1接收到pc端串口工具发送的数据后，通知四个mqtt client进行处理；
-4、收到四个mqtt client从socket server接收到的数据后，将数据通过uart1发送到pc端串口工具；
-
-本文件的对外接口有两个：
-1、sys.publish("SEND_DATA_REQ", "uart", mobile.imei().."/uart/up", read_buf, 1)
-   通知mqtt client数据发送模块，在mobile.imei().."/uart/up"的topic上publish数据read_buf，不关心数据发送成功还是失败；
-2、sys.subscribe("RECV_DATA_FROM_SERVER", recv_data_from_server_proc)，订阅RECV_DATA_FROM_SERVER消息，处理消息携带的数据；
-]]
-
--- 使用UART1
-local UART_ID = 1
--- 串口接收数据缓冲区
-local read_buf = ""
-
--- 将前缀prefix和topic，payload数据拼接
--- 然后末尾增加回车换行两个字符，通过uart发送出去，方便在PC端换行显示查看
-local function recv_data_from_server_proc(prefix, topic, payload)
-    uart.write(UART_ID, prefix..topic..","..payload.."\r\n")
-end
-
-local function concat_timeout_func()
-    -- 如果存在尚未处理的串口缓冲区数据；
-    -- 将数据通过publish通知其他应用功能模块处理；
-    -- 然后清空本文件的串口缓冲区数据
-    if read_buf:len() > 0 then
-        sys.publish("SEND_DATA_REQ", "uart", mobile.imei().."/uart/up", read_buf, 1)
-        read_buf = ""
-    end
-end
-
--- UART1的数据接收中断处理函数，UART1接收到数据时，会执行此函数
-local function read()
-    local s
-    while true do
-        -- 非阻塞读取UART1接收到的数据，最长读取1024字节
-        s = uart.read(UART_ID, 1024)
-
-        -- 如果从串口没有读到数据
-        if not s or s:len() == 0 then
-            -- 启动50毫秒的定时器，如果50毫秒内没收到新的数据，则处理当前收到的所有数据
-            -- 这样处理是为了防止将一大包数据拆分成多个小包来处理
-            -- 例如pc端串口工具下发1100字节的数据，可能会产生将近20次的中断进入到read函数，才能读取完整
-            -- 此处的50毫秒可以根据自己项目的需求做适当修改，在满足整包拼接完整的前提下，时间越短，处理越及时
-            sys.timerStart(concat_timeout_func, 50)
-            -- 跳出循环，退出本函数
-            break
-        end
-
-        log.info("uart_app.read len", s:len())
-        -- log.info("uart_app.read", s)
-
-        -- 将本次从串口读到的数据拼接到串口缓冲区read_buf中
-        read_buf = read_buf..s
-    end
-end
-
--- 初始化UART1，波特率115200，数据位8，停止位1
-uart.setup(UART_ID, 115200, 8, 1)
-
--- 注册UART1的数据接收中断处理函数，UART1接收到数据时，会执行read函数
-uart.on(UART_ID, "receive", read)
-
--- 订阅"RECV_DATA_FROM_SERVER"消息的处理函数recv_data_from_server_proc
--- 收到"RECV_DATA_FROM_SERVER"消息后，会执行函数recv_data_from_server_proc
-sys.subscribe("RECV_DATA_FROM_SERVER", recv_data_from_server_proc)
+含义说明：需要配置对象的电压值；
+数据类型：number；
+取值范围：1650 ~ 2000，2650~3400 , 单位毫伏, 步进50mv；
+注意事项：模块会有1.8V和3.3V默认高电平电压的版本，也可调用该接口手动调整，以外围电路要求为主；
+参数示例：--如下方所示，第二个参数为**3300**，所有GPIO高电平输出3.3V；
+         pm.ioVol(pm.IOVOL_ALL_GPIO, 3300)
 ```
 
-### 6.5 网络环境检测看门狗 (`network_watchdog.lua`)
+**返回值**
 
-网络看门狗模块负责监控网络连接状态和数据收发情况，确保系统在网络异常时能够自动恢复。
+  local result = pm.ioVol(id, val)
 
-#### 6.5.1 设计原则
+  有一个返回值 result
 
-- 看门狗超时时间应大于任意一个 MQTT 连接的发送间隔。
-- 通过接收 `FEED_NETWORK_WATCHDOG` 消息来喂狗。
-- 超时未收到喂狗消息时，系统自动重启。
-
-#### 6.5.2 实现细节
-
-- 创建 `network_watchdog_task_func` 任务函数。
-- 任务函数循环等待 `FEED_NETWORK_WATCHDOG` 消息，超时时间为 5 分钟。
-- 超时则调用 `sys.restart("network timeout")` 重启系统。
+result
 
 ```lua
---[[
-@module  network_watchdog
-@summary 网络环境检测看门狗功能模块
-@version 1.0
-@date    2025.07.23
-@author  马梦阳
-@usage
-本文件为网络环境检测看门狗功能模块，监控网络环境是否工作正常（设备和服务器双向通信正常，或者至少单向通信正常），核心业务逻辑为：
-1、启动一个网络环境检测看门狗task，等待其他mqtt网络应用功能模块来喂狗，如果喂狗超时，则控制软件重启；
-2、如何确定“喂狗超时时间”，一般来说，有以下几个原则；
-   (1) 先确定一个最小基准值T1，2分钟或者5分钟或者10分钟，这个取值取决于具体项目需求，但是不能太短，因为开机后，在网络环境不太好的地方，网络初始化可能需要比较长的时间，一般推荐这个值不能小于2分钟；
-   (2) 再确定一个和产品业务逻辑有关的一个值T2，这个值和产品的应用业务逻辑息息相关，假设你的产品业务中：
-       <1> 服务器会定时下发数据给设备，例如设备连接上业务服务器之后，每隔3分钟，设备都会给服务器发送一次心跳，然后服务器都会立即回复一个心跳应答包；
-           这种情况下，可以取3分钟的大于等于1的倍数(例如1倍，1.5倍，2倍等等)+一段时间(例如10秒钟，如果前面是1倍，则此处必须加一段时间，给网络数据传输过程留够充足的时间)；
-       <2> mqtt本身有keep alive的心跳机制，例如设备连接上业务服务器之后，默认每隔2分钟，设备都会给服务器发送一次心跳，服务器也会回复一个心跳应答数据；
-           这种情况下，可以取2分钟的大于等于1的倍数(例如1倍，1.5倍，2倍等等)+一段时间(例如10秒钟，如果前面是1倍，则此处必须加一段时间，给网络数据传输过程留够充足的时间)；
-    (3) 取T1和T2的最大值，就是“喂狗超时时间”
-3、其他mqtt网络业务功能模块的喂狗时机，和上面2.2的描述相对应，一般来说，可以在以下几种时间点执行喂狗动作：
-   (1) 设备收到服务器下发的数据时
-   (2) 设备收到服务器回复的mqtt心跳应答数据时
-4、最重要的一点是：以上所说的原则，仅仅是建议，要根据自己的实际项目业务逻辑以及自己的需求最终确定看门狗方案
-
-5、具体到本demo
-   (1) 产品业务逻辑为：
-       <1> 创建了一个mqtt连接，设备每隔5秒钟发送一次数据到服务器，服务器何时下发应用数据给设备不确定；
-       <2> 创建了一个mqtt ssl、不需要证书校验的连接，设备每隔5秒钟发送一次数据到服务器，服务器何时下发应用数据给设备不确定；
-       <3> 创建了一个mqtt ssl、client单向校验server证书的连接，设备每隔5秒钟发送一次数据到服务器，服务器何时下发应用数据给设备不确定；
-       <4> 每隔3分钟，这三路mqtt连接都会发送一次mqtt心跳给server，server收到心跳后回复心跳应答给client；
-   (2) 确定喂狗超时时间：
-       <1> 本demo支持单WIFI、单以太网、单4G网络连接外网，网络环境准备就绪预留2分钟的时间已经足够，所以最小基准值T1取值2分钟；
-       <2> 本demo中存在3路mqtt连接，但是这3路mqtt连接都没有定时或者至少一段时间，服务器下发应用数据给设备，所以无法基于服务器下发应用数据的业务逻辑来确定T2的值；
-       <3> 本demo中存在3路mqtt连接，每1路mqtt连接，设备都是3分钟发送一次mqtt心跳数据给服务器，服务器收到后会立即回复一个mqtt心跳应答数据给设备；
-           所以可以通过3分钟的大于等于1的倍数(例如1倍，1.5倍，2倍等等)+一段时间(例如10秒钟，如果前面是1倍，则此处必须加一段时间，给网络数据传输过程留够充足的时间)来确定T2的值；
-           在这个demo中，我能接受的网络连续异常时长是5分钟，所以，T2取值5分钟；
-       <4> 取T1 2分钟和T2 5分钟的最大值，最终的喂狗超时时间就是5分钟；
-   (3) 确定喂狗时机：
-       <1> 3路mqtt连接中，任何1路收到服务器的下发的应用数据时；
-       <2> 3路mqtt连接中，任何1路收到服务器的回复的心跳应答数据时；
-6、本demo设计的网络环境检测看门狗功能模块，可以检测以下两种种的任意一种网络环境异常：
-   (1) 网络环境连续超过5分钟没有准备就绪
-   (2) mqtt、mqtt ssl、mqtt ssl单向校验证书3路连接中，连续5分钟没有收到服务器下发的应用数据或者服务器回复的心跳应答数据； 
-
-本文件没有对外接口，直接在main.lua中require "network_watchdog"就可以加载运行；
-外部功能模块喂狗时，直接调用sys.publish("FEED_NETWORK_WATCHDOG")
-]]
-
--- 网络环境检测看门狗task处理函数
-local function network_watchdog_task_func()
-    while true do
-        --如果等待180秒没有等到"FEED_NETWORK_WATCHDOG"消息，则看门狗超时
-        if not sys.waitUntil("FEED_NETWORK_WATCHDOG", 300000) then
-            log.error("network_watchdog_task_func timeout")
-            -- 等待3秒钟，然后软件重启
-            sys.wait(3000)
-            rtos.reboot()
-        end
-    end
-end
-
---创建并且启动一个task
---运行这个task的处理函数network_watchdog_task_func
-sys.taskInit(network_watchdog_task_func)
+含义说明：判断高电平电压调整是否正确执行；
+数据类型：boolean；
+取值范围：成功时返回true，失败时返回false；
+注意事项：注意电压变化前后的外部电阻匹配；
+参数示例：--如下方所示，第二个参数为3300，模块所有IO的高电平电压配置为为3.3V；
+         --result返回true则模块电压转为3.3V；
+         local result = pm.ioVol(pm.IOVOL_ALL_GPIO, 3300)
 ```
 
-### 6.6 SSL 连接实现
+  **示例**
 
-项目展示了三种不同的 SSL 连接实现方式，满足不同安全等级的需求。
+```lua
+pm.ioVol(pm.IOVOL_ALL_GPIO, 3300)    -- 所有GPIO高电平配置为3.3V
+pm.ioVol(pm.IOVOL_ALL_GPIO, 1800)    -- 所有GPIO高电平配置为1.8V
+```
 
-#### 6.6.1 无证书校验 (`mqtts/`)
+十一，GPIO/AGPIO/AGPIOWU/WAKEUP；
+=============================
 
-- 在创建 MQTT 客户端时，设置 `ssl` 参数为 `true`。
-- 不进行服务器证书校验，适用于对安全性要求不高的场景。
+![](../../../../../合宙通信/文档网站/luatos-doc-pool/docs/root/docs/air780epm/product/image/6.png)
 
-#### 6.6.2 单向证书校验 (`mqtts_ca/`)
 
-- 加载服务器 CA 证书文件 `openluat_root_ca.crt`。
-- 在创建 MQTT 客户端时，配置 `ssl` 参数，指定 CA 证书路径。
-- 依赖 `sntp_app.lua` 同步系统时间，以验证证书有效期。
 
-#### 6.6.3 双向证书校验 (`mqtts_mutual_ca/`)
 
-- 同时加载服务器 CA 证书、客户端证书和客户端私钥。
-- 在创建 MQTT 客户端时，配置 `ssl` 参数，指定所有证书和密钥的路径。
-- 使用特定端口（8886）进行连接。
 
-## 七、系统与用户消息类型
+1. 模组管脚；
 
-### 7.1 系统消息
+   * 上图虚线所示的管脚，全部可用作GPIO，只是管脚名只写了推荐的默认功能；
 
-- `IP_READY`：网络 IP 地址已准备好。
-- `IP_LOSE`：网络 IP 地址丢失。
-- `NTP_UPDATE`：SNTP 时间同步完成。
-
-### 7.2 用户消息
-
-- `RECV_DATA_FROM_SERVER`：从 MQTT 服务器接收到数据。
-- `SEND_DATA_REQ`：请求发送数据。
-- `FEED_NETWORK_WATCHDOG`：网络看门狗喂狗消息。
-
-## 八、演示功能
-
-### 8.1 准备工作
-
-#### 8.1.1 MQTT 客户端建立
-
-MQTT 客户端测试工具：[MQTT 客户端软件 MQTTX](https://docs.openluat.com/air8000/luatos/common/swenv/#27-mqttmqttx)
-
-（1）创建一个 MQTT 客户端
-
-> 这里我使用合宙测试服务器（lbsmqtt.airm2m.com:1884）进行建立，大家一定不要将测试服务器用于正式批量的项目中。
-
-![](image/CpTpbHO8IoIMXhxKPCKcKq0rnPc.png)
-
-（2）设置发布/订阅主题
-
-> 在设置发布/订阅主题时，主题格式一定要根据要求来写，否则会出现数据无法通信的情况。
-
-![](image/ZTRnbHHtioDlm2xxPKecPEEunvb.png)
-
-#### 8.1.2 MQTT SSL 客户端建立（无证书校验、单向认证）
-
-MQTT 客户端测试工具：[MQTT 客户端软件 MQTTX](https://docs.openluat.com/air8000/luatos/common/swenv/#27-mqttmqttx)
-
-（1）创建一个 MQTT 客户端
-
-> 这里我使用合宙测试服务器（airtest.openluat.com:8888）进行建立，大家一定不要将测试服务器用于正式批量的项目中。
-> 无证书校验、单向认证使用的是同一个域名端口，在 MQTTX 工具上创建客户端只是用于与 Air8000 建立的 MQTT 客户端进行数据通信，因此这时候可以在 MQTTX 工具上只建立一个 MQTT SSL 客户端。
-
-![](image/IkXebxSWPo0AqYxaLVacIK98nPb.png)
-
-（2）设置发布/订阅主题
-
-> 在设置发布/订阅主题时，主题格式一定要根据要求来写，否则会出现数据无法通信的情况。
-
-![](image/As84bvC3Gomco2x6nrycS1ehnMd.png)
-
-#### 8.1.3 MQTT SSL 客户端建立（双向认证）
-
-MQTT 客户端测试工具：[MQTT 客户端软件 MQTTX](https://docs.openluat.com/air8000/luatos/common/swenv/#27-mqttmqttx)
-
-（1）创建一个 MQTT 客户端
-
-> 这里我使用合宙测试服务器（airtest.openluat.com:8886）进行建立，大家一定不要将测试服务器用于正式批量的项目中。
-
-![](image/Lpm8b95vBoQxAoxl9zSc1eHBnQb.png)
-
-（2）设置发布/订阅主题
-
-> 在设置发布/订阅主题时，主题格式一定要根据要求来写，否则会出现数据无法通信的情况。
-
-![](image/XOM0byhaDoJDSlxIkU9cfwaynwh.png)
-
-### 8.2 不同网卡切换
-
-> Air8000 模组支持单 4g 网卡，单 wifi 网卡，单 spi 以太网卡，多网卡。
-
-#### 切换网卡为 4G 网卡：
-
-在 `netdrv_device.lua` 模块里只打开 `netdrv_4g` 模块。`netdrv_4g.lua` 模块中的代码不需要修改。
-
-![](image/PBGnbljE3oxI6Txcjb2cqx8XnOf.png)
-
-LuaTools 工具日志打印：
-
-如下图所示，如出现类似 `I/user.netdrv_4g.ip_ready_func IP_READY 10.246.107.37 255.255.255.255 0.0.0.0 nil` 的日志，则表示 4g 网卡连接成功。
-
-![](image/QUESbz5t3obEE1xa8DccJXM9nff.png)
-
-#### 切换网卡为 WiFi 网卡：
-
-> 注意：如果需要单 WIFI STA 网卡，打开 `require "netdrv_wifi"`，其余注释掉；同时 `netdrv_wifi.lua` 中的 `wlan.connect("茶室-降功耗,找合宙!", "Air123456", 1)`，前两个参数，修改为自己测试时 wifi 热点的名称和密码；注意：仅支持 2.4G 的 wifi，不支持 5G 的 wifi
-
-在 `netdrv_device.lua` 模块里只打开 `netdrv_wifi` 模块。`netdrv_wifi` 模块中的代码不需要修改。
-
-![](image/E6szb3VI8oPGTPxbTUEckXqqnQh.png)
-
-luatools 日志打印：
-
-如出现类似 `I/user.netdrv_wifi.ip_ready_func IP_READY {"gw":"192.168.168.199","rssi":-31,"bssid":"722D10C7C9CF"}` 的日志，则表示 WIFI STA 网卡联网成功。
-
-![](image/RfllbkkHPoEkCWx6vupcIHPXnWx.png)
-
-#### 切换网卡为以太网卡：
-
-> 注意：Air8000 的以太网卡是通过 SPI 外挂 CH390H 芯片实现的。
-
-在 `netdrv_device.lua` 模块里只打开 `netdrv_eth_spi` 模块。如果是使用合宙官方的开发板，`netdrv_eth_spi` 模块中的代码不需要修改。
-
-![](image/MSI9buwCioKnSoxHc0gcSvHWnnd.png)
-
-luatools 日志打印：
-
-如出现类似 `I/user.netdrv_eth_spi.ip_ready_func IP_READY 192.168.0.110 255.255.255.0 192.168.0.1 nil` 的日志，则表示以太网卡联网成功。
-
-![](image/DT8GbbURZoz8TGxbaOCcQc2VnSf.png)
-
-#### 多网卡自动切换：
-
-> 如果需要多网卡，打开 `require "netdrv_multiple"`，其余注释掉；同时 `netdrv_multiple.lua` 中的 `ssid = "茶室-降功耗,找合宙!", password = "Air123456"`, 修改为自己测试时 wifi 热点的名称和密码；注意：仅支持 2.4G 的 wifi，不支持 5G 的 wifi。
-> 可根据自己的需求调整网卡的优先级，以下示例设置为以太网卡是最高优先级。
-
-首先在 `netdrv_device.lua` 文件中只打开 `netdrv_multiple` 模块。
-
-![](image/MCGPb2bI9oSFBFxK5CdchwDInjf.png)
-
-默认以太网卡进行连接
-
-![](image/Guj2bTnKdoWxlxxDyihcChBInle.png)
-
-拔掉网线后，网络切换为 wifi 网卡
-
-![](image/AV8Ab5I61oTO1oxdIvfcowksnTh.png)
-
-关闭设备连接的 wifi 热点，切换为 4g 网卡
-
-![](image/ZeahbSmXzochA5x5nDFcRIqHnwb.png)
-
-### 8.3 MQTT 通信实操
-
-#### MQTT 客户端数据发送与接收：
-
-下图为 Air8000 模组建立的 MQTT 客户端通过指定主题向其他同域名端口的 MQTT 客户端发送数据成功后的日志打印。
-
-![](image/HmxtblbYNoFpV7xbMjyc4kuen27.png)
-
-如下图在 MQTTX 测试工具上建立相同域名端口的 MQTT 客户端（Client ID 需要不一致），通过订阅指定主题，可以接收到其他同域名端口的 MQTT 客户通过该指定主题发送的数据。
-
-![](image/IYKwbeIhGoHjWvxMCbXcVRBInxb.png)
-
-如下图所示，通过 MQTTX 测试工具上建立的 MQTT 客户端向指定主题发送一个数据。
-
-![](image/RZ7tbEpeAoVHOUxIqcBcIPVQnHd.png)
-
-模组端在建立同域名端口的 MQTT 客户端后，在代码中还订阅了指定主题，因此 MQTTX 测试工具上建立的同域名端口的 MQTT 客户端通过指定主题发送数据时，模组端建立的同域名端口的 MQTT 客户端可以接收到这个数据，并在代码中做了处理，从而让其显示在 LuaTools 工具上。
-
-![](image/H8ZLb11MkolIhDxsZbNcjjzHnHS.png)
-
-在 PC 端使用串口工具发送数据给 Air8000，Air8000 内部会将接收到的数据通过建立的同域名端口的 MQTT 客户端按照指定主题转发出去，MQTTX 测试工具建立的同域名端口的 MQTT 客户端通过订阅这个指定主题可以接收到 Air8000 转发出去的数据。
-
-![](image/ASFSbme8LoRw1HxAzy3c0DZVnqf.png)
-
-在 MQTTX 测试工具建立的同域名端口的 MQTT 客户端，通过指定主题发送数据后，Air8000 模组建立的同域名端口的 MQTT 客户端通过订阅该指定主题后可以接收到数据，并将数据通过 UART 转发给 PC 端串口工具。
-
-![](image/H9s2bPyzmoJL45xV5pWc6obrnlc.png)
-
-#### MQTT SSL 客户端（无证书校验）数据发送与接收：
-
-下图为 Air8000 模组建立的 MQTT SSL 客户端（无证书校验）通过指定主题向其他同域名端口的 MQTT SSL 客户端发送数据成功后的日志打印。
-
-![](image/D6TBbO86Pom1wwxCL9Cc6c65n8e.png)
-
-如下图在 MQTTX 测试工具上建立相域名端口的 MQTT SSL 客户端（Client ID 需要不一致），通过订阅指定主题，可以接收到其他同域名端口的 MQTT SSL 客户通过该指定主题发送的数据。
-
-![](image/HlRtbogMAoACV1xix5JccrsHnUc.png)
-
-如下图所示，通过 MQTTX 测试工具建立的同域名端口的 MQTT SSL 客户端向指定主题发送一个数据。
-
-![](image/L84BbkANhoAbefxC9JmcsYO4nuh.png)
-
-模组端在建立同域名端口 MQTT SSL 客户端（无证书校验）后，在代码中订阅了这个指定主题，因此当 MQTTX 测试工具建立的同域名端口的 MQTT SSL 客户端通过指定主题发送数据时，模组端建立的同域名端口的 MQTT SSL 客户端（无证书校验）可以接收到这个数据，并在代码中做了处理，从而让其显示在 LuaTools 工具上。
-
-![](image/TbTWbbsMLoIhWexRlAPcH96FnCd.png)
-
-在 PC 端使用串口工具发送数据给 Air8000，Air8000 内部会将接收到的数据通过建立的同域名端口 MQTT SSL 客户端（无证书校验）按照指定主题转发出去，MQTTX 测试工具建立的同域名端口的 MQTT SSL 客户端通过订阅这个指定主题可以接收到 Air8000 转发出去的数据。
-
-![](image/PQWBbntpYo4NTmxbMfDcFbNqnKf.png)
-
-在 MQTTX 测试工具建立的同域名端口的 MQTT SSL 客户端（无证书校验）通过指定主题发送数据后，Air8000 模组建立的同域名端口的 MQTT SSL 客户端（无证书校验）通过订阅该指定主题后可以接收到数据，并将数据通过 UART 转发给 PC 端串口工具。
-
-![](image/Na5ebKJ22oCXWcxOu9RcYVxxnSg.png)
-
-#### MQTT SSL 客户端（单向认证）数据发送与接收
-
-下图为 Air8000 模组建立的 MQTT SSL 客户端（单向认证）通过指定主题向其他同域名端口的 MQTT 客户端发送数据成功后的日志打印。
-
-![](image/HyR2bTdENoSJzYxepldcNB6Snqb.png)
-
-如下图在 MQTTX 测试工具上建立同域名端口的 MQTT SSL 客户端（Client ID 需要不一致），通过订阅指定主题，可以接收到其他同域名端口的 MQTT SSL 客户通过该主题发送的数据。
-
-![](image/TBBhbTbO1oF00VxRxvlcjJmvnEg.png)
-
-如下图所示，通过 MQTTX 测试工具建立的同域名端口的 MQTT SSL 客户端（单向认证）向指定主题发送一个数据。
-
-![](image/Ga5DbkmBHo6XmLxUaAFcHQnDnhc.png)
-
-模组端在建立同域名端口 MQTT SSL 客户端（单向认证）后，在代码中还订阅了指定主题，因此当 MQTTX 测试工具建立的同域名端口的 MQTT SSL 客户端通过指定主题发送数据时，模组端建立的同域名端口的 MQTT SSL 客户端（单向认证）可以接收到这个数据，并在代码中做了处理，从而让其显示在 LuaTools 工具上。
-
-![](image/TT0SbeCUvobEMLxsqrXcnSVFnIg.png)
-
-在 PC 端使用串口工具发送数据给 Air8000，Air8000 内部会将接收到的数据通过建立的同域名端口的 MQTT SSL 客户端（单向认证）按照指定主题转发出去，MQTTX 测试工具建立的同域名端口的 MQTT SSL 客户端通过订阅这个指定主题可以接收到 Air8000 转发出去的数据。
-
-![](image/G69NbWTKtoxFWaxTl63c3A1WnJh.png)
-
-在 MQTTX 测试工具建立的同域名端口的 MQTT SSL 客户端（单向认证）通过指定主题发送数据后，Air8000 模组建立的同域名端口的 MQTT SSL 客户端（单向认证）通过订阅该指定主题后可以接收到数据，并将数据通过 UART 转发给 PC 端串口工具。
-
-![](image/BDEkbe5K5oO8qqxyUbVcnCdenVf.png)
-
-#### MQTT SSL 客户端（双向认证）数据发送与接收
-
-下图为 Air8000 模组建立的 MQTT SSL 客户端（双向认证）通过指定主题向其他同域名端口的 MQTT SSL 客户端发送数据成功后的日志打印。
-
-![](image/MHFEbmBOSoAiE3xI177cUVVtnGf.png)
-
-如下图在 MQTTX 测试工具上建立同域名端口的 MQTT 客户端（Client ID 需要不一致），通过订阅指定主题，可以接收到其他同域名端口的 MQTT 客户端通过该主题发送的数据。
-
-![](image/DqV0bz5DQoKKCzxtBmyc35MYnsR.png)
-
-如下图所示，通过 MQTTX 测试工具建立的同域名端口的 MQTT SSL 客户端向指定主题发送一个数据。
-
-![](image/BmtDb5cGzoaDJnx27MYciEM8nUg.png)
-
-模组端在建立同域名端口 MQTT SSL 客户端（双向认证）后，在代码中还订阅了指定主题，因此当 MQTTX 测试工具建立的同域名端口的 MQTT SSL 客户端通过指定主题发送数据时，模组端建立的同域名端口的 MQTT SSL 客户端（双向认证）可以接收到这个数据，并在代码中做了处理，从而让其显示在 LuaTools 工具上。
-
-![](image/VjADbuXJmojPdWxpUTkc2fdMnrb.png)
-
-在 PC 端使用串口工具发送数据给 Air8000，Air8000 内部会将接收到的数据通过建立的 MQTT SSL 客户端（双向认证）按照指定主题转发出去，MQTTX 测试工具建立的同域名端口的 MQTT SSL 客户端通过订阅这个指定主题可以接收到 Air8000 转发出去的数据。
-
-![](image/Gn4EbnhrEo3nKqx7pi5cSAdbnzd.png)
-
-在 MQTTX 测试工具建立的同域名端口的 MQTT SSL 客户端（双向认证）通过指定主题发送数据后，Air8000 模组建立的同域名端口的 MQTT SSL 客户端（双向认证）通过订阅该指定主题后可以接收到数据，并将数据通过 UART 转发给 PC 端串口工具。
-
-![](image/J8krbuV3no3LMGxZ0dQcumolnxg.png)
-
-## 六、总结
-
-至此，我们演示了使用不同网卡进行 MQTT 通信的全过程，相信聪明的你已经完全领悟 MQTT 通信的逻辑了，快来实际操作一下吧！
+   * 这些IO管脚，不只是可用作GPIO，也可以用作其它数字信号，比如UART、SPI、I2C、OneWire、PWM、LCD接口、Camera接口、CAN接口、USB_BOOT使能等，详见下图；
+     [复用表](file/Air780EPM&EHM&EHV&EGH&EGG&EGP&EHN&EHU_GPIO复用表_20251002.xlsx){:target="_blank"}
